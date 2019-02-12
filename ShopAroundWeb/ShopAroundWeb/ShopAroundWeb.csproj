@@ -67,9 +67,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="css\login.css" />
     <Content Include="css\register.css" />
     <Content Include="Default.aspx" />
     <Content Include="Global.asax" />
+    <Content Include="favicon.ico" />
+    <Content Include="img\hanger.png" />
+    <Content Include="js\login.js" />
     <Content Include="js\register.js" />
     <Content Include="Login.aspx" />
     <Content Include="Register.aspx" />
@@ -119,6 +123,7 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

@@ -1,37 +1,35 @@
-﻿// Shorthand for $( document ).ready()
-$(function () {
-    //console.log("ready!");
+﻿$(function () {
+
+    "use strict";
 
     var selectedCity;
 
+    $(".navigateLogin").click(function (e) {
+        $(location).attr('href', "/Login");
+        e.preventDefault();
+    });
+
     $("select.city").change(function () {
         selectedCity = $(this).children("option:selected").val();
-        //alert("You have selected the city - " + selectedCity);
     });
 
     $(".btnRegister").click(function (e) {
-       
-        //$(this).hide();
-        console.log("clicked!");
-        console.log($(".shopName").val());
-        console.log($(".password").val());
-        console.log($(".email").val());
-        console.log($(".phone").val());
-        console.log(selectedCity);
+        $(this).hide();
 
-        db.collection("shop").add({
+        var id = $(".email").val();
+
+        db.collection("shops").doc(id).set({
             name: $(".shopName").val(),
             password: $(".password").val(),
             email: $(".email").val(),
             phone: $(".phone").val(),
             city: selectedCity
-        })
-            .then(function (docRef) {
-                console.log("Document written with ID: ", docRef.id);
-            })
-            .catch(function (error) {
-                console.error("Error adding document: ", error);
-            });
+        }).then(function () {
+            $(location).attr('href', "/Login");
+        }).catch(function (error) {
+            console.error("Error adding document: ", error);
+            $(this).show();
+        });
 
         e.preventDefault();
     });

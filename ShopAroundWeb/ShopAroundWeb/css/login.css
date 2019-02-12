@@ -76,17 +76,19 @@
     margin-top: 10%;
 }
 
-.btnRegister {
+.btnLogin {
     float: right;
-    margin-top: 10%;
+    margin-top: 3%;
     border: none;
     border-radius: 1.5rem;
-    padding: 2%;
     background: #FF8008;
     color: #fff;
     font-weight: 600;
-    width: 50%;
+    width: 30%;
     cursor: pointer;
+    margin-right: 180px;
+    height: 36px;
+    vertical-align: middle;
 }
 
 .register .nav-tabs {
@@ -124,4 +126,10 @@
     margin-top: 8%;
     margin-bottom: -15%;
     color: #495057;
+}
+
+.form-group{
+    margin: 0 auto;
+    margin-bottom: 15px;
+    max-width: 500px;
 }
