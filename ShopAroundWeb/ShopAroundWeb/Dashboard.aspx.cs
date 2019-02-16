@@ -8,22 +8,22 @@ using System.Web.UI.WebControls;
 
 namespace ShopAroundWeb
 {
-    public partial class Login : System.Web.UI.Page
+    public partial class Dashboard : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (Utilities.DoesExistUserCookie())
+            if (!Utilities.DoesExistUserCookie())
             {
-                Response.Redirect("/Dashboard");
+                Response.Redirect("/Login");
             }
         }
 
         [WebMethod]
-        public static string SignIn(string userID)
+        public static string SignOut()
         {
             try
             {
-                Utilities.CreateCookie(userID);
+                Utilities.RemoveCookie();
                 return "true";
             }
             catch

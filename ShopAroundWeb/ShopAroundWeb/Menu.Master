@@ -1,30 +1,124 @@
-﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Menu.master.cs" Inherits="ShopAroundWeb.Menu" %>
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Menu.master.cs" Inherits="ShopAroundWeb.Menu1" %>
 
 <!DOCTYPE html>
 
 <html>
 <head runat="server">
-    <title>Shop Around</title>
-    
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <title></title>
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/css/bootstrap.min.css" integrity="sha384-PDle/QlgIONtM1aqA2Qemk5gPOE7wFq8+Em+G/hmo5Iq0CCmYZLv3fVRDJ4MMwEA" crossorigin="anonymous">
-    
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<link href="css/dashboard.css" rel="stylesheet" />
+	
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
 </head>
 <body>
+
+	<nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
+	  <a class="navbar-brand col-sm-3 col-md-2 mr-0 userName" href="#"></a>
+	  <%--<input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">--%>
+	  <ul class="navbar-nav px-3">
+		<li class="nav-item text-nowrap">
+		  <a class="nav-link signOut" href="#">Sign out</a>
+		</li>
+	  </ul>
+	</nav>
+
+	<div class="container-fluid">
+	  <div class="row">
+		<nav class="col-md-2 d-none d-md-block bg-light sidebar">
+		  <div class="sidebar-sticky">
+			<ul class="nav flex-column">
+			  <li class="nav-item">
+				<a class="nav-link" href="/Dashboard">
+				  <span data-feather="home"></span>
+				  Dashboard <%--<span class="sr-only">(current)</span>--%>
+				</a>
+			  </li>
+			  <li class="nav-item">
+				<a class="nav-link" href="/Profile">
+				  <span data-feather="user"></span>
+				  Profile
+				</a>
+			  </li>
+			  <li class="nav-item">
+				<a class="nav-link" href="#">
+				  <span data-feather="shopping-cart"></span>
+				  Products
+				</a>
+			  </li>
+			  <%--<li class="nav-item">
+				<a class="nav-link" href="#">
+				  <span data-feather="users"></span>
+				  Customers
+				</a>
+			  </li>
+			  <li class="nav-item">
+				<a class="nav-link" href="#">
+				  <span data-feather="bar-chart-2"></span>
+				  Reports
+				</a>
+			  </li>
+			  <li class="nav-item">
+				<a class="nav-link" href="#">
+				  <span data-feather="layers"></span>
+				  Integrations
+				</a>
+			  </li>--%>
+			</ul>
+
+			<%--<h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+			  <span>Saved reports</span>
+			  <a class="d-flex align-items-center text-muted" href="#">
+				<span data-feather="plus-circle"></span>
+			  </a>
+			</h6>--%>
+			<%--<ul class="nav flex-column mb-2">
+			  <li class="nav-item">
+				<a class="nav-link" href="#">
+				  <span data-feather="file-text"></span>
+				  Current month
+				</a>
+			  </li>
+			  <li class="nav-item">
+				<a class="nav-link" href="#">
+				  <span data-feather="file-text"></span>
+				  Last quarter
+				</a>
+			  </li>
+			  <li class="nav-item">
+				<a class="nav-link" href="#">
+				  <span data-feather="file-text"></span>
+				  Social engagement
+				</a>
+			  </li>
+			  <li class="nav-item">
+				<a class="nav-link" href="#">
+				  <span data-feather="file-text"></span>
+				  Year-end sale
+				</a>
+			  </li>
+			</ul>--%>
+		  </div>
+		</nav>
+	 </div>
+	</div>
+
     <form id="form1" runat="server">        
             <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
             </asp:ContentPlaceHolder>        
     </form>
 
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/js/bootstrap.min.js" integrity="sha384-7aThvCh9TypR7fIc2HV4O/nFMVCBwyIUKL8XCtKE+8xgCgl/PQGuFsvShjr74PBp" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<%--<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>--%>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+	
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.9.0/feather.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
+	
+	<script src="https://www.gstatic.com/firebasejs/5.8.2/firebase.js"></script>
 
-    <script src="https://www.gstatic.com/firebasejs/5.8.2/firebase.js"></script>
     <script>
       // Initialize Firebase
       var config = {
@@ -38,24 +132,13 @@
         firebase.initializeApp(config);
 
         var db = firebase.firestore();
-
-        //db.collection("user").add({
-        //    name: "Ada"
-        //})
-        //    .then(function (docRef) {
-        //        console.log("Document written with ID: ", docRef.id);
-        //    })
-        //    .catch(function (error) {
-        //        console.error("Error adding document: ", error);
-        //    });
-
-    //    db.collection("user").get().then((querySnapshot) => {
-    //    querySnapshot.forEach((doc) => {
-    //        console.log(`${doc.id} => ${doc.data()}`);
-    //    });
-    //});
-
     </script>
+
+	<script type="text/javascript">
+     var userID = '<%= userID %>';
+	</script>
+	
+	<script src="js/menu.js"></script>
 
 </body>
 </html>

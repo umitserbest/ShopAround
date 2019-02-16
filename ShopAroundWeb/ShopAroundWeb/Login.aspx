@@ -1,10 +1,7 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Menu.Master" AutoEventWireup="true" CodeBehind="Login.aspx.cs" Inherits="ShopAroundWeb.Login" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Main.Master" AutoEventWireup="true" CodeBehind="Login.aspx.cs" Inherits="ShopAroundWeb.Login" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 
     <link href="css/login.css" rel="stylesheet" />
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="js/login.js"></script>
 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
@@ -36,4 +33,7 @@
                     </div>
                 </div>
             </div>
+
+	<script src="js/login.js"></script>
+
 </asp:Content>

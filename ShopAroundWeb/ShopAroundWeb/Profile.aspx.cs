@@ -7,14 +7,11 @@ using System.Web.UI.WebControls;
 
 namespace ShopAroundWeb
 {
-    public partial class Register : System.Web.UI.Page
+    public partial class Profile : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (Utilities.DoesExistUserCookie())
-            {
-                Response.Redirect("/Dashboard");
-            }
+
         }
     }
 }

@@ -6,7 +6,7 @@
 
     $(".navigateLogin").click(function (e) {
         $(location).attr('href', "/Login");
-        e.preventDefault();
+        //e.preventDefault();
     });
 
     $("select.city").change(function () {
@@ -14,7 +14,8 @@
     });
 
     $(".btnRegister").click(function (e) {
-        $(this).hide();
+		$(this).hide();
+		e.preventDefault();
 
         var id = $(".email").val();
 
@@ -30,8 +31,7 @@
             console.error("Error adding document: ", error);
             $(this).show();
         });
-
-        e.preventDefault();
+       
     });
 
 });
