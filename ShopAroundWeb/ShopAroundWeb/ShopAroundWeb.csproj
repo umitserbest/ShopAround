@@ -69,6 +69,7 @@
   <ItemGroup>
     <Content Include="css\dashboard.css" />
     <Content Include="css\login.css" />
+    <Content Include="css\products.css" />
     <Content Include="css\register.css" />
     <Content Include="Dashboard.aspx" />
     <Content Include="Default.aspx" />
@@ -80,6 +81,7 @@
     <Content Include="js\login.js" />
     <Content Include="js\register.js" />
     <Content Include="Login.aspx" />
+    <Content Include="Products.aspx" />
     <Content Include="Profile.aspx" />
     <Content Include="Register.aspx" />
     <Content Include="Web.config" />
@@ -122,6 +124,13 @@
     </Compile>
     <Compile Include="Menu.Master.designer.cs">
       <DependentUpon>Menu.Master</DependentUpon>
+    </Compile>
+    <Compile Include="Products.aspx.cs">
+      <DependentUpon>Products.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Products.aspx.designer.cs">
+      <DependentUpon>Products.aspx</DependentUpon>
     </Compile>
     <Compile Include="Profile.aspx.cs">
       <DependentUpon>Profile.aspx</DependentUpon>
