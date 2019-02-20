@@ -53,6 +53,7 @@ namespace ShopAroundWeb
             routes.MapPageRoute("Login", "Login", "~/Login.aspx");
             routes.MapPageRoute("Dashboard", "Dashboard", "~/Dashboard.aspx");
             routes.MapPageRoute("Profile", "Profile", "~/Profile.aspx");
+            routes.MapPageRoute("AddProduct", "AddProduct", "~/AddProduct.aspx");
         }
     }
 }

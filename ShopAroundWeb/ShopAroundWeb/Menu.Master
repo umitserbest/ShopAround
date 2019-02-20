@@ -47,13 +47,13 @@
 				  Products
 				</a>
 			  </li>
-			  <%--<li class="nav-item">
-				<a class="nav-link" href="#">
+			  <li class="nav-item">
+				<a class="nav-link" href="/AddProduct">
 				  <span data-feather="users"></span>
-				  Customers
+				  Add Products
 				</a>
 			  </li>
-			  <li class="nav-item">
+			  <%--<li class="nav-item">
 				<a class="nav-link" href="#">
 				  <span data-feather="bar-chart-2"></span>
 				  Reports
@@ -126,12 +126,13 @@
         authDomain: "shoparound-bb3ee.firebaseapp.com",
         databaseURL: "https://shoparound-bb3ee.firebaseio.com",
         projectId: "shoparound-bb3ee",
-        storageBucket: "",
+        storageBucket: "shoparound-bb3ee.appspot.com",
         messagingSenderId: "292928676931"
       };
         firebase.initializeApp(config);
 
-        var db = firebase.firestore();
+		var db = firebase.firestore();
+		var storage = firebase.storage();
     </script>
 
 	<script type="text/javascript">

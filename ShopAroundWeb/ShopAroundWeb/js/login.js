@@ -4,7 +4,7 @@
 
     $(".navigateRegister").click(function (e) {
         $(location).attr('href', "/Register");
-        //e.preventDefault();
+        e.preventDefault();
     });
 
     $(".btnLogin").click(function (e) {

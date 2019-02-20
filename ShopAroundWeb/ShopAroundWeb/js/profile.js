@@ -27,7 +27,7 @@
 		$(this).show();
 		});
 
-	$("select.city").change(function () {
+	$("#city").change(function () {
 		selectedCity = $(this).children("option:selected").val();
 	});
 

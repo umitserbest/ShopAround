@@ -67,6 +67,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="AddProduct.aspx" />
     <Content Include="css\dashboard.css" />
     <Content Include="css\login.css" />
     <Content Include="css\products.css" />
@@ -76,6 +77,7 @@
     <Content Include="Global.asax" />
     <Content Include="favicon.ico" />
     <Content Include="img\hanger.png" />
+    <Content Include="js\addproduct.js" />
     <Content Include="js\profile.js" />
     <Content Include="js\menu.js" />
     <Content Include="js\login.js" />
@@ -87,6 +89,13 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddProduct.aspx.cs">
+      <DependentUpon>AddProduct.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AddProduct.aspx.designer.cs">
+      <DependentUpon>AddProduct.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Dashboard.aspx.cs">
       <DependentUpon>Dashboard.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

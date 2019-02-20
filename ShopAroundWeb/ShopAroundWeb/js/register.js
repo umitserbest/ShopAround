@@ -6,7 +6,7 @@
 
     $(".navigateLogin").click(function (e) {
         $(location).attr('href', "/Login");
-        //e.preventDefault();
+        e.preventDefault();
     });
 
     $("select.city").change(function () {
