@@ -10,19 +10,24 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Images\combnye.png" />
     <None Remove="Images\explore.png" />
     <None Remove="Images\home.png" />
+    <None Remove="Images\profile.png" />
     <None Remove="Images\texture.jpg" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Images\combnye.png" />
     <EmbeddedResource Include="Images\explore.png" />
     <EmbeddedResource Include="Images\home.png" />
+    <EmbeddedResource Include="Images\profile.png" />
     <EmbeddedResource Include="Images\texture.jpg" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Xam.FormsPlugin.IconEntry" Version="1.1.1" />
+    <PackageReference Include="Xam.Plugin.TabView" Version="1.0.4" />
     <PackageReference Include="Xamarin.Forms" Version="3.4.0.1008975" />
     <PackageReference Include="Xamarin.LiveReload" Version="0.3.27" />
   </ItemGroup>
@@ -32,6 +37,18 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="LoginPages\SignUp.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="TabbedPages\Explore.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="TabbedPages\Notifications.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="TabbedPages\Profile.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="TabbedPages\Showcase.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

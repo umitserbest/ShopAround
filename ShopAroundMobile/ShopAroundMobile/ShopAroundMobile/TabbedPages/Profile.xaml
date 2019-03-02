@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ShopAroundMobile.TabbedPages.Profile" Title="Profile" Icon="profile">
+    <ScrollView>
+        <StackLayout>
+
+            <StackLayout Margin="10,10,10,0" BackgroundColor="LightGray" VerticalOptions="Start" HeightRequest="270">
+
+                <Image Source="profile" HorizontalOptions="Center" HeightRequest="100" ></Image>
+                <Label x:Name="Username" Text="Serhat Çolak" HorizontalOptions="Center" TextColor="Black" FontSize="20"></Label>
+                <Label x:Name="Userid" Text="@srhtclk" TextColor="Gray" FontSize="14" HorizontalOptions="Center"></Label>
+
+                <StackLayout Orientation="Horizontal" Margin="70,10,0,0">
+                    <Label x:Name="FollowerNumber" Text="254" HorizontalOptions="Start" FontAttributes="Bold" ></Label>
+                    <Label x:Name="FollowingNumber" Margin="150,0,0,0" Text="310" FontAttributes="Bold" ></Label>
+                </StackLayout>
+
+                <StackLayout Orientation="Horizontal" Margin="55,0,0,0">
+                    <Label Text="Followers" TextColor="Gray" FontSize="14"></Label>
+                    <Label Text="Following" TextColor="Gray" FontSize="14" Margin="110,0,0,0"></Label>
+                </StackLayout>
+
+            </StackLayout>
+
+            <Grid Margin="30,10,0,10">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="150"></ColumnDefinition>
+                    <ColumnDefinition Width="150"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="200"></RowDefinition>
+                    <RowDefinition Height="200"></RowDefinition>
+                    <RowDefinition Height="200"></RowDefinition>
+                </Grid.RowDefinitions>
+
+                <Image BackgroundColor="Red" Grid.Column="0" Grid.Row="0" ></Image>
+                <Image BackgroundColor="Blue" Grid.Column="1" Grid.Row="0" ></Image>
+                <Image BackgroundColor="Yellow" Grid.Column="0" Grid.Row="1"></Image>
+                <Image BackgroundColor="Green" Grid.Column="1" Grid.Row="1"></Image>
+                <Image BackgroundColor="Black" Grid.Column="0" Grid.Row="2"></Image>
+                <Image BackgroundColor="Pink" Grid.Column="1" Grid.Row="2"></Image>
+
+            </Grid>
+
+
+        </StackLayout>
+    </ScrollView>
+
+</ContentPage>

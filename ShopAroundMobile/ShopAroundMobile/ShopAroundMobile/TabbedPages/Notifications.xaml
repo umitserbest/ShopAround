@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:ShopAroundMobile"
+             x:Class="ShopAroundMobile.TabbedPages.Notifications" Title="Notifications" Icon="combnye">
+    <ContentPage.Content>
+        <StackLayout x:Name="theS1">
+        
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
