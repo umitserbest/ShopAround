@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ShopAroundMobile.LoginPages;
+using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -11,7 +12,11 @@ namespace ShopAroundMobile
         {
             InitializeComponent();
 
-            MainPage = new MainPage();
+            MainPage = new Login();
+
+#if DEBUG
+            LiveReload.Init();
+#endif
         }
 
         protected override void OnStart()

@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:ShopAroundMobile"
+             x:Class="ShopAroundMobile.LoginPages.SignUp" BackgroundColor="Black">
+    <ContentPage.Content>
+        <StackLayout Orientation="Vertical">
+            <StackLayout Orientation="Vertical">
+                <StackLayout Orientation="Horizontal">
+                    <Image Source="explore" WidthRequest="80" HeightRequest="80" HorizontalOptions="Start" Margin="20,30,0,0"></Image>
+                    <Label Text="X" FontSize="16" TextColor="White" Margin="220,50,0,0"></Label>
+                </StackLayout>
+                <Label Text="Sign Up" FontAttributes="Bold" FontSize="30" TextColor="White" Margin="20,20,0,0"></Label>
+                <Label Text="Register now and enjoy the ShopAround." TextColor="White" FontSize="15" Margin="20,10,0,0"></Label>
+                <BoxView HeightRequest="2" WidthRequest="110" HorizontalOptions="Start" Color="White" Margin="20,0,0,0"></BoxView>
+            </StackLayout>
+            <StackLayout Margin="0,30,0,0">
+                <Entry TextColor="White" PlaceholderColor="White" Placeholder="Email" HorizontalOptions="Center"  FontSize="16" WidthRequest="300"  />
+                <Entry TextColor="White" PlaceholderColor="White" Placeholder="Username" HorizontalOptions="Center"  FontSize="16" WidthRequest="300"/>
+                <Entry TextColor="White" PlaceholderColor="White" Placeholder="Password" IsPassword="True" HorizontalOptions="Center" FontSize="16" WidthRequest="300"/>
+                <Entry TextColor="White" PlaceholderColor="White" Placeholder="Repeat Password" IsPassword="True" HorizontalOptions="Center" FontSize="16" WidthRequest="300"/>
+
+            </StackLayout>
+
+            <StackLayout>
+                <Button Text="SIGN UP" TextColor="White" BackgroundColor="Coral" HorizontalOptions="Center" CornerRadius="20" WidthRequest="200" HeightRequest="40" Margin="0,10,0,0"></Button>
+
+            </StackLayout>
+            <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Margin="0,5,0,0">
+                <Label Text="Already have an account ?" TextColor="White" FontSize="14"></Label>
+                <Label Text="Login" TextColor="Orange" FontSize="14"></Label>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

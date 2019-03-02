@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:ShopAroundMobile"
+             xmlns:ie="clr-namespace:IconEntry.FormsPlugin.Abstractions;assembly=IconEntry.FormsPlugin.Abstractions"
+             x:Class="ShopAroundMobile.LoginPages.Login" BackgroundColor="Black">
+    <ContentPage.Content>
+        <StackLayout Orientation="Vertical">
+
+            <StackLayout x:Name="Title" VerticalOptions="Start" HorizontalOptions="Center" Margin="0,20,0,0" Orientation="Vertical">
+                <Label Text="ShopAround" FontSize="20" TextColor="White" FontAttributes="Bold"></Label>
+
+            </StackLayout>
+
+            <StackLayout x:Name="EntryPart" VerticalOptions="Center" Margin="0,150,0,0">
+
+                <Entry TextColor="White" PlaceholderColor="White" Placeholder="Email" HorizontalOptions="Center"  FontSize="16" WidthRequest="300"  />
+                <Entry TextColor="White" PlaceholderColor="White" Placeholder="Password" IsPassword="True" HorizontalOptions="Center" FontSize="16" WidthRequest="300"/>
+                <Label Text="Forgot password ?" HorizontalOptions="End" TextColor="White" FontSize="12" Margin="0,0,35,0">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer>
+
+                        </TapGestureRecognizer>
+                    </Label.GestureRecognizers>
+                </Label>
+            </StackLayout>
+
+            <StackLayout x:Name="ButtonPart" VerticalOptions="End" Margin="0,50,0,0">
+                <Button Text="Login" BackgroundColor="White" TextColor="Black" FontSize="14" BorderWidth="1" BorderColor="Black" CornerRadius="20" HorizontalOptions="Center" WidthRequest="200" HeightRequest="40"></Button>
+                <Label Text="OR" TextColor="White" FontSize="16" HorizontalOptions="Center" Margin="0,5,0,0"></Label>
+                <Button Text="Google" BackgroundColor="White" TextColor="Red" FontSize="14" BorderWidth="1" BorderColor="Green" CornerRadius="20" Margin="0,10,0,0" HorizontalOptions="Center" WidthRequest="200" HeightRequest="40"></Button>
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Margin="0,20,0,0">
+                <Label Text="Don't have an account ?" TextColor="White" FontSize="14"></Label>
+                <Label Text="Register" TextColor="Orange" FontSize="14"></Label>
+            </StackLayout>
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
