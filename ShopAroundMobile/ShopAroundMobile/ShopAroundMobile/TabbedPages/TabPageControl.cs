@@ -15,7 +15,7 @@ namespace ShopAroundMobile.TabbedPages
 
             Children.Add(new Showcase());
             Children.Add(new Explore());
-            Children.Add(new Notifications());
+            Children.Add(new NotificationTabControl());
             Children.Add(new Profile());
             
             
