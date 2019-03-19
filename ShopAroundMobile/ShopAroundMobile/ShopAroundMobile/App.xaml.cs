@@ -1,5 +1,6 @@
 ﻿using ShopAroundMobile.LoginPages;
 using ShopAroundMobile.TabbedPages;
+using ShopAroundMobile.Views;
 using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -13,6 +14,7 @@ namespace ShopAroundMobile
         {
             InitializeComponent();
 
+            // MainPage = new CustomNavigationPage(new ShopProfile());
             MainPage = new TabPageControl();
 
 #if DEBUG

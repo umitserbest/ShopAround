@@ -3,10 +3,153 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ShopAroundMobile.TabbedPages.Showcase" Title="Showcase" Icon="home">
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
+        
+
+        <ScrollView x:Name="scroll">
+
+           <Grid x:Name="mainGrid">
+                
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="120"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <ScrollView Margin="5,0,5,0" Orientation="Horizontal" Grid.Row="0" Grid.Column="0" >
+                   
+                    <FlexLayout Margin="0,10,0,0" >
+                        <Frame IsVisible="True" Margin="10,0,0,0" CornerRadius="10" WidthRequest="100" HeightRequest="100" BackgroundColor="Gray">
+                            <FlexLayout Direction="Column"></FlexLayout>
+                        </Frame>
+                        <Frame IsVisible="True" Margin="10,0,0,0" CornerRadius="10"  WidthRequest="100" HeightRequest="100" BackgroundColor="Gray">
+                            <FlexLayout Direction="Column"></FlexLayout>
+                        </Frame>
+                        <Frame IsVisible="True"  Margin="10,0,0,0" CornerRadius="10"  WidthRequest="100" HeightRequest="100" BackgroundColor="Gray">
+                            <FlexLayout Direction="Column"></FlexLayout>
+                        </Frame>
+                        <Frame IsVisible="True"  Margin="10,0,0,0" CornerRadius="10"  WidthRequest="100" HeightRequest="100" BackgroundColor="Gray">
+                            <FlexLayout Direction="Column"></FlexLayout>
+                        </Frame>
+                        <Frame IsVisible="True" Margin="10,0,0,0" CornerRadius="10"  WidthRequest="100" HeightRequest="100" BackgroundColor="Gray">
+                            <FlexLayout Direction="Column"></FlexLayout>
+                        </Frame>
+                        <Frame IsVisible="True"  Margin="10,0,0,0" CornerRadius="10"  WidthRequest="100" HeightRequest="100" BackgroundColor="Gray">
+                            <FlexLayout Direction="Column"></FlexLayout>
+                        </Frame>
+                    </FlexLayout>
+
+                </ScrollView>
+
+                <Grid x:Name="subGrid" Grid.Column="0" Grid.Row="1">
+                    
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="150"></RowDefinition>
+                        <RowDefinition Height="150"></RowDefinition>
+                        <RowDefinition Height="150"></RowDefinition>
+                        <RowDefinition Height="150"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+
+                    <BoxView Grid.Row="0" Grid.Column="0" BackgroundColor="Yellow" ></BoxView>
+                    <BoxView Grid.Row="1" Grid.Column="0" BackgroundColor="Red" ></BoxView>
+                    <BoxView Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Grid.RowSpan="2" BackgroundColor="Blue" ></BoxView>
+                    <BoxView Grid.Row="2" Grid.Column="0" BackgroundColor="Pink" ></BoxView>
+                    <BoxView Grid.Row="2" Grid.Column="1" BackgroundColor="Black" ></BoxView>
+                    <BoxView Grid.Row="2" Grid.Column="2" BackgroundColor="Purple" ></BoxView>
+                    <BoxView Grid.Row="3" Grid.Column="0" BackgroundColor="Orange" ></BoxView>
+                    <BoxView Grid.Row="3" Grid.Column="1" BackgroundColor="Green" ></BoxView>
+                    <BoxView Grid.Row="3" Grid.Column="2" BackgroundColor="Gray" ></BoxView>
+                    
+                </Grid>
+
+                <Grid x:Name="OthersubGrid1" Grid.Column="0" Grid.Row="2">
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="150"></RowDefinition>
+                        <RowDefinition Height="150"></RowDefinition>
+                        <RowDefinition Height="150"></RowDefinition>
+                        <RowDefinition Height="150"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+
+                    <BoxView Grid.Row="0" Grid.Column="0" BackgroundColor="Yellow"  Grid.ColumnSpan="2" Grid.RowSpan="2"></BoxView>
+                    <BoxView Grid.Row="1" Grid.Column="2" BackgroundColor="Red"></BoxView>
+                    <BoxView Grid.Row="0" Grid.Column="2" BackgroundColor="Blue"></BoxView>
+                    <BoxView Grid.Row="2" Grid.Column="0" BackgroundColor="Pink"></BoxView>
+                    <BoxView Grid.Row="2" Grid.Column="1" BackgroundColor="Black"></BoxView>
+                    <BoxView Grid.Row="2" Grid.Column="2" BackgroundColor="Purple"></BoxView>
+                    <BoxView Grid.Row="3" Grid.Column="0" BackgroundColor="Orange"></BoxView>
+                    <BoxView Grid.Row="3" Grid.Column="1" BackgroundColor="Green"></BoxView>
+                    <BoxView Grid.Row="3" Grid.Column="2" BackgroundColor="Gray"></BoxView>
+                </Grid>
+
+                <Grid x:Name="OthersubGrid2" Grid.Column="0" Grid.Row="3">
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="150"></RowDefinition>
+                        <RowDefinition Height="150"></RowDefinition>
+                        <RowDefinition Height="150"></RowDefinition>
+                        <RowDefinition Height="150"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+
+                    <BoxView Grid.Row="0" Grid.Column="0" BackgroundColor="Yellow"  Grid.ColumnSpan="2" Grid.RowSpan="2"></BoxView>
+                    <BoxView Grid.Row="1" Grid.Column="2" BackgroundColor="Red"></BoxView>
+                    <BoxView Grid.Row="0" Grid.Column="2" BackgroundColor="Blue"></BoxView>
+                    <BoxView Grid.Row="2" Grid.Column="0" BackgroundColor="Pink"></BoxView>
+                    <BoxView Grid.Row="2" Grid.Column="1" BackgroundColor="Black"></BoxView>
+                    <BoxView Grid.Row="2" Grid.Column="2" BackgroundColor="Purple"></BoxView>
+                    <BoxView Grid.Row="3" Grid.Column="0" BackgroundColor="Orange"></BoxView>
+                    <BoxView Grid.Row="3" Grid.Column="1" BackgroundColor="Green"></BoxView>
+                    <BoxView Grid.Row="3" Grid.Column="2" BackgroundColor="Gray"></BoxView>
+                </Grid>
+
+                <Grid x:Name="OthersubGrid3" Grid.Column="0" Grid.Row="4">
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="150"></RowDefinition>
+                        <RowDefinition Height="150"></RowDefinition>
+                        <RowDefinition Height="150"></RowDefinition>
+                        <RowDefinition Height="150"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+
+                    <BoxView Grid.Row="0" Grid.Column="0" BackgroundColor="Yellow"  Grid.ColumnSpan="2" Grid.RowSpan="2"></BoxView>
+                    <BoxView Grid.Row="1" Grid.Column="2" BackgroundColor="Red"></BoxView>
+                    <BoxView Grid.Row="0" Grid.Column="2" BackgroundColor="Blue"></BoxView>
+                    <BoxView Grid.Row="2" Grid.Column="0" BackgroundColor="Pink"></BoxView>
+                    <BoxView Grid.Row="2" Grid.Column="1" BackgroundColor="Black"></BoxView>
+                    <BoxView Grid.Row="2" Grid.Column="2" BackgroundColor="Purple"></BoxView>
+                    <BoxView Grid.Row="3" Grid.Column="0" BackgroundColor="Orange"></BoxView>
+                    <BoxView Grid.Row="3" Grid.Column="1" BackgroundColor="Green"></BoxView>
+                    <BoxView Grid.Row="3" Grid.Column="2" BackgroundColor="Gray"></BoxView>
+                </Grid>
+
+            </Grid>
+            
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>

@@ -8,6 +8,7 @@ using Android.Widget;
 using Android.OS;
 using IconEntry.FormsPlugin.Android;
 using CarouselView.FormsPlugin.Android;
+using FFImageLoading.Forms.Droid;
 
 namespace ShopAroundMobile.Droid
 {
@@ -22,8 +23,11 @@ namespace ShopAroundMobile.Droid
             base.OnCreate(savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
 
-            //IconEntryRenderer.Init();
+            IconEntryRenderer.Init();
+            
             CarouselViewRenderer.Init();
+            FFImageLoading.Forms.Platform.CachedImageRenderer.Init(true);
+
             LoadApplication(new App());
 
             

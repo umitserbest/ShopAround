@@ -45,7 +45,8 @@ namespace ShopAroundMobile.TabbedPages
 
             var tabView = new TabViewControl(new List<TabItem>()
               {
-                     new TabItem(
+                     new TabItem( 
+                         
                           "Profile",
                           new StackLayout()
                           {
@@ -75,7 +76,8 @@ namespace ShopAroundMobile.TabbedPages
                                     })
                                });
             tabView.VerticalOptions = LayoutOptions.End;
-            
+            tabView.HeaderBackgroundColor = Color.White;
+            tabView.HeaderTabTextColor = Color.Gray;
             tabView.HeightRequest = 300;
             
 

@@ -15,6 +15,7 @@
                 <BoxView HeightRequest="2" WidthRequest="110" HorizontalOptions="Start" Color="White" Margin="20,0,0,0"></BoxView>
             </StackLayout>
             <StackLayout Margin="0,30,0,0">
+                
                 <Entry TextColor="White" PlaceholderColor="White" Placeholder="Email" HorizontalOptions="Center"  FontSize="16" WidthRequest="300"  />
                 <Entry TextColor="White" PlaceholderColor="White" Placeholder="Username" HorizontalOptions="Center"  FontSize="16" WidthRequest="300"/>
                 <Entry TextColor="White" PlaceholderColor="White" Placeholder="Password" IsPassword="True" HorizontalOptions="Center" FontSize="16" WidthRequest="300"/>

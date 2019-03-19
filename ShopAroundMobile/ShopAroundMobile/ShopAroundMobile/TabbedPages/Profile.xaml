@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ShopAroundMobile.TabbedPages.Profile" Title="Profile" Icon="profile">
     <ScrollView>
-        <StackLayout>
+        <!--<StackLayout>
 
             <StackLayout Margin="10,10,10,0" BackgroundColor="LightGray" VerticalOptions="Start" HeightRequest="270">
 
@@ -45,7 +45,7 @@
             </Grid>
 
 
-        </StackLayout>
+        </StackLayout>-->
     </ScrollView>
 
 </ContentPage>
