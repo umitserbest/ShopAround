@@ -18,6 +18,24 @@
         </div>
       </div>
 		
+		<asp:Panel ID="pnlError" runat="server">
+			<div class="alert alert-danger alert-dismissible fade show" role="alert">
+			  <strong>Failed!</strong> You should check the fields.
+			  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			  </button>
+			</div>
+		</asp:Panel>
+
+		<asp:Panel ID="pnlSuccessful" runat="server">
+			<div class="alert alert-success alert-dismissible fade show" role="alert">
+			  <strong>Successful!</strong> Information updated.
+			  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			  </button>
+			</div>
+		</asp:Panel>
+		
       <div class="row">    
 		<div class="col-md-8 order-md-1">
 		  <h4 class="mb-3">Update Your Information</h4>
@@ -25,47 +43,54 @@
 			
 			  <div class="mb-3">
 				<label for="shopName">Shop Name</label>
-				<input type="text" class="form-control shopName" id="shopName" placeholder="Shop name" required>
+				<asp:TextBox ID="txtShopName" CssClass="form-control" runat="server"></asp:TextBox>
+				<%--<input type="text" class="form-control shopName" id="shopName" placeholder="Shop name" required>--%>
 			  </div>
 
 			<div class="mb-3">
 			  <label for="email">Email <%--<span class="text-muted">(Optional)</span>--%></label>
-			  <input type="email" class="form-control" id="email" placeholder="Your e-mail address" required>			  
+			  <asp:TextBox ID="txtEmail" CssClass="form-control" runat="server" TextMode="Email" ReadOnly="True"></asp:TextBox>
+			  <%--<input type="email" class="form-control" id="email" placeholder="Your e-mail address" required>--%>			  
 			</div>
 
 			<div class="mb-3">
 				<label for="password">Password</label>
-				<input type="password" class="form-control" id="password" placeholder="New password">
+				<asp:TextBox ID="txtPassword" CssClass="form-control" runat="server" TextMode="Password"></asp:TextBox>
+				<%--<input type="password" class="form-control" id="password" placeholder="New password">--%>
 			</div>			
 
 			<div class="mb-3">
 			  <label for="address">Address</label>
-			  <input type="text" class="form-control" id="address" placeholder="Your address" required>
-			  <div class="invalid-feedback">
+				<asp:TextBox ID="txtAddress" CssClass="form-control" runat="server" TextMode="MultiLine"></asp:TextBox>
+			  <%--<input type="text" class="form-control" id="address" placeholder="Your address" required>--%>
+			  <%--<div class="invalid-feedback">
 				Please enter your shipping address.
-			  </div>
+			  </div>--%>
 			</div>
 
 			<div class="row">
 			  <div class="col-md-5 mb-3">
 				<label for="city">City</label>
-				<select class="custom-select d-block w-100" id="city" required>
+				<asp:DropDownList ID="ddlCity" CssClass="custom-select d-block w-100" runat="server"></asp:DropDownList>
+				<%--<select class="custom-select d-block w-100" id="city" required>
 				  <option class="hidden" selected disabled>City *</option>
 				  <option>Eskişehir</option>
                   <option>İstanbul</option>
                   <option>Ankara</option>				  
-				</select>
+				</select>--%>
 			  </div>			 
 			</div>
 
 			<div class="mb-3">
 				<label for="phone">Phone</label>
-				<input type="text" class="form-control" id="phone" placeholder="Your phone" required>
+				<asp:TextBox ID="txtPhone" CssClass="form-control" runat="server" TextMode="Phone"></asp:TextBox>
+				<%--<input type="text" class="form-control" id="phone" placeholder="Your phone" required>--%>
 			  </div>
 
 			  <div class="mb-3">
 				<label for="about">About</label>
-				<textarea class="form-control" id="about" rows="3" placeholder="About you"></textarea>
+				<asp:TextBox ID="txtAbout" CssClass="form-control" runat="server" TextMode="MultiLine"></asp:TextBox>
+				<%--<textarea class="form-control" id="about" rows="3" placeholder="About you"></textarea>--%>
 			  </div>
 
 			<%--<hr class="mb-4">
@@ -81,45 +106,15 @@
 
         
 			<hr class="mb-4">
-			<button class="btn btn-primary btn-md btn-block btnSave" type="submit"><span data-feather="save"></span> Save</button>
+			<asp:Button ID="btnSave" CssClass="btn btn-primary btn-md btn-block" runat="server" Text="Save" OnClick="btnSave_Click" />
+			<%--<button class="btn btn-primary btn-md btn-block btnSave" type="submit"><span data-feather="save"></span> Save</button>--%>
 
 		    <br /><br />
 
 		  <%--</form>--%>
 		</div>
-  </div>
-
-		    <!-- Button trigger modal -->
-			<button type="button" class="btn btn-primary btnSaved" data-toggle="modal" data-target="#exampleModal" style="display:none;">
-			  Launch demo modal
-			</button>
-
-			<!-- Modal -->
-			<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-			  <div class="modal-dialog" role="document">
-				<div class="modal-content">
-				  <div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">Profile</h5>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					  <span aria-hidden="true">&times;</span>
-					</button>
-				  </div>
-				  <div class="modal-body">
-					Information saved.
-				  </div>
-				  <%--<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-primary">Save changes</button>
-				  </div>--%>
-				</div>
-			  </div>
-			</div>
+  </div>		    
 
     </main>
-
-	    
-
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	<script src="js/profile.js"></script>
 
 </asp:Content>

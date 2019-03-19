@@ -18,7 +18,7 @@
     margin-top: 4%;
 }
 
-    .register-left input {
+    .register-left input, a {
         border: none;
         border-radius: 1.5rem;
         padding: 2%;
@@ -125,3 +125,14 @@
     margin-bottom: -15%;
     color: #495057;
 }
+
+.loginLink {
+	padding-left: 50px;
+	padding-right: 50px;
+	text-decoration: none !important;
+	color: #FF8008;
+}
+
+	.loginLink:hover {
+		color: #FF8008;
+	}

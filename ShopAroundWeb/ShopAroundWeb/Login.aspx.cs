@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ShopAroundWeb.Database;
+using ShopAroundWeb.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -12,23 +14,21 @@ namespace ShopAroundWeb
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (Utilities.DoesExistUserCookie())
+            if (Utilities.DoesExistShopCookie())
             {
                 Response.Redirect("/Dashboard");
             }
         }
 
-        [WebMethod]
-        public static string SignIn(string userID)
+        protected void btnLogin_Click(object sender, EventArgs e)
         {
-            try
+            string shopID = DatabaseForShop.SignIn(new ShopSignInModel(txtEmail.Text, txtPassword.Text));
+
+            if (shopID != null)
             {
-                Utilities.CreateCookie(userID);
-                return "true";
-            }
-            catch
-            {
-                return "false";
+                Utilities.CreateCookie(shopID);
+
+                Response.Redirect("/Dashboard");
             }
         }
     }

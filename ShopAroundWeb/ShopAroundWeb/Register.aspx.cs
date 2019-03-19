@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ShopAroundWeb.Database;
+using ShopAroundWeb.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -11,10 +13,31 @@ namespace ShopAroundWeb
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (Utilities.DoesExistUserCookie())
+            if (Utilities.DoesExistShopCookie())
             {
                 Response.Redirect("/Dashboard");
             }
+
+            if (!IsPostBack)
+            {
+                ddlCity.Items.Add(new ListItem("City", ""));
+                ddlCity.Items.Add(new ListItem("Ankara", "1"));
+                ddlCity.Items.Add(new ListItem("Eskişehir", "26"));
+                ddlCity.Items.Add(new ListItem("İstanbul", "34"));
+            }
+        }
+
+        protected void btnRegister_Click(object sender, EventArgs e)
+        {
+            if (ddlCity.SelectedValue != "")
+            {
+                byte cityID = byte.Parse(ddlCity.SelectedValue);
+
+                if (DatabaseForShop.SignUp(new ShopSignUpModel(txtShopName.Text, txtEmail.Text, txtPassword.Text, txtPhone.Text, cityID)))
+                {
+                    Response.Redirect("/Login");
+                }
+            }            
         }
     }
 }

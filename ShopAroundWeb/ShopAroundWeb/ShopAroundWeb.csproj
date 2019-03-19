@@ -44,6 +44,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -87,6 +90,7 @@
     <Content Include="Profile.aspx" />
     <Content Include="Register.aspx" />
     <Content Include="Web.config" />
+    <Content Include="WebServices\UserService.asmx" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AddProduct.aspx.cs">
@@ -96,6 +100,16 @@
     <Compile Include="AddProduct.aspx.designer.cs">
       <DependentUpon>AddProduct.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Database\DatabaseConnection.cs" />
+    <Compile Include="Database\DatabaseForUser.cs" />
+    <Compile Include="Database\DatabaseForShop.cs" />
+    <Compile Include="Models\ProductModel.cs" />
+    <Compile Include="Models\ProductTypeModel.cs" />
+    <Compile Include="Models\ShopModel.cs" />
+    <Compile Include="Models\ShopSignInModel.cs" />
+    <Compile Include="Models\ShopSignUpModel.cs" />
+    <Compile Include="Models\UserSignInModel.cs" />
+    <Compile Include="Models\UserSignUpModel.cs" />
     <Compile Include="Dashboard.aspx.cs">
       <DependentUpon>Dashboard.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -157,11 +171,16 @@
       <DependentUpon>Register.aspx</DependentUpon>
     </Compile>
     <Compile Include="Utilities.cs" />
+    <Compile Include="WebServices\UserService.asmx.cs">
+      <DependentUpon>UserService.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Main.Master" />
     <Content Include="Menu.Master" />
     <None Include="packages.config" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -169,7 +188,9 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="ShopAssets\Products\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

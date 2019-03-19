@@ -5,24 +5,24 @@ using System.Web;
 
 namespace ShopAroundWeb
 {
-    public class Utilities
+    public static class Utilities
     {
-        public static void CreateCookie(string userID)
+        public static void CreateCookie(string shopID)
         {
-            HttpCookie UserCookies = new HttpCookie("User");
+            HttpCookie ShopCookies = new HttpCookie("Shop");
 
-            UserCookies["UserID"] = userID;
+            ShopCookies["ShopID"] = shopID;
 
-            UserCookies.Expires = DateTime.Now.AddDays(1);
+            ShopCookies.Expires = DateTime.Now.AddDays(1);
 
-            HttpContext.Current.Response.Cookies.Add(UserCookies);
+            HttpContext.Current.Response.Cookies.Add(ShopCookies);
         }
 
-        public static bool DoesExistUserCookie()
+        public static bool DoesExistShopCookie()
         {
-            HttpCookie UserCookies = HttpContext.Current.Request.Cookies["User"];
+            HttpCookie ShopCookies = HttpContext.Current.Request.Cookies["Shop"];
 
-            if (UserCookies != null)
+            if (ShopCookies != null)
             {
                 return true; //there is a cookie
             }
@@ -34,13 +34,13 @@ namespace ShopAroundWeb
 
         public static void RemoveCookie()
         {
-            HttpCookie UserCookies = new HttpCookie("User");
+            HttpCookie ShopCookies = new HttpCookie("Shop");
 
             //Adding Expire Time of cookies before existing cookies time
-            UserCookies.Expires = DateTime.Now.AddDays(-1);
+            ShopCookies.Expires = DateTime.Now.AddDays(-1);
 
             //Adding cookies to current web response
-            HttpContext.Current.Response.Cookies.Add(UserCookies);
+            HttpContext.Current.Response.Cookies.Add(ShopCookies);
         }
     }
 }

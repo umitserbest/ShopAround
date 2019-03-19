@@ -12,23 +12,9 @@ namespace ShopAroundWeb
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!Utilities.DoesExistUserCookie())
+            if (!Utilities.DoesExistShopCookie())
             {
                 Response.Redirect("/Login");
-            }
-        }
-
-        [WebMethod]
-        public static string SignOut()
-        {
-            try
-            {
-                Utilities.RemoveCookie();
-                return "true";
-            }
-            catch
-            {
-                return "false";
             }
         }
     }

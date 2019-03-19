@@ -10,7 +10,7 @@
 namespace ShopAroundWeb {
     
     
-    public partial class Menu {
+    public partial class Main {
         
         /// <summary>
         /// head control.

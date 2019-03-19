@@ -10,7 +10,7 @@
 namespace ShopAroundWeb {
     
     
-    public partial class Menu1 {
+    public partial class Menu {
         
         /// <summary>
         /// head control.
@@ -29,6 +29,15 @@ namespace ShopAroundWeb {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
+        
+        /// <summary>
+        /// lbSignOut control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton lbSignOut;
         
         /// <summary>
         /// ContentPlaceHolder1 control.
