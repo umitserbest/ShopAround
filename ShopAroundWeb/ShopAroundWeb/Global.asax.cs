@@ -48,11 +48,12 @@ namespace ShopAroundWeb
 
         protected void RegisterRoutes(RouteCollection routes)
         {
-            //routes.MapPageRoute("UserService", "UserService", "~/WebServices/UserService.asmx");
-
+            /* Public Area */
             routes.MapPageRoute("Default", "", "~/Default.aspx");
             routes.MapPageRoute("Register", "Register", "~/Register.aspx");
             routes.MapPageRoute("Login", "Login", "~/Login.aspx");
+
+            /* Private Area */
             routes.MapPageRoute("Dashboard", "Dashboard", "~/Dashboard.aspx");
             routes.MapPageRoute("Profile", "Profile", "~/Profile.aspx");
             routes.MapPageRoute("AddProduct", "AddProduct", "~/AddProduct.aspx");

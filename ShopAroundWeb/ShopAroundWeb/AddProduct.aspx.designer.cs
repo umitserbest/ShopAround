@@ -13,6 +13,15 @@ namespace ShopAroundWeb {
     public partial class AddProduct {
         
         /// <summary>
+        /// pnlError control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlError;
+        
+        /// <summary>
         /// txtProductCode control.
         /// </summary>
         /// <remarks>
@@ -58,6 +67,15 @@ namespace ShopAroundWeb {
         protected global::System.Web.UI.WebControls.FileUpload fuCoverImage;
         
         /// <summary>
+        /// fuImage1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.FileUpload fuImage1;
+        
+        /// <summary>
         /// fuImage2 control.
         /// </summary>
         /// <remarks>
@@ -74,15 +92,6 @@ namespace ShopAroundWeb {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.FileUpload fuImage3;
-        
-        /// <summary>
-        /// fuImage4 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.FileUpload fuImage4;
         
         /// <summary>
         /// txtBrand control.

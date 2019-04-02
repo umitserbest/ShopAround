@@ -12,8 +12,7 @@ namespace ShopAroundWeb
 {
     public partial class AddProduct : System.Web.UI.Page
     {
-        private static string shopID;
-        private ProductModel product;
+        private static int shopID;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -24,7 +23,7 @@ namespace ShopAroundWeb
 
             if (!IsPostBack)
             {
-                shopID = HttpContext.Current.Request.Cookies["Shop"]["ShopID"];
+                shopID = int.Parse(HttpContext.Current.Request.Cookies["Shop"]["ShopID"]);
 
                 List<ProductTypeModel> productTypes = DatabaseForShop.GetProductTypes();
 
@@ -32,65 +31,76 @@ namespace ShopAroundWeb
                 {
                     ddlCategory.Items.Add(new ListItem(productType.Name, productType.ProductTypeID.ToString()));
                 }
+
+                //pnlSuccessful.Visible = false;
+                pnlError.Visible = false;
             }
-        }
-
-        private bool UploadImages()
-        {
-            try
-            {
-                foreach (FileUpload fileUpload in GetControlsOfType<FileUpload>(Page))
-                {
-                    if (fileUpload.ID.Contains("fu") && fileUpload.HasFile && fileUpload.PostedFile.ContentLength <= 3145728) //3 MB
-                    {
-                        string fileName = Path.GetFileNameWithoutExtension(fileUpload.FileName).ToLower();
-                        string fileExtension = Path.GetExtension(fileUpload.FileName).ToLower();
-
-                        if (fileExtension == ".gif" || fileExtension == ".png" || fileExtension == ".jpeg" || fileExtension == ".jpg")
-                        {
-                            string imageName = new Guid().ToString() + fileExtension;
-
-                            fileUpload.PostedFile.SaveAs(Server.MapPath(@"~/ShopAssets/Products/" + imageName));                            
-                        }
-                    }
-                }
-
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
-
-        public static IEnumerable<T> GetControlsOfType<T>(Control root) where T : Control
-        {
-            var t = root as T;
-            if (t != null)
-                yield return t;
-
-            var container = root as Control;
-            if (container != null)
-                foreach (Control c in container.Controls)
-                    foreach (var i in GetControlsOfType<T>(c))
-                        yield return i;
         }
 
         protected void btnSave_Click(object sender, EventArgs e)
         {
-            if (UploadImages())
-            {
+            string combineImageName = UploadImage(fuCombineImage);
+            string coverImageName = UploadImage(fuCoverImage);
+            string image1Name = UploadImage(fuImage1);
+            string image2Name = UploadImage(fuImage2);
+            string image3Name = UploadImage(fuImage3);
 
+            if (combineImageName != null && coverImageName!= null && image1Name!= null && image2Name != null && image3Name != null)
+            {
+                ProductModel product = new ProductModel();
+                product.ShopID = shopID;
+                product.ProductTypeID = int.Parse(ddlCategory.SelectedValue);
+                product.Code = txtProductCode.Text;
+                product.Name = txtProductName.Text;
+                product.Brand = txtBrand.Text;
+                product.Color = txtColor.Text;
+                product.Size = txtSize.Text;
+                product.Material = txtMaterial.Text;
+                product.Details = txtDetails.Text;
+                product.CombineImage = combineImageName;
+                product.CoverImage = coverImageName;
+                product.Image1 = image1Name;
+                product.Image2 = image2Name;
+                product.Image3 = image3Name;
+
+                DatabaseForShop.AddProduct(product);
+
+                Response.Redirect("/Dashboard");
+
+                //pnlSuccessful.Visible = true;
+            }
+            else
+            {
+                //Error
+                pnlError.Visible = true;
+            }
+        }
+
+        private string UploadImage(FileUpload fileUpload)
+        {
+            try
+            {
+                if (fileUpload.ID.Contains("fu") && fileUpload.HasFile && fileUpload.PostedFile.ContentLength <= 3145728) //3 MB
+                {
+                    string fileName = Path.GetFileNameWithoutExtension(fileUpload.FileName).ToLower();
+                    string fileExtension = Path.GetExtension(fileUpload.FileName).ToLower();
+
+                    if (fileExtension == ".gif" || fileExtension == ".png" || fileExtension == ".jpeg" || fileExtension == ".jpg")
+                    {
+                        string imageName = Guid.NewGuid().ToString() + fileExtension;
+
+                        fileUpload.PostedFile.SaveAs(Server.MapPath(@"~/ShopAssets/Products/" + imageName));
+
+                        return imageName;
+                    }
+                }
+
+                return null;
+            }
+            catch
+            {
+                return null;
             }
         }
     }
 }
-
-
-
-
-
-
-
-
-

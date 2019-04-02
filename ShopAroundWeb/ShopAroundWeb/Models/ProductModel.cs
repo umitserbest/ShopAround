@@ -27,23 +27,5 @@ namespace ShopAroundWeb.Models
         {
 
         }
-
-        public ProductModel(int productID, string code, string name, int productTypeID, string brand, string color, string size, string material, string details, string combineImage, string coverImage, string image1, string image2, string image3)
-        {
-            ProductID = productID;
-            Code = code;
-            Name = name;
-            ProductTypeID = productTypeID;
-            Brand = brand;
-            Color = color;
-            Size = size;
-            Material = material;
-            Details = details;
-            CombineImage = combineImage;
-            CoverImage = coverImage;
-            Image1 = image1;
-            Image2 = image2;
-            Image3 = image3;
-        }
     }
 }

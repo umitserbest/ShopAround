@@ -1,4 +1,6 @@
 ﻿using ShopAroundWeb.Models;
+using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 
@@ -129,5 +131,225 @@ namespace ShopAroundWeb.Database
                 DatabaseConnection.CloseConnection();
             }
         }
+
+        public static bool UpdateUserInfo(UserModel userModel)
+        {
+            try
+            {
+                DatabaseConnection.OpenConnection();
+
+                string query = "UPDATE [User] SET Username=@Username, Password=@Password, Name=@Name, Surname=@Surname, Phone=@Phone, City=@City, About=@About, Image=@Image WHERE UserID=@UserID";
+
+                SqlCommand cmd = new SqlCommand(query, DatabaseConnection.connection);
+                cmd.Parameters.Add("@Username", SqlDbType.NVarChar).Value = userModel.Username;
+                cmd.Parameters.Add("@Password", SqlDbType.NVarChar).Value = userModel.Password;
+                cmd.Parameters.Add("@Name", SqlDbType.NVarChar).Value = userModel.Name;
+                cmd.Parameters.Add("@Surname", SqlDbType.NVarChar).Value = userModel.Surname;
+                cmd.Parameters.Add("@Phone", SqlDbType.NVarChar).Value = userModel.Phone;
+                cmd.Parameters.Add("@City", SqlDbType.TinyInt).Value = userModel.City;
+                cmd.Parameters.Add("@About", SqlDbType.NVarChar).Value = userModel.About;
+                cmd.Parameters.Add("@Image", SqlDbType.NVarChar).Value = userModel.Image;
+                cmd.Parameters.Add("@UserID", SqlDbType.Int).Value = userModel.UserID;
+                cmd.ExecuteNonQuery();
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+            finally
+            {
+                DatabaseConnection.CloseConnection();
+            }
+        }
+
+        public static List<ShopModel> GetShops(int numberOfRecords)
+        {
+            try
+            {
+                DatabaseConnection.OpenConnection();
+
+                string query = "SELECT TOP " + numberOfRecords + " * FROM [Shop]";
+                SqlCommand cmd = new SqlCommand(query, DatabaseConnection.connection);
+
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                List<ShopModel> shops = new List<ShopModel>();
+
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        ShopModel shop = new ShopModel();
+
+                        shop.ShopID = int.Parse(reader[0].ToString());
+                        shop.Email = reader[1].ToString();
+                        shop.Password = reader[2].ToString();
+                        shop.Name = reader[3].ToString();
+                        shop.Phone = reader[4].ToString();
+                        shop.Address = reader[5].ToString();
+                        shop.City = byte.Parse(reader[6].ToString());
+                        shop.About = reader[7].ToString();
+
+                        shops.Add(shop);
+                    }
+
+                    return shops;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch
+            {
+                return null;
+            }
+            finally
+            {
+                DatabaseConnection.CloseConnection();
+            }
+        }
+
+        public static bool FollowAShop(Tuple<int, int> follow)
+        {
+            try
+            {
+                DatabaseConnection.OpenConnection();
+
+                string query = "INSERT INTO [Follow] (UserID, ShopID) VALUES (@UserID, @ShopID)";
+                SqlCommand cmd = new SqlCommand(query, DatabaseConnection.connection);
+                cmd.Parameters.Add("@UserID", SqlDbType.Int).Value = follow.Item1;
+                cmd.Parameters.Add("@ShopID", SqlDbType.Int).Value = follow.Item2;
+                cmd.ExecuteNonQuery();
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+            finally
+            {
+                DatabaseConnection.CloseConnection();
+            }
+        }
+
+        public static List<ProductModel> GetProductsForTheFlow(int numberOfRecords, int userID)
+        {
+            try
+            {
+                DatabaseConnection.OpenConnection();
+
+                string query = "SELECT TOP " + numberOfRecords + " dbo.Product.* FROM dbo.Product INNER JOIN dbo.Shop ON dbo.Product.ShopID = dbo.Shop.ShopID INNER JOIN "
+                 + "dbo.Follow ON dbo.Shop.ShopID = dbo.Follow.ShopID WHERE dbo.Follow.UserID=@UserID";
+
+                SqlCommand cmd = new SqlCommand(query, DatabaseConnection.connection);
+                cmd.Parameters.Add("@UserID", SqlDbType.Int).Value = userID;
+
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                List<ProductModel> products = new List<ProductModel>();
+
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        ProductModel product = new ProductModel();
+
+                        product.ProductID = int.Parse(reader[0].ToString());
+                        product.ShopID = int.Parse(reader[1].ToString());
+                        product.ProductTypeID = int.Parse(reader[2].ToString());
+                        product.Code = reader[3].ToString();
+                        product.Name = reader[4].ToString();
+                        product.Brand = reader[5].ToString();
+                        product.Color = reader[6].ToString();
+                        product.Size = reader[7].ToString();
+                        product.Material = reader[8].ToString();
+                        product.Details = reader[9].ToString();
+                        product.CombineImage = reader[10].ToString();
+                        product.CoverImage = reader[11].ToString();
+                        product.Image1 = reader[12].ToString();
+                        product.Image2 = reader[13].ToString();
+                        product.Image3 = reader[14].ToString();
+
+                        products.Add(product);
+                    }
+
+                    return products;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch
+            {
+                return null;
+            }
+            finally
+            {
+                DatabaseConnection.CloseConnection();
+            }
+        }
+
+        public static List<ProductModel> GetProductsForExplore()
+        {
+            try
+            {
+                DatabaseConnection.OpenConnection();
+
+                string query = "SELECT * FROM [Product]";
+
+                SqlCommand cmd = new SqlCommand(query, DatabaseConnection.connection);
+                //cmd.Parameters.Add("@UserID", SqlDbType.Int).Value = userID;
+
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                List<ProductModel> products = new List<ProductModel>();
+
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        ProductModel product = new ProductModel();
+
+                        product.ProductID = int.Parse(reader[0].ToString());
+                        product.ShopID = int.Parse(reader[1].ToString());
+                        product.ProductTypeID = int.Parse(reader[2].ToString());
+                        product.Code = reader[3].ToString();
+                        product.Name = reader[4].ToString();
+                        product.Brand = reader[5].ToString();
+                        product.Color = reader[6].ToString();
+                        product.Size = reader[7].ToString();
+                        product.Material = reader[8].ToString();
+                        product.Details = reader[9].ToString();
+                        product.CombineImage = reader[10].ToString();
+                        product.CoverImage = reader[11].ToString();
+                        product.Image1 = reader[12].ToString();
+                        product.Image2 = reader[13].ToString();
+                        product.Image3 = reader[14].ToString();
+
+                        products.Add(product);
+                    }
+
+                    return products;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch
+            {
+                return null;
+            }
+            finally
+            {
+                DatabaseConnection.CloseConnection();
+            }
+        }
+
     }
 }

@@ -14,11 +14,5 @@ namespace ShopAroundWeb.Models
         {
 
         }
-
-        public ProductTypeModel(int productTypeID, string name)
-        {
-            ProductTypeID = productTypeID;
-            Name = name;
-        }
     }
 }

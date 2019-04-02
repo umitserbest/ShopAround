@@ -108,6 +108,7 @@
     <Compile Include="Models\ShopModel.cs" />
     <Compile Include="Models\ShopSignInModel.cs" />
     <Compile Include="Models\ShopSignUpModel.cs" />
+    <Compile Include="Models\UserModel.cs" />
     <Compile Include="Models\UserSignInModel.cs" />
     <Compile Include="Models\UserSignUpModel.cs" />
     <Compile Include="Dashboard.aspx.cs">
@@ -189,6 +190,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="ShopAssets\Logo\" />
     <Folder Include="ShopAssets\Products\" />
   </ItemGroup>
   <PropertyGroup>
