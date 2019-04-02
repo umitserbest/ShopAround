@@ -39,6 +39,8 @@ namespace ShopAroundMobile.Helpers
             }
         }
 
+
+
         //public static async Task<string> Test()
         //{
         //    object userInfos = new { email = "test", password = "pass" };

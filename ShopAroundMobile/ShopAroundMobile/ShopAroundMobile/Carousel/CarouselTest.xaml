@@ -3,10 +3,17 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:controls="clr-namespace:CarouselView.FormsPlugin.Abstractions;assembly=CarouselView.FormsPlugin.Abstractions"
              x:Class="ShopAroundMobile.CarouselTest">
-    <ContentPage.Content>
-        <StackLayout HeightRequest="300">
-            <controls:CarouselViewControl x:Name="carousel" ItemsSource="{Binding MyItemsSource}" ShowArrows="true" ShowIndicators="true" IndicatorsShape="Square" IndicatorsTintColor="Orange" ArrowsTintColor="Orange" ArrowsBackgroundColor="Green" PositionSelectedCommand="{Binding MyCommand}" PositionSelected="Handle_PositionSelected" Scrolled="Handle_Scrolled" Orientation="Horizontal" HeightRequest="200" MinimumHeightRequest="150" >   
-            </controls:CarouselViewControl>
-        </StackLayout>
-    </ContentPage.Content>
+    <Grid>
+        <ListView ItemsSource="{Binding Carousels}" HasUnevenRows="True">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                         <!--<Label Text="{Binding ShopName}" FontSize="16"></Label>-->
+                            <controls:CarouselViewControl x:Name="carousel" ItemsSource="{Binding MyItemsSource}" ShowArrows="true" ShowIndicators="true" IndicatorsShape="Square" IndicatorsTintColor="Orange" ArrowsTintColor="Orange" ArrowsBackgroundColor="Green" PositionSelectedCommand="{Binding MyCommand}" PositionSelected="Handle_PositionSelected" Scrolled="Handle_Scrolled" Orientation="Horizontal" HeightRequest="200" MinimumHeightRequest="150" >
+                            </controls:CarouselViewControl>
+                     </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
 </ContentPage>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ShopAroundMobile.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,7 +19,7 @@ namespace ShopAroundMobile.TabbedPages
         {
             InitializeComponent();
 
-
+            BindingContext = new NotificationViewModel();
 
         }
         

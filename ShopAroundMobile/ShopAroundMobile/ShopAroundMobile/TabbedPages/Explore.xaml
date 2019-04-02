@@ -16,7 +16,8 @@
         </Grid.ColumnDefinitions>
 
         <!--<local1:ImageEntry Grid.Column="0" Grid.Row="0" Placeholder="Search" ImageAlignment="Left" ImageHeight="50" ImageWidth="100" Image="explore"></local1:ImageEntry>-->
-        <Entry Grid.Column="0" Grid.Row="0" Placeholder="Search" PlaceholderColor="Gray" Margin="10,0,10,0"></Entry>
+        <!--<Entry Grid.Column="0" Grid.Row="0" Placeholder="Search" PlaceholderColor="Gray" Margin="10,0,10,0"></Entry>-->
+        <SearchBar Grid.Column="0" Grid.Row="0" Placeholder="Search" CancelButtonColor="Coral" Margin="0,0,20,0"></SearchBar>
     <ScrollView Margin="5,0,5,0" Orientation="Horizontal" Grid.Row="1" Grid.Column="0" >
 
         <FlexLayout Margin="0,10,0,0" >
@@ -71,13 +72,13 @@
                                  
                                 <Image Aspect="Fill" Grid.Row="0" Grid.Column="0" Source="{Binding Image1}" ></Image>
                                 <Image Aspect="Fill" Grid.Row="1" Grid.Column="0" Source="{Binding Image2}" ></Image>
-                        <Image Aspect="Fill" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Grid.RowSpan="2" Source="{Binding Image3}" ></Image>
-                        <Image Aspect="Fill" Grid.Row="2" Grid.Column="0" Source="{Binding Image4}" ></Image>
-                        <Image Aspect="Fill" Grid.Row="2" Grid.Column="1" Source="{Binding Image5}" ></Image>
-                        <Image Aspect="Fill" Grid.Row="2" Grid.Column="2" Source="{Binding Image6}" ></Image>
-                        <Image Aspect="Fill" Grid.Row="3" Grid.Column="0" Source="{Binding Image7}" ></Image>
-                        <Image Aspect="Fill" Grid.Row="3" Grid.Column="1" Source="{Binding Image8}" ></Image>
-                        <Image Aspect="Fill" Grid.Row="3" Grid.Column="2" Source="{Binding Image9}" ></Image>  
+                                <Image Aspect="Fill" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Grid.RowSpan="2" Source="{Binding Image3}" ></Image>
+                                <Image Aspect="Fill" Grid.Row="2" Grid.Column="0" Source="{Binding Image4}" ></Image>
+                                <Image Aspect="Fill" Grid.Row="2" Grid.Column="1" Source="{Binding Image5}" ></Image>
+                                <Image Aspect="Fill" Grid.Row="2" Grid.Column="2" Source="{Binding Image6}" ></Image>
+                                <Image Aspect="Fill" Grid.Row="3" Grid.Column="0" Source="{Binding Image7}" ></Image>
+                                <Image Aspect="Fill" Grid.Row="3" Grid.Column="1" Source="{Binding Image8}" ></Image>
+                                <Image Aspect="Fill" Grid.Row="3" Grid.Column="2" Source="{Binding Image9}" ></Image>  
 
 
                     </Grid>

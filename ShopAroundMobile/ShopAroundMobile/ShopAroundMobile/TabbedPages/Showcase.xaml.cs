@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ShopAroundMobile.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,53 +13,38 @@ namespace ShopAroundMobile.TabbedPages
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class Showcase : ContentPage
 	{
-       
-
-		public Showcase ()
-		{
-			InitializeComponent ();
-            //gridCreator();
 
 
-             //mainGrid.Children.Add(subGrid, 0, 3);
-            //mainGrid.Children.Add(subGrid, 0, 4);
-            //mainGrid.Children.Add(subGrid, 0, 5);
-            //mainGrid.IsVisible = true;
-            //subGrid.IsVisible = true;
-            //OthersubGrid.IsVisible = true;
-            //mainGrid.Children.Add(subGrid, 0, 0);
-            //mainGrid.Children.Add(OthersubGrid, 0, 1);
-            //mainGrid.Children.Add(subGrid, 0, 2);
-
-            //for (int i = 3; i <= 5; i++)
-            //{
-            //    subGrid.IsVisible = true;
-            //    //OthersubGrid.IsVisible = true;
-            //    mainGrid.Children.Add(subGrid, 0, i);
-            //    //if (i % 2 == 0)
-            //    //{
-            //    //    mainGrid.Children.Add(subGrid, 0, i);
-            //    //}
-            //    //else
-            //    //{
-            //    //    mainGrid.Children.Add(OthersubGrid, 0, i);
-            //    //}
-
-            //}
-
-            //scroll.Orientation = ScrollOrientation.Vertical;
-            //scroll.Content = mainGrid;
-            //Content = scroll;
-
-
-        }
-
-        void gridCreator()
+        public Showcase()
         {
-            for (int i = 0; i < 5; i++)
-            {
-                mainGrid.Children.Add(subGrid, 0, i);
-            }
+            InitializeComponent();
+            
+            
+            BindingContext = new ShowcaseViewModel();
+
+            //var ProductInfo = new Frame();
+
+            //var frameXaml = $"Frame x:Name=\"ProductInfo\" Margin=\"0,-15,0,0\" Grid.Row=\"1\" Opacity=\"0.8\" BackgroundColor=\"Black\">" +
+            //    $"<Label Text =\"Size : M Color: Red\" TextColor=\"White\" FontSize=\"14\"></Label></Frame>";
+
+           
         }
-	}
+
+        async void TapGestureRecognizer_Tapped(object sender, EventArgs e)
+        {
+            var ImageTapped = (Image)sender;
+
+            //Grid ParentFrameLayout = (Grid)ImageTapped.Parent;
+
+            //Frame ProductInfoFrame = (Frame)ParentFrameLayout.Children[2];
+
+            //ProductInfoFrame.IsVisible = true;
+
+            //bool ProductInfoVisible = ProductInfoFrame.IsVisible;
+            
+            
+
+
+        }
+    }
 }

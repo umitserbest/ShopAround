@@ -22,9 +22,6 @@ namespace ShopAroundMobile.TabbedPages
         protected override void OnCurrentPageChanged()
         {
             base.OnCurrentPageChanged();
-
-            
-           
             
         }
     }

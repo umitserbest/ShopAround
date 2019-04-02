@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using ShopAroundMobile.Carousel;
+using System.Diagnostics;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -16,7 +17,9 @@ namespace ShopAroundMobile
 
             Title = "Carouselview";
 
-            BindingContext = _vm = new myItemSource();
+            //BindingContext = _vm = new myItemSource();
+
+            BindingContext = new carouselVm();
            
         }
 

@@ -1,11 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local="clr-namespace:ShopAroundMobile"
-             x:Class="ShopAroundMobile.TabbedPages.Notifications" Title="Notifications">
-    <ContentPage.Content>
-        <StackLayout x:Name="theS1">
-        
-        </StackLayout>
-    </ContentPage.Content>
+             x:Class="ShopAroundMobile.TabbedPages.Notifications" Title="Notifications" BackgroundColor="White">
+    <Grid>
+        <ListView ItemsSource="{Binding Notifications}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ImageCell Text="{Binding NoticeText}" ImageSource="{Binding NoticeImage}" Detail="{Binding NoticeDate}" TextColor="Black" DetailColor="Gray"></ImageCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
 </ContentPage>

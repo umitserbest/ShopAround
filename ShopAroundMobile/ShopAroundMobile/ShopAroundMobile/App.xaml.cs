@@ -15,7 +15,8 @@ namespace ShopAroundMobile
             InitializeComponent();
 
             // MainPage = new CustomNavigationPage(new ShopProfile());
-            MainPage = new TabPageControl();
+             MainPage = new TabPageControl();
+            //MainPage = new CarouselTest();
 
 #if DEBUG
             LiveReload.Init();

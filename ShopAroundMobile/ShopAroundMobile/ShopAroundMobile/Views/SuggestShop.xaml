@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:input="clr-namespace:Plugin.InputKit.Shared.Controls;assembly=Plugin.InputKit"
+             xmlns:local="clr-namespace:ShopAroundMobile.ViewModels"
+             x:Class="ShopAroundMobile.Views.SuggestShop">
+    
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:SuggestShopViewModel x:Key="vm"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    
+    <Grid BindingContext="{StaticResource vm}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+    <StackLayout IsVisible="True" Spacing="20" Padding="0,10" Grid.Row="0" Orientation="Horizontal" HorizontalOptions="Center">
+            <Label x:Name="lbl" Text="{Binding CheckedShops, Mode=TwoWay}" HorizontalOptions="Center" TextColor="Coral" FontSize="18" FontAttributes="Bold"></Label>
+            <Label Text=" mağaza seçildi." HorizontalOptions="Center" FontSize="18"></Label>
+        </StackLayout>
+        <ListView x:Name="listView"
+                  Grid.Row="1"
+                  RowHeight="100"
+                  ItemsSource="{Binding SuggestShops}"
+                  HasUnevenRows="True">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Grid Padding="20,20" >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="100"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                        
+                        <input:CheckBox x:Name="Checkbox" BindingContext="{StaticResource vm}" WidthRequest="300" TextFontSize="18" Grid.Column="0" Text="{Binding ShopName}" Type="Check" BorderColor="Coral" Color="Orange" HorizontalOptions="Start" IsChecked="{Binding IsChecked,Mode=TwoWay}"/>
+                            
+                            <Image x:Name="img" Grid.Column="1" Aspect="Fill" Source="{Binding ShopImage}" HeightRequest="20" ></Image>
+                        </Grid>
+                       
+                    </ViewCell>
+                 </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+    </Grid>
+
+</ContentPage>
