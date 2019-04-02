@@ -2,6 +2,7 @@
 using ShopAroundWeb.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -44,8 +45,8 @@ namespace ShopAroundWeb
 
         protected void btnSave_Click(object sender, EventArgs e)
         {
-            try
-            {
+            //try
+            //{
                 ShopModel shopModel = shop;
 
                 if (txtPassword.Text.Length > 0)
@@ -53,25 +54,62 @@ namespace ShopAroundWeb
                     shopModel.Password = txtPassword.Text;
                 }
 
-                shopModel.Name = txtShopName.Text;
-                shopModel.Phone = txtPhone.Text;
-                shopModel.Address = txtAddress.Text;
-                shopModel.About = txtAbout.Text;
-                shopModel.City = byte.Parse(ddlCity.SelectedValue);
+                string shopLogo = UploadLogo(fuLogo);
 
-                if (DatabaseForShop.SaveShopInfo(shopModel))
+                if (shopLogo != null)
                 {
-                    pnlSuccessful.Visible = true;
+                    shopModel.Name = txtShopName.Text;
+                    shopModel.Phone = txtPhone.Text;
+                    shopModel.Address = txtAddress.Text;
+                    shopModel.About = txtAbout.Text;
+                    shopModel.City = byte.Parse(ddlCity.SelectedValue);
+                    shopModel.Logo = shopLogo;
+
+                    if (DatabaseForShop.UpdateShopInfo(shopModel))
+                    {
+                        pnlSuccessful.Visible = true;
+                    }
+                    else
+                    {
+                        pnlError.Visible = true;
+                    }
                 }
                 else
                 {
                     pnlError.Visible = true;
+                }                
+            //}
+            //catch (Exception)
+            //{
+            //    pnlError.Visible = true;
+            //}
+        }
+
+        private string UploadLogo(FileUpload fileUpload)
+        {
+            //try
+            //{
+                if (fileUpload.ID.Contains("fu") && fileUpload.HasFile && fileUpload.PostedFile.ContentLength <= 3145728) //3 MB
+                {
+                    string fileName = Path.GetFileNameWithoutExtension(fileUpload.FileName).ToLower();
+                    string fileExtension = Path.GetExtension(fileUpload.FileName).ToLower();
+
+                    if (fileExtension == ".gif" || fileExtension == ".png" || fileExtension == ".jpeg" || fileExtension == ".jpg")
+                    {
+                        string imageName = Guid.NewGuid().ToString() + fileExtension;
+
+                        fileUpload.PostedFile.SaveAs(Server.MapPath(@"~/ShopAssets/Logo/" + imageName));
+
+                        return imageName;
+                    }
                 }
-            }
-            catch (Exception)
-            {
-                pnlError.Visible = true;
-            }
+
+                return null;
+            //}
+            //catch
+            //{
+            //    return null;
+            //}
         }
     }
 }

@@ -6,13 +6,10 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     
-  <div class="topbar">
-      
+  <div class="topbar">      
         <a href="#">+ Add Product</a>
-    </div>
-    
- 
- 
+  </div>
+     
 
 <div class="container">
     <h3 class="h3">shopping Demo-2 </h3>

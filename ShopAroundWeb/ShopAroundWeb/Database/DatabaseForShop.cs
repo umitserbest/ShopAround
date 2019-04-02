@@ -147,13 +147,13 @@ namespace ShopAroundWeb.Database
             }
         }
 
-        public static bool SaveShopInfo(ShopModel shopModel)
+        public static bool UpdateShopInfo(ShopModel shopModel)
         {
             try
             {
                 DatabaseConnection.OpenConnection();
 
-                string query = "UPDATE [Shop] SET Password=@Password, Name=@Name, Phone=@Phone, Address=@Address, City=@City, About=@About WHERE ShopID=@ShopID";
+                string query = "UPDATE [Shop] SET Password=@Password, Name=@Name, Phone=@Phone, Address=@Address, City=@City, About=@About, Logo=@Logo WHERE ShopID=@ShopID";
                 SqlCommand cmd = new SqlCommand(query, DatabaseConnection.connection);
                 cmd.Parameters.Add("@Password", SqlDbType.NVarChar).Value = shopModel.Password;
                 cmd.Parameters.Add("@Name", SqlDbType.NVarChar).Value = shopModel.Name;
@@ -161,6 +161,7 @@ namespace ShopAroundWeb.Database
                 cmd.Parameters.Add("@Address", SqlDbType.NVarChar).Value = shopModel.Address;
                 cmd.Parameters.Add("@City", SqlDbType.TinyInt).Value = shopModel.City;
                 cmd.Parameters.Add("@About", SqlDbType.NVarChar).Value = shopModel.About;
+                cmd.Parameters.Add("@Logo", SqlDbType.NVarChar).Value = shopModel.Logo;
                 cmd.Parameters.Add("@ShopID", SqlDbType.Int).Value = shopModel.ShopID;
                 cmd.ExecuteNonQuery();
 
@@ -222,13 +223,27 @@ namespace ShopAroundWeb.Database
             {
                 DatabaseConnection.OpenConnection();
 
-                string query = "INSERT INTO [Shop] (Email, Password, Name, Phone, City) VALUES (@Email, @Password, @Name, @Phone, @City)";
+                string query = "INSERT INTO [Product] (ShopID, ProductTypeID, Code, Name, Brand, Color, Size, Material, Details, " +
+                    "CombineImage, CoverImage, Image1, Image2, Image3) VALUES (@ShopID, @ProductTypeID, @Code, @Name, @Brand, @Color, @Size, " +
+                    "@Material, @Details, @CombineImage, @CoverImage, @Image1, @Image2, @Image3)";
+
                 SqlCommand cmd = new SqlCommand(query, DatabaseConnection.connection);
-                //cmd.Parameters.Add("@Email", SqlDbType.NVarChar).Value = signUpModel.Email;
-                //cmd.Parameters.Add("@Password", SqlDbType.NVarChar).Value = signUpModel.Password;
-                //cmd.Parameters.Add("@Name", SqlDbType.NVarChar).Value = signUpModel.Name;
-                //cmd.Parameters.Add("@Phone", SqlDbType.NVarChar).Value = signUpModel.Phone;
-                //cmd.Parameters.Add("@City", SqlDbType.TinyInt).Value = signUpModel.City;
+
+                cmd.Parameters.Add("@ShopID", SqlDbType.Int).Value = product.ShopID;
+                cmd.Parameters.Add("@ProductTypeID", SqlDbType.Int).Value = product.ProductTypeID;
+                cmd.Parameters.Add("@Code", SqlDbType.NVarChar).Value = product.Code;
+                cmd.Parameters.Add("@Name", SqlDbType.NVarChar).Value = product.Name;
+                cmd.Parameters.Add("@Brand", SqlDbType.NVarChar).Value = product.Brand;
+                cmd.Parameters.Add("@Color", SqlDbType.NVarChar).Value = product.Color;
+                cmd.Parameters.Add("@Size", SqlDbType.NVarChar).Value = product.Size;
+                cmd.Parameters.Add("@Material", SqlDbType.NVarChar).Value = product.Material;
+                cmd.Parameters.Add("@Details", SqlDbType.NVarChar).Value = product.Details;
+                cmd.Parameters.Add("@CombineImage", SqlDbType.NVarChar).Value = product.CombineImage;
+                cmd.Parameters.Add("@CoverImage", SqlDbType.NVarChar).Value = product.CoverImage;
+                cmd.Parameters.Add("@Image1", SqlDbType.NVarChar).Value = product.Image1;
+                cmd.Parameters.Add("@Image2", SqlDbType.NVarChar).Value = product.Image2;
+                cmd.Parameters.Add("@Image3", SqlDbType.NVarChar).Value = product.Image3;
+
                 cmd.ExecuteNonQuery();
 
                 return true;

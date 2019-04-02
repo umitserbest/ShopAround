@@ -10,10 +10,10 @@ namespace ShopAroundWeb.Database
     public static class DatabaseConnection
     {
         /* SERVER */
-        //public static readonly SqlConnection connection = new SqlConnection("Data Source=(local)\\MSSQLSERVER2012; Initial Catalog=knightan_shoparound; Integrated Security=False; User ID=shoparound; Password=xqS483^k; Connect Timeout=15; Encrypt=False; Packet Size=4096");
+        public static readonly SqlConnection connection = new SqlConnection("Data Source=(local)\\MSSQLSERVER2012; Initial Catalog=knightan_shoparound; Integrated Security=False; User ID=shoparound; Password=xqS483^k; Connect Timeout=15; Encrypt=False; Packet Size=4096");
 
         /* LOCAL */
-        public static readonly SqlConnection connection = new SqlConnection("Data Source=(local)\\SQLEXPRESS; Initial Catalog=ShopAround; Integrated Security=True");
+        //public static readonly SqlConnection connection = new SqlConnection("Data Source=(local)\\SQLEXPRESS; Initial Catalog=ShopAround; Integrated Security=True");
 
         public static void OpenConnection()
         {
