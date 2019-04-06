@@ -103,6 +103,7 @@
     <Compile Include="Database\DatabaseConnection.cs" />
     <Compile Include="Database\DatabaseForUser.cs" />
     <Compile Include="Database\DatabaseForShop.cs" />
+    <Compile Include="Models\FollowModel.cs" />
     <Compile Include="Models\ProductModel.cs" />
     <Compile Include="Models\ProductTypeModel.cs" />
     <Compile Include="Models\ShopModel.cs" />
@@ -192,6 +193,7 @@
   <ItemGroup>
     <Folder Include="ShopAssets\Logo\" />
     <Folder Include="ShopAssets\Products\" />
+    <Folder Include="UserAssets\ProfileImages\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

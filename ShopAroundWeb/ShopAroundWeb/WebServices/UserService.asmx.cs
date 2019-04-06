@@ -74,6 +74,46 @@ namespace ShopAroundWeb.WebServices
         }
 
         [WebMethod]
+        public bool UploadProfileImage(string image)
+        {
+            try
+            {
+                Tuple<string, byte[]> data = JsonConvert.DeserializeObject<Tuple<string, byte[]>>(image); //filename, filecontent
+                string filesDirectory = Server.MapPath(@"~/UserAssets/ProfileImages/");
+                System.IO.File.WriteAllBytes(string.Format("{0}{1}", filesDirectory, data.Item1), data.Item2);
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public void AddProfileInfo(string user)
+        {
+            try
+            {
+                UserModel userModel = JsonConvert.DeserializeObject<UserModel>(user);
+
+                if (DatabaseForUser.AddUserInfo(userModel))
+                {
+                    Context.Response.Write("true");
+                }
+                else
+                {
+                    Context.Response.Write("false");
+                }
+            }
+            catch
+            {
+                Context.Response.Write("false");
+            }
+        }
+
+        [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
         public void UpdateProfile(string user)
         {
@@ -103,15 +143,7 @@ namespace ShopAroundWeb.WebServices
             try
             {               
                 List<ShopModel> shops = DatabaseForUser.GetShops(5);
-                List<Tuple<int, string, string>> shopsForFollow = new List<Tuple<int, string, string>>();
-
-                foreach (ShopModel shop in shops)
-                {
-                    var temp = Tuple.Create(shop.ShopID, shop.Name, shop.Logo);
-                    shopsForFollow.Add(temp);
-                }
-
-                Context.Response.Write(JsonConvert.SerializeObject(shopsForFollow));
+                Context.Response.Write(JsonConvert.SerializeObject(shops));
             }
             catch
             {
@@ -125,14 +157,37 @@ namespace ShopAroundWeb.WebServices
         {
             try
             {
-                List<Tuple<int, int>> listOfFollow = JsonConvert.DeserializeObject<List<Tuple<int, int>>>(follows); //UserID, ShopID
+                List<FollowModel> followModels = JsonConvert.DeserializeObject<List<FollowModel>>(follows);
 
-                foreach (Tuple<int, int> follow in listOfFollow)
+                foreach (FollowModel follow in followModels)
                 {
-                    DatabaseForUser.FollowAShop(follow);
+                    DatabaseForUser.FollowShop(follow);
                 }
 
                 Context.Response.Write("true");
+            }
+            catch
+            {
+                Context.Response.Write("false");
+            }
+        }
+
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public void UnfollowShop(string follow)
+        {
+            try
+            {
+                Tuple<int, int> data = JsonConvert.DeserializeObject<Tuple<int, int>>(follow); //UserID, ShopID
+            
+                if (DatabaseForUser.UnfollowShop(data))
+                {
+                    Context.Response.Write("true");
+                }
+                else
+                {
+                    Context.Response.Write("false");
+                }
             }
             catch
             {
@@ -160,15 +215,53 @@ namespace ShopAroundWeb.WebServices
 
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public void GetProducts()
+        public void GetTheExplore()
         {
             try
             {
-                //int intUserID = JsonConvert.DeserializeObject<int>(userID);
-
-                List<ProductModel> products = DatabaseForUser.GetProductsForExplore();
-
+                List<ProductModel> products = DatabaseForUser.GetAllProducts();
                 Context.Response.Write(JsonConvert.SerializeObject(products));
+            }
+            catch
+            {
+                Context.Response.Write("false");
+            }
+        }
+
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public void AddProductWishlist(string wishlist)
+        {
+            try
+            {
+                Tuple<int, int> data = JsonConvert.DeserializeObject<Tuple<int,int>>(wishlist);
+
+                if (DatabaseForUser.AddProductToWishlist(data))
+                {
+                    Context.Response.Write("true");
+                }
+                else
+                {
+                    Context.Response.Write("false");
+                }
+            }
+            catch
+            {
+                Context.Response.Write("false");
+            }
+        }
+
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public void GetShopsForTheFlow(string userID)
+        {
+            try
+            {
+                int intUserID = JsonConvert.DeserializeObject<int>(userID);
+
+                List<ShopModel> shops = DatabaseForUser.GetFollowedShopsInfo(intUserID);
+
+                Context.Response.Write(JsonConvert.SerializeObject(shops));
             }
             catch
             {

@@ -132,13 +132,41 @@ namespace ShopAroundWeb.Database
             }
         }
 
+        public static bool AddUserInfo(UserModel userModel)
+        {
+            try
+            {
+                DatabaseConnection.OpenConnection();
+
+                string query = "UPDATE [User] SET Name=@Name, Surname=@Surname, Phone=@Phone, About=@About WHERE UserID=@UserID";
+
+                SqlCommand cmd = new SqlCommand(query, DatabaseConnection.connection);             
+                cmd.Parameters.Add("@Name", SqlDbType.NVarChar).Value = userModel.Name;
+                cmd.Parameters.Add("@Surname", SqlDbType.NVarChar).Value = userModel.Surname;
+                cmd.Parameters.Add("@Phone", SqlDbType.NVarChar).Value = userModel.Phone;               
+                cmd.Parameters.Add("@About", SqlDbType.NVarChar).Value = userModel.About;      
+                cmd.Parameters.Add("@UserID", SqlDbType.Int).Value = userModel.UserID;
+                cmd.ExecuteNonQuery();
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+            finally
+            {
+                DatabaseConnection.CloseConnection();
+            }
+        }
+
         public static bool UpdateUserInfo(UserModel userModel)
         {
             try
             {
                 DatabaseConnection.OpenConnection();
 
-                string query = "UPDATE [User] SET Username=@Username, Password=@Password, Name=@Name, Surname=@Surname, Phone=@Phone, City=@City, About=@About, Image=@Image WHERE UserID=@UserID";
+                string query = "UPDATE [User] SET Username=@Username, Password=@Password, Name=@Name, Surname=@Surname, Phone=@Phone, About=@About WHERE UserID=@UserID";
 
                 SqlCommand cmd = new SqlCommand(query, DatabaseConnection.connection);
                 cmd.Parameters.Add("@Username", SqlDbType.NVarChar).Value = userModel.Username;
@@ -146,9 +174,7 @@ namespace ShopAroundWeb.Database
                 cmd.Parameters.Add("@Name", SqlDbType.NVarChar).Value = userModel.Name;
                 cmd.Parameters.Add("@Surname", SqlDbType.NVarChar).Value = userModel.Surname;
                 cmd.Parameters.Add("@Phone", SqlDbType.NVarChar).Value = userModel.Phone;
-                cmd.Parameters.Add("@City", SqlDbType.TinyInt).Value = userModel.City;
                 cmd.Parameters.Add("@About", SqlDbType.NVarChar).Value = userModel.About;
-                cmd.Parameters.Add("@Image", SqlDbType.NVarChar).Value = userModel.Image;
                 cmd.Parameters.Add("@UserID", SqlDbType.Int).Value = userModel.UserID;
                 cmd.ExecuteNonQuery();
 
@@ -185,12 +211,13 @@ namespace ShopAroundWeb.Database
 
                         shop.ShopID = int.Parse(reader[0].ToString());
                         shop.Email = reader[1].ToString();
-                        shop.Password = reader[2].ToString();
+                        //shop.Password = reader[2].ToString();
                         shop.Name = reader[3].ToString();
                         shop.Phone = reader[4].ToString();
                         shop.Address = reader[5].ToString();
                         shop.City = byte.Parse(reader[6].ToString());
                         shop.About = reader[7].ToString();
+                        shop.Logo = reader[8].ToString();
 
                         shops.Add(shop);
                     }
@@ -212,13 +239,37 @@ namespace ShopAroundWeb.Database
             }
         }
 
-        public static bool FollowAShop(Tuple<int, int> follow)
+        public static bool FollowShop(FollowModel followModel)
         {
             try
             {
                 DatabaseConnection.OpenConnection();
 
                 string query = "INSERT INTO [Follow] (UserID, ShopID) VALUES (@UserID, @ShopID)";
+                SqlCommand cmd = new SqlCommand(query, DatabaseConnection.connection);
+                cmd.Parameters.Add("@UserID", SqlDbType.Int).Value = followModel.UserID;
+                cmd.Parameters.Add("@ShopID", SqlDbType.Int).Value = followModel.ShopID;
+                cmd.ExecuteNonQuery();
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+            finally
+            {
+                DatabaseConnection.CloseConnection();
+            }
+        }
+
+        public static bool UnfollowShop(Tuple<int, int> follow)
+        {
+            try
+            {
+                DatabaseConnection.OpenConnection();
+
+                string query = "DELETE FROM [Follow] WHERE UserID=@UserID AND ShopID=@ShopID)";
                 SqlCommand cmd = new SqlCommand(query, DatabaseConnection.connection);
                 cmd.Parameters.Add("@UserID", SqlDbType.Int).Value = follow.Item1;
                 cmd.Parameters.Add("@ShopID", SqlDbType.Int).Value = follow.Item2;
@@ -294,7 +345,7 @@ namespace ShopAroundWeb.Database
             }
         }
 
-        public static List<ProductModel> GetProductsForExplore()
+        public static List<ProductModel> GetAllProducts()
         {
             try
             {
@@ -303,7 +354,6 @@ namespace ShopAroundWeb.Database
                 string query = "SELECT * FROM [Product]";
 
                 SqlCommand cmd = new SqlCommand(query, DatabaseConnection.connection);
-                //cmd.Parameters.Add("@UserID", SqlDbType.Int).Value = userID;
 
                 SqlDataReader reader = cmd.ExecuteReader();
 
@@ -351,5 +401,73 @@ namespace ShopAroundWeb.Database
             }
         }
 
+        public static bool AddProductToWishlist(Tuple<int,int> data)
+        {
+            try
+            {
+                DatabaseConnection.OpenConnection();
+
+                string query = "INSERT INTO [Wishlist] (UserID, ProductID) VALUES (@UserID, @ProductID)";
+                SqlCommand cmd = new SqlCommand(query, DatabaseConnection.connection);
+                cmd.Parameters.Add("@UserID", SqlDbType.Int).Value = data.Item2;
+                cmd.Parameters.Add("@ProductID", SqlDbType.Int).Value = data.Item1;
+                cmd.ExecuteNonQuery();
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+            finally
+            {
+                DatabaseConnection.CloseConnection();
+            }
+        }
+
+        public static List<ShopModel> GetFollowedShopsInfo(int userID)
+        {
+            try
+            {
+                DatabaseConnection.OpenConnection();
+
+                string query = "SELECT dbo.Shop.* FROM dbo.Follow INNER JOIN dbo.Shop ON dbo.Follow.ShopID = dbo.Shop.ShopID WHERE dbo.Follow.UserID=@UserID";
+
+                SqlCommand cmd = new SqlCommand(query, DatabaseConnection.connection);
+                cmd.Parameters.Add("@UserID", SqlDbType.Int).Value = userID;
+
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                List<ShopModel> shops = new List<ShopModel>();
+
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        ShopModel shop = new ShopModel();
+
+                        shop.ShopID = int.Parse(reader[0].ToString());
+                        shop.Name = reader[3].ToString();
+                        shop.Logo = reader[8].ToString();
+
+                        shops.Add(shop);
+                    }
+
+                    return shops;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch
+            {
+                return null;
+            }
+            finally
+            {
+                DatabaseConnection.CloseConnection();
+            }
+        }
     }
 }
