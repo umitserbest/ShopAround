@@ -1,4 +1,4 @@
-﻿using ShopAroundMobile.LoginPages;
+﻿
 using ShopAroundMobile.TabbedPages;
 using ShopAroundMobile.Views;
 using System;
@@ -10,13 +10,15 @@ namespace ShopAroundMobile
 {
     public partial class App : Application
     {
+        public static int UserdId { get; set; }
+
         public App()
         {
             InitializeComponent();
-
+            MainPage = new NavigationPage(new Login());
             // MainPage = new CustomNavigationPage(new ShopProfile());
-             MainPage = new TabPageControl();
-            //MainPage = new CarouselTest();
+            //MainPage = new TabPageControl();
+           
 
 #if DEBUG
             LiveReload.Init();

@@ -4,7 +4,7 @@
               xmlns:image="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin"
              x:Class="ShopAroundMobile.TabbedPages.Showcase" Title="Showcase" Icon="home">
     <Grid>
-        <ListView Margin="5,10,5,0" x:Name="listView" ItemsSource="{Binding Posts}" RefreshControlColor="Coral" IsPullToRefreshEnabled="True" HorizontalScrollBarVisibility="Default" HasUnevenRows="True" SelectionMode="None">
+        <ListView  Margin="5,10,5,0" x:Name="listView" RefreshControlColor="Coral" IsPullToRefreshEnabled="True" HorizontalScrollBarVisibility="Default" HasUnevenRows="True" SelectionMode="None">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell x:Name="viewCell">
@@ -16,7 +16,7 @@
                                 <RowDefinition Height="200"></RowDefinition>
                             </Grid.RowDefinitions>
                             <StackLayout Orientation="Horizontal" Grid.Row="0">
-                            <image:CircleImage Margin="-50,10,0,10" Aspect="AspectFit" HeightRequest="150" HorizontalOptions="Start" VerticalOptions="Center" Source="https://upload.wikimedia.org/wikipedia/commons/2/28/Logo_of_Mavi.png" WidthRequest="150" ></image:CircleImage>
+                            <image:CircleImage Margin="-50,10,0,10" Aspect="AspectFit" HeightRequest="150" HorizontalOptions="Start" VerticalOptions="Center" Source="{Binding ShopLogo}" WidthRequest="150" ></image:CircleImage>
                             <Label Margin="-50,0,0,0" VerticalOptions="Center" Text="{Binding ShopName}" TextColor="Black" FontSize="18"></Label>
                                 <Image Source="https://cdn3.iconfinder.com/data/icons/glypho-generic-icons/64/info-circle-outline-512.png" HorizontalOptions="EndAndExpand" WidthRequest="40" >
                                     <Image.GestureRecognizers>
@@ -26,13 +26,13 @@
                             </StackLayout>
                             
                             <Frame Margin="0,-15,0,0" Grid.Row="1" BorderColor="Gray">
-                            <Image Source="{Binding Image}" HorizontalOptions="Fill"></Image>
+                            <Image Source="{Binding CoverImage}" HorizontalOptions="Fill"></Image>
                             </Frame>
-                            <Frame x:Name="ProductInfo" IsVisible="{Binding ProductInfoVisible}" Margin="0,-15,0,0" Grid.Row="1" Opacity="0.8" BackgroundColor="Black">
+                            <!--<Frame x:Name="ProductInfo" IsVisible="{Binding ProductInfoVisible}" Margin="0,-15,0,0" Grid.Row="1" Opacity="0.8" BackgroundColor="Black">
                                 <Label Text="Size : M
                                              Color : Red" TextColor="White" FontSize="14"></Label>
                                 
-                            </Frame>
+                            </Frame>-->
                             <BoxView Grid.Row="3" BackgroundColor="Lightgray"></BoxView>
                         </Grid>
                     </ViewCell>

@@ -20,14 +20,17 @@ namespace ShopAroundMobile.TabbedPages
             InitializeComponent();
             
             
-            BindingContext = new ShowcaseViewModel();
+           // BindingContext = new ShowcaseViewModel();
+
+            ShowcaseViewModel showcase = new ShowcaseViewModel(listView);
+
 
             //var ProductInfo = new Frame();
 
             //var frameXaml = $"Frame x:Name=\"ProductInfo\" Margin=\"0,-15,0,0\" Grid.Row=\"1\" Opacity=\"0.8\" BackgroundColor=\"Black\">" +
             //    $"<Label Text =\"Size : M Color: Red\" TextColor=\"White\" FontSize=\"14\"></Label></Frame>";
 
-           
+
         }
 
         async void TapGestureRecognizer_Tapped(object sender, EventArgs e)

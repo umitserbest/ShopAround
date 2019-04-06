@@ -11,6 +11,6 @@ namespace ShopAroundMobile.Model
     {
         public string ShopName { get; set; }
         public string ShopImage { get; set; }
-        
+       
     }
 }

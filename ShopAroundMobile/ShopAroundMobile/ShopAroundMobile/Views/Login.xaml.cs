@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using ShopAroundMobile.Helpers;
 using ShopAroundMobile.Models;
+using ShopAroundMobile.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace ShopAroundMobile.LoginPages
+namespace ShopAroundMobile.Views
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class Login : ContentPage
@@ -25,8 +26,13 @@ namespace ShopAroundMobile.LoginPages
             SignInModel signInModel = new SignInModel(username.Text, password.Text);
             string signInObject = JsonConvert.SerializeObject(signInModel);
 
-            ((Button)sender).Text = await WebService.SendDataAsync("SignIn", "userSignIn=" + signInObject);
+            string result = await WebService.SendDataAsync("SignIn", "userSignIn=" + signInObject);
 
+            if(result != "false")
+            {
+                App.UserdId = int.Parse(result);
+                await Navigation.PushAsync(new ProfileSettings());
+            }
 
         }
     }

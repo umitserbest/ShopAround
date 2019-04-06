@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:ShopAroundMobile"
-             x:Class="ShopAroundMobile.LoginPages.SignUp" BackgroundColor="Gray">
+             x:Class="ShopAroundMobile.Views.SignUp" BackgroundColor="Gray">
     <ContentPage.Content>
         <StackLayout Orientation="Vertical">
             <StackLayout Orientation="Vertical">

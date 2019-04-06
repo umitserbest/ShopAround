@@ -1,11 +1,15 @@
-﻿using ShopAroundMobile.Helpers;
+﻿using Newtonsoft.Json;
+using ShopAroundMobile.Helpers;
 using ShopAroundMobile.Model;
+using ShopAroundMobile.Models;
+using ShopAroundWeb.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -14,93 +18,35 @@ namespace ShopAroundMobile.ViewModels
     public class SuggestShopViewModel : INotifyPropertyChanged
     {
         
-        public static int counter = 0;
+        public static List<FollowModel> checkedShopId = new List<FollowModel>();
+        
 
-        private bool _IsChecked;
+        string path = "https://shoparound.umitserbest.com/shopassets/logo/";
 
-        public bool IsChecked
+        private async void GetShops(ListView listView)
         {
-            get
-            {
-                return _IsChecked;
-            }
+            string result = await WebService.SendDataAsync("GetShopsForFollow", null);
 
-            set
+            if (result != null)
             {
-                _IsChecked = value;
-
-                if (_IsChecked == true)
+                List<ShopModel> shops = JsonConvert.DeserializeObject<List<ShopModel>>(result);
+                foreach (ShopModel shop in shops)
                 {
-                   
-                    counter++;
-                    //OnPropertyChanged("IsChecked");
-                    OnPropertyChanged("CheckedShops");
+                    shop.Logo = path + shop.Logo;
+                    
                 }
-                else
-                {
-                    counter--;
-                    OnPropertyChanged("CheckedShops");
-                }
-               
-            }
+                listView.ItemsSource = shops;
+            }            
         }
-
-        private int _CheckedShops;
-
-        public int CheckedShops
-        {
-            get
-            {
-                return counter;
-            }
-           
-        }
-
-
-
-        public ObservableCollection<SuggestShopModel> SuggestShops { get; set; }
-       
+        
         public SuggestShopViewModel()
         {
 
-
-            SuggestShops = new ObservableCollection<SuggestShopModel>();
-
-            SuggestShops.Add(new SuggestShopModel
-            {
-                ShopImage = "https://upload.wikimedia.org/wikipedia/commons/2/28/Logo_of_Mavi.png",
-                ShopName = "Mavi",
-                
-                
-            });
-
-            SuggestShops.Add(new SuggestShopModel
-            {
-                ShopImage = "https://upload.wikimedia.org/wikipedia/commons/4/4e/Pull_and_bear_logo_antiguo.jpg",
-                ShopName = "Pull and Bear"
-                 
-            });
-
-            SuggestShops.Add(new SuggestShopModel
-            {
-                ShopImage = "https://static.dezeen.com/uploads/2019/02/new-zara-logo-col-2-852x352.jpg",
-                ShopName = "Zara"
-            });
-
-            SuggestShops.Add(new SuggestShopModel
-            {
-                ShopImage = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUJMCD1CnIMZqivqXtF211-as7CL8EyGiEUBaFOen0WnuCCkcm",
-                ShopName = "Koton"
-            });
-
-            SuggestShops.Add(new SuggestShopModel
-            {
-                ShopImage = "https://i.ebayimg.com/images/g/LJYAAOSwjXRXbI-N/s-l300.jpg",
-                ShopName = "Adidas"
-
-            });
-
-           
+        }
+      
+        public SuggestShopViewModel(ListView listView)
+        {
+            GetShops(listView);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

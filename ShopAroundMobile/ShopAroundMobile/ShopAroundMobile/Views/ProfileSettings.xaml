@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:image="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin"
+             x:Class="ShopAroundMobile.Views.ProfileSettings">
+    <ContentPage.Content>
+        <StackLayout Orientation="Vertical" Padding="20">
+            <Label x:Name="Add_Img_Text" Text="Add Image" TextColor="Gray" HorizontalOptions="End"></Label>
+            <!--<Image x:Name="Add_Image" Margin="0,0,12,0" HeightRequest="50" WidthRequest="50" HorizontalOptions="End" Source="https://img.icons8.com/ios/1600/add.png">
+
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="TapGestureRecognizer_Tapped">
+
+                    </TapGestureRecognizer>
+                </Image.GestureRecognizers>
+            </Image>-->
+
+            <image:CircleImage x:Name="Image" WidthRequest="200" HeightRequest="100" ></image:CircleImage>
+
+             <StackLayout Orientation="Vertical" Padding="50" >
+
+                <Entry Text="" Placeholder="Name" x:Name="EntryName"></Entry>
+                <Entry Text="" Placeholder="Surname" x:Name="EntrySurname"></Entry>
+                <Entry Text="" Placeholder="Phone" x:Name="EntryPhone"></Entry>
+                <Entry Text="" Placeholder="About" x:Name="EntryAbout"></Entry>
+                <Button Margin="0,30,0,0" Clicked="Save_Clicked" VerticalOptions="End" Text="SAVE" TextColor="White" BackgroundColor="Orange"></Button>
+
+            </StackLayout>
+        </StackLayout>
+
+
+
+
+    </ContentPage.Content>
+</ContentPage>

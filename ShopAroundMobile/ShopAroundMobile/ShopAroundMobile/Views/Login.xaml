@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:ShopAroundMobile"
              xmlns:ie="clr-namespace:IconEntry.FormsPlugin.Abstractions;assembly=IconEntry.FormsPlugin.Abstractions"
-             x:Class="ShopAroundMobile.LoginPages.Login" BackgroundColor="Gray">
+             x:Class="ShopAroundMobile.Views.Login" BackgroundColor="Gray">
     <ContentPage.Content>
         <StackLayout Orientation="Vertical">
 

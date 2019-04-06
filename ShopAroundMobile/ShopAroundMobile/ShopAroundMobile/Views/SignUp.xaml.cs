@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace ShopAroundMobile.LoginPages
+namespace ShopAroundMobile.Views
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class SignUp : ContentPage
