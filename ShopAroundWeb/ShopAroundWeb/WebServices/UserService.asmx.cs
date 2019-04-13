@@ -178,9 +178,9 @@ namespace ShopAroundWeb.WebServices
         {
             try
             {
-                Tuple<int, int> data = JsonConvert.DeserializeObject<Tuple<int, int>>(follow); //UserID, ShopID
+                FollowModel followModel = JsonConvert.DeserializeObject<FollowModel>(follow);
             
-                if (DatabaseForUser.UnfollowShop(data))
+                if (DatabaseForUser.UnfollowShop(followModel))
                 {
                     Context.Response.Write("true");
                 }
@@ -234,7 +234,7 @@ namespace ShopAroundWeb.WebServices
         {
             try
             {
-                Tuple<int, int> data = JsonConvert.DeserializeObject<Tuple<int,int>>(wishlist);
+                Tuple<int, int> data = JsonConvert.DeserializeObject<Tuple<int,int>>(wishlist); //productID, userID
 
                 if (DatabaseForUser.AddProductToWishlist(data))
                 {
@@ -269,5 +269,40 @@ namespace ShopAroundWeb.WebServices
             }
         }
 
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public void GetShopProfile(string shopID)
+        {
+            try
+            {
+                int intshopID = JsonConvert.DeserializeObject<int>(shopID);
+
+                ShopModel shop = DatabaseForUser.GetShop(intshopID);
+
+                Context.Response.Write(JsonConvert.SerializeObject(shop));
+            }
+            catch
+            {
+                Context.Response.Write("false");
+            }
+        }
+
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public void GetProductsOfShop(string shopID)
+        {
+            try
+            {
+                int intshopID = JsonConvert.DeserializeObject<int>(shopID);
+
+                List<ProductModel> products = DatabaseForUser.GetProductsOfShop(intshopID);
+
+                Context.Response.Write(JsonConvert.SerializeObject(products));
+            }
+            catch
+            {
+                Context.Response.Write("false");
+            }
+        }
     }
 }

@@ -9,6 +9,9 @@ namespace ShopAroundWeb.Database
 {
     public static class DatabaseConnection
     {
+        /* REMOTE SERVER */
+        //public static readonly SqlConnection connection = new SqlConnection("Data Source=shoparound.umitserbest.com\\MSSQLSERVER2012; Initial Catalog=knightan_shoparound; Integrated Security=False; User ID=shoparound; Password=xqS483^k; Connect Timeout=15; Encrypt=False; Packet Size=4096");
+
         /* SERVER */
         public static readonly SqlConnection connection = new SqlConnection("Data Source=(local)\\MSSQLSERVER2012; Initial Catalog=knightan_shoparound; Integrated Security=False; User ID=shoparound; Password=xqS483^k; Connect Timeout=15; Encrypt=False; Packet Size=4096");
 
