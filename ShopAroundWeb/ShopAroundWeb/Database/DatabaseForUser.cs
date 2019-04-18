@@ -317,7 +317,7 @@ namespace ShopAroundWeb.Database
             {
                 DatabaseConnection.OpenConnection();
 
-                string query = "DELETE FROM [Follow] WHERE UserID=@UserID AND ShopID=@ShopID)";
+                string query = "DELETE FROM [Follow] WHERE UserID=@UserID AND ShopID=@ShopID";
                 SqlCommand cmd = new SqlCommand(query, DatabaseConnection.connection);
                 cmd.Parameters.Add("@UserID", SqlDbType.Int).Value = follow.UserID;
                 cmd.Parameters.Add("@ShopID", SqlDbType.Int).Value = follow.ShopID;
@@ -580,5 +580,40 @@ namespace ShopAroundWeb.Database
                 DatabaseConnection.CloseConnection();
             }
         }
+
+        public static List<Tuple<int, int, int>> GetWishlist(int userID)
+        {
+            try
+            {
+                DatabaseConnection.OpenConnection();
+
+                string query = "SELECT * FROM [Wishlist] WHERE UserID=@UserID";
+                SqlCommand cmd = new SqlCommand(query, DatabaseConnection.connection);
+                cmd.Parameters.Add("@UserID", SqlDbType.Int).Value = userID;
+
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                List<Tuple<int, int, int>> wishlist = new List<Tuple<int, int, int>>(); //WishlistID, UserID, ProductID
+
+                if (reader.HasRows)
+                {
+                    if (reader.Read())
+                    {
+                        wishlist.Add(new Tuple<int, int, int>(int.Parse(reader[0].ToString()), int.Parse(reader[1].ToString()), int.Parse(reader[2].ToString())));
+                    }
+                }
+
+                return wishlist;
+            }
+            catch
+            {
+                return null;
+            }
+            finally
+            {
+                DatabaseConnection.CloseConnection();
+            }
+        }
+
     }
 }

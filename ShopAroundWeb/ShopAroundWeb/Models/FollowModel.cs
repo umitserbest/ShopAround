@@ -9,10 +9,11 @@ namespace ShopAroundWeb.Models
     {
         public int ShopID { get; set; }
         public int UserID { get; set; }
-
-        public FollowModel()
+        
+        public FollowModel(int shopID, int userID)
         {
-
+            ShopID = shopID;
+            UserID = userID;
         }
     }
 }
