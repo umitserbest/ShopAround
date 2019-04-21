@@ -153,18 +153,54 @@ namespace ShopAroundWeb.WebServices
 
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public void FollowShop(string follow)
+        {
+            try
+            {
+                FollowModel followModel = JsonConvert.DeserializeObject<FollowModel>(follow);
+
+                if (DatabaseForUser.FollowShop(followModel))
+                {
+                    Context.Response.Write("true");
+                }
+                else
+                {
+                    Context.Response.Write("false");
+                }
+            }
+            catch
+            {
+                Context.Response.Write("false");
+            }
+        }
+
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
         public void FollowShops(string follows)
         {
             try
             {
+                bool error = false;
+
                 List<FollowModel> followModels = JsonConvert.DeserializeObject<List<FollowModel>>(follows);
 
                 foreach (FollowModel follow in followModels)
                 {
-                    DatabaseForUser.FollowShop(follow);
+                    if (!DatabaseForUser.FollowShop(follow))
+                    {
+                        error = true;                       
+                        break;
+                    }
                 }
 
-                Context.Response.Write("true");
+                if (error)
+                {
+                    Context.Response.Write("false");
+                }
+                else
+                {
+                    Context.Response.Write("true");
+                }
             }
             catch
             {
@@ -178,9 +214,9 @@ namespace ShopAroundWeb.WebServices
         {
             try
             {
-                Tuple<int, int> data = JsonConvert.DeserializeObject<Tuple<int, int>>(follow); //UserID, ShopID
+                FollowModel followModel = JsonConvert.DeserializeObject<FollowModel>(follow);
             
-                if (DatabaseForUser.UnfollowShop(data))
+                if (DatabaseForUser.UnfollowShop(followModel))
                 {
                     Context.Response.Write("true");
                 }
@@ -234,7 +270,7 @@ namespace ShopAroundWeb.WebServices
         {
             try
             {
-                Tuple<int, int> data = JsonConvert.DeserializeObject<Tuple<int,int>>(wishlist);
+                Tuple<int, int> data = JsonConvert.DeserializeObject<Tuple<int,int>>(wishlist); //productID, userID
 
                 if (DatabaseForUser.AddProductToWishlist(data))
                 {
@@ -262,6 +298,60 @@ namespace ShopAroundWeb.WebServices
                 List<ShopModel> shops = DatabaseForUser.GetFollowedShopsInfo(intUserID);
 
                 Context.Response.Write(JsonConvert.SerializeObject(shops));
+            }
+            catch
+            {
+                Context.Response.Write("false");
+            }
+        }
+
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public void GetShopProfile(string shopID)
+        {
+            try
+            {
+                int intshopID = JsonConvert.DeserializeObject<int>(shopID);
+
+                ShopModel shop = DatabaseForUser.GetShop(intshopID);
+
+                Context.Response.Write(JsonConvert.SerializeObject(shop));
+            }
+            catch
+            {
+                Context.Response.Write("false");
+            }
+        }
+
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public void GetProductsOfShop(string shopID)
+        {
+            try
+            {
+                int intshopID = JsonConvert.DeserializeObject<int>(shopID);
+
+                List<ProductModel> products = DatabaseForUser.GetProductsOfShop(intshopID);
+
+                Context.Response.Write(JsonConvert.SerializeObject(products));
+            }
+            catch
+            {
+                Context.Response.Write("false");
+            }
+        }
+
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public void GetWishlist(string userID)
+        {
+            try
+            {
+                int intUserID = JsonConvert.DeserializeObject<int>(userID);
+
+                List<Tuple<int, int, int>> wishlist = DatabaseForUser.GetWishlist(intUserID);
+
+                Context.Response.Write(JsonConvert.SerializeObject(wishlist));
             }
             catch
             {
