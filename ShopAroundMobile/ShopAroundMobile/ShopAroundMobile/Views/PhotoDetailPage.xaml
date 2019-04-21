@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:image="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin"
+             x:Class="ShopAroundMobile.Views.PhotoDetailPage">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        
+         <StackLayout Margin="10,20,0,0" Grid.Row="0" Orientation="Horizontal">
+
+            <image:CircleImage x:Name="Logo"/>
+            <Label x:Name="Brand" FontSize="16" FontAttributes="Bold" TextColor="Black"></Label>
+
+         </StackLayout>
+
+ 
+            <Image x:Name="Img" Grid.Row="1" Aspect="AspectFill"/>
+
+        <StackLayout Grid.Row="2" Orientation="Vertical">
+           
+            <Label x:Name="colour" Text="{Binding Color}" TextColor="Red"></Label>
+            <Label x:Name="size" Text="{Binding Size}"></Label>
+            <Label x:Name="material" Text="{Binding Material}"></Label>
+            <Label x:Name="name" Text="{Binding Name}"></Label>
+        </StackLayout>
+
+
+    </Grid>
+</ContentPage>

@@ -1,5 +1,6 @@
 ﻿
 using ShopAroundMobile.TabbedPages;
+using ShopAroundMobile.ViewModels;
 using ShopAroundMobile.Views;
 using System;
 using Xamarin.Forms;
@@ -12,12 +13,15 @@ namespace ShopAroundMobile
     {
         public static int UserdId { get; set; }
 
+       // public static int ShopId { get; set; } = 4;
+
         public App()
         {
             InitializeComponent();
             MainPage = new NavigationPage(new Login());
-            // MainPage = new CustomNavigationPage(new ShopProfile());
-            //MainPage = new TabPageControl();
+            //MainPage = new CustomNavigationPage(new ShopProfile());
+            //MainPage = new NavigationPage(new ShopProfile(4));
+           // MainPage = new FriendProfile();
            
 
 #if DEBUG

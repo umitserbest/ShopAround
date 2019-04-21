@@ -10,33 +10,55 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Images\bags.jpg" />
     <None Remove="Images\combnye.png" />
     <None Remove="Images\explore.png" />
     <None Remove="Images\home.png" />
+    <None Remove="Images\info.png" />
+    <None Remove="Images\jeans.jpg" />
+    <None Remove="Images\notice.png" />
     <None Remove="Images\profile.png" />
+    <None Remove="Images\right.png" />
     <None Remove="Images\settings.png" />
+    <None Remove="Images\shoes.jpg" />
     <None Remove="Images\texture.jpg" />
+    <None Remove="Images\tshirt.jpg" />
+    <None Remove="Images\watch.jpg" />
+    <None Remove="Images\Wishedlist.png" />
+    <None Remove="Images\Wishlist.png" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Images\bags.jpg" />
     <EmbeddedResource Include="Images\combnye.png" />
     <EmbeddedResource Include="Images\explore.png" />
     <EmbeddedResource Include="Images\home.png" />
+    <EmbeddedResource Include="Images\info.png" />
+    <EmbeddedResource Include="Images\jeans.jpg" />
+    <EmbeddedResource Include="Images\notice.png" />
+    <EmbeddedResource Include="Images\right.png" />
     <EmbeddedResource Include="Images\settings.png" />
     <EmbeddedResource Include="Images\profile.png" />
+    <EmbeddedResource Include="Images\shoes.jpg" />
     <EmbeddedResource Include="Images\texture.jpg" />
+    <EmbeddedResource Include="Images\tshirt.jpg" />
+    <EmbeddedResource Include="Images\watch.jpg" />
+    <EmbeddedResource Include="Images\Wishedlist.png" />
+    <EmbeddedResource Include="Images\Wishlist.png" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="CarouselView.FormsPlugin" Version="5.2.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
+    <PackageReference Include="Rg.Plugins.Popup" Version="1.1.5.188" />
     <PackageReference Include="Xam.FormsPlugin.IconEntry" Version="1.1.1" />
     <PackageReference Include="Xam.Plugin.Media" Version="4.0.1.5" />
     <PackageReference Include="Xam.Plugin.TabView" Version="1.0.4" />
     <PackageReference Include="Xam.Plugins.Forms.ImageCircle" Version="3.0.0.5" />
+    <PackageReference Include="Xamarin.Essentials" Version="1.1.0" />
     <PackageReference Include="Xamarin.FFImageLoading.Forms" Version="2.4.4.859" />
-    <PackageReference Include="Xamarin.Forms" Version="3.5.0.169047" />
-    <PackageReference Include="Xamarin.Forms.InputKit" Version="3.0.2" />
+    <PackageReference Include="Xamarin.Forms" Version="3.6.0.344457" />
+    <PackageReference Include="Xamarin.Forms.InputKit" Version="3.0.8.1" />
     <PackageReference Include="Xamarin.LiveReload" Version="0.3.27" />
   </ItemGroup>
 
@@ -44,7 +66,25 @@
     <EmbeddedResource Update="Carousel\CarouselTest.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="TabbedPages\Explore.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="TabbedPages\FriendProfile.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\FriendSearchPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Views\Login.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\PhotoDetailPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\PopupView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\SearchPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\SignUp.xaml">
@@ -54,9 +94,6 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="TabbedPages\DiscountsDetail.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="TabbedPages\Explore.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="TabbedPages\Notifications.xaml">

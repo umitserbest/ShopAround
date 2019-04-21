@@ -1,10 +1,16 @@
-﻿using ShopAroundMobile.ViewModels;
+﻿using Newtonsoft.Json;
+using Rg.Plugins.Popup.Services;
+using ShopAroundMobile.Helpers;
+using ShopAroundMobile.Models;
+using ShopAroundMobile.ViewModels;
+using ShopAroundMobile.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.Windows.Input;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -13,41 +19,53 @@ namespace ShopAroundMobile.TabbedPages
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class Showcase : ContentPage
 	{
-
-
+        
         public Showcase()
         {
             InitializeComponent();
             
-            
-           // BindingContext = new ShowcaseViewModel();
-
             ShowcaseViewModel showcase = new ShowcaseViewModel(listView);
 
-
-            //var ProductInfo = new Frame();
-
-            //var frameXaml = $"Frame x:Name=\"ProductInfo\" Margin=\"0,-15,0,0\" Grid.Row=\"1\" Opacity=\"0.8\" BackgroundColor=\"Black\">" +
-            //    $"<Label Text =\"Size : M Color: Red\" TextColor=\"White\" FontSize=\"14\"></Label></Frame>";
-
-
+            
+            
         }
 
         async void TapGestureRecognizer_Tapped(object sender, EventArgs e)
         {
             var ImageTapped = (Image)sender;
 
-            //Grid ParentFrameLayout = (Grid)ImageTapped.Parent;
+            var showcase = ImageTapped?.BindingContext as ShowcaseModel;
 
-            //Frame ProductInfoFrame = (Frame)ParentFrameLayout.Children[2];
+            var vm = BindingContext as ShowcaseViewModel;
 
-            //ProductInfoFrame.IsVisible = true;
 
-            //bool ProductInfoVisible = ProductInfoFrame.IsVisible;
+            await PopupNavigation.Instance.PushAsync(new PopupView(showcase));
+          
             
-            
+        }
+        
+        private void TapGestureRecognizer_Tapped_1(object sender, EventArgs e)
+        {
+            var Image = sender as Image;
 
+            var showcase = Image?.BindingContext as ShowcaseModel;
 
+            var vm = BindingContext as ShowcaseViewModel;
+
+            vm.AddWishList.Execute(showcase);
+
+            Image.Source = "Wishedlist";
+        }
+
+        private async void ImageButton_Clicked(object sender, EventArgs e)
+        {
+            var ImageButton = sender as ImageButton;
+
+            var showcase = ImageButton?.BindingContext as ShowcaseModel;
+
+            var vm = BindingContext as ShowcaseViewModel;
+
+            await Browser.OpenAsync(showcase.PurchaseLink,BrowserLaunchMode.SystemPreferred);
         }
     }
 }

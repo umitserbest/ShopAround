@@ -2,12 +2,18 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:image="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin"
+             xmlns:viewModels="clr-namespace:ShopAroundMobile.ViewModels"
              x:Class="ShopAroundMobile.TabbedPages.ShopProfile" BackgroundColor="White">
-    <ContentPage.ToolbarItems>
+
+    <ContentPage.BindingContext>
+        <viewModels:ShowcaseViewModel/>
+    </ContentPage.BindingContext>
+
+    <!--<ContentPage.ToolbarItems>
         <ToolbarItem Order="Primary"
                      Icon="settings"
                      Priority="0" />
-    </ContentPage.ToolbarItems>
+    </ContentPage.ToolbarItems>-->
     <!--<NavigationPage.TitleView>
         <StackLayout>
             <Label Text="Profile"></Label>
@@ -48,19 +54,19 @@
                 <RowDefinition Height="200" />
                 <RowDefinition Height="AUTO" />
                 <RowDefinition Height="AUTO" />
-                <RowDefinition Height="*" />
+                <RowDefinition Height="AUTO" />
                 <RowDefinition Height="AUTO" />
             </Grid.RowDefinitions>
-            <Image Aspect="AspectFill" Source="https://i.pinimg.com/originals/5b/31/c7/5b31c7ff0923d641d6da1929f5d4c0c5.jpg" />
+            
+            <Image Aspect="AspectFill" x:Name="MainImg"/>
             <Image Aspect="Fill" Margin="0,-1,0,-1" Source="https://github.com/kphillpotts/XamarinFormsLayoutChallenges/blob/master/SocialNetwork/SocialNetwork/SocialNetwork.Android/Resources/drawable-hdpi/CurvedMask.png?raw=true" VerticalOptions="End" />
 
-            <image:CircleImage BorderThickness="5" Aspect="Fill" HeightRequest="100" HorizontalOptions="Center" Source="https://steamuserimages-a.akamaihd.net/ugc/263849659131348331/E48DD9974AAECCF9330B7E9E3782CAC43EC06010/" TranslationY="50" VerticalOptions="End" WidthRequest="100" ></image:CircleImage>
+            <image:CircleImage x:Name="ShopImg" BorderThickness="5" Aspect="Fill" HeightRequest="100" HorizontalOptions="Center" TranslationY="50" VerticalOptions="End" WidthRequest="100" ></image:CircleImage>
            
 
             <!--  Profile Name  -->
             <StackLayout Grid.Row="1" Padding="0,50,0,00" HorizontalOptions="Center">
-                <Label Text="Adidas" TextColor="Black" HorizontalOptions="Center" FontSize="20" FontAttributes="Bold"/>
-                <Label Margin="0,-5" Text="@adidas" HorizontalOptions="Center" TextColor="lightgray" FontSize="14" />
+                <Label x:Name="shopname" TextColor="Black" HorizontalOptions="Center" FontSize="20" FontAttributes="Bold"/>
             </StackLayout>
 
             <!--  Social Stats Section  -->
@@ -76,30 +82,24 @@
                     <Label FontAttributes="Bold" Text="Following" />
                 </StackLayout>
 
-                <StackLayout  Grid.Column="2">
+                <StackLayout Margin="20,0,0,0" Grid.Column="2">
                     <Label Margin="20,0,0,0" Text="957" />
                     <Label FontAttributes="Bold" Text="Followers" />
                 </StackLayout>
             </Grid>
-
-            <Grid Grid.Row="3" HorizontalOptions="Center" Margin="0,50,0,10">
+            
+            <StackLayout Grid.Row="3" Orientation="Horizontal" Margin="0,15,0,0">
+                <Button x:Name="FollowBtn" Text="Follow" HorizontalOptions="Start" Margin="20,15,0,0" CornerRadius="10" WidthRequest="150" TextColor="White" BackgroundColor="Orange" FontAttributes="Bold" Clicked="Button_Clicked_1"></Button>
+                <Button Text="Information" HorizontalOptions="EndAndExpand" Margin="0,15,20,0" CornerRadius="10" WidthRequest="150" TextColor="White" BackgroundColor="Orange" FontAttributes="Bold" Clicked="Button_Clicked"></Button>
+            </StackLayout>
+            
+            <Grid x:Name="ProductsGrid" Grid.Row="4" HorizontalOptions="Center" Margin="0,50,0,10">
 
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="150"></ColumnDefinition>
                     <ColumnDefinition Width="150"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="200"></RowDefinition>
-                    <RowDefinition Height="200"></RowDefinition>
-                    <RowDefinition Height="200"></RowDefinition>
-                </Grid.RowDefinitions>
-
-                <Image BackgroundColor="Red" Grid.Column="0" Grid.Row="0" ></Image>
-                <Image BackgroundColor="Blue" Grid.Column="1" Grid.Row="0" ></Image>
-                <Image BackgroundColor="Yellow" Grid.Column="0" Grid.Row="1"></Image>
-                <Image BackgroundColor="Green" Grid.Column="1" Grid.Row="1"></Image>
-                <Image BackgroundColor="Black" Grid.Column="0" Grid.Row="2"></Image>
-                <Image BackgroundColor="Pink" Grid.Column="1" Grid.Row="2"></Image>
+               
 
             </Grid>
         </Grid>

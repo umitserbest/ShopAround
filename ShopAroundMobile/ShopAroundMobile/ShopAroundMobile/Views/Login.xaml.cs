@@ -19,7 +19,8 @@ namespace ShopAroundMobile.Views
 		public Login ()
 		{
 			InitializeComponent ();
-		}
+            NavigationPage.SetHasNavigationBar(this, false);
+        }
 
         private async void SignInAsync(object sender, EventArgs e)
         {
@@ -34,6 +35,16 @@ namespace ShopAroundMobile.Views
                 await Navigation.PushAsync(new ProfileSettings());
             }
 
+        }
+
+        private async void SignUp_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new SignUp());
+        }
+
+        private async void TapGestureRecognizer_Tapped(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new SignUp());
         }
     }
 }

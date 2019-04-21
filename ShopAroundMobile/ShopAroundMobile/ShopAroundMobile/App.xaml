@@ -3,6 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ShopAroundMobile.App">
     <Application.Resources>
-
+        <ResourceDictionary>
+            <OnPlatform x:TypeArguments="x:String" x:Key="PacificoFont">
+                <On Platform="Android" Value="Pacifico-Regular.ttf#Pacifico" />
+            </OnPlatform>
+         </ResourceDictionary>
     </Application.Resources>
 </Application>

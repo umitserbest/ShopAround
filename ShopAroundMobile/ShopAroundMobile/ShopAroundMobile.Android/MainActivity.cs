@@ -21,13 +21,14 @@ namespace ShopAroundMobile.Droid
             ToolbarResource = Resource.Layout.Toolbar;
 
             base.OnCreate(savedInstanceState);
-            global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
+           
 
             IconEntryRenderer.Init();
-            
+            Rg.Plugins.Popup.Popup.Init(this, savedInstanceState);
             CarouselViewRenderer.Init();
-            FFImageLoading.Forms.Platform.CachedImageRenderer.Init(true);
+            //FFImageLoading.Forms.Platform.CachedImageRenderer.Init(true);
             Plugin.CurrentActivity.CrossCurrentActivity.Current.Init(this, savedInstanceState);
+            global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             LoadApplication(new App());
 
             

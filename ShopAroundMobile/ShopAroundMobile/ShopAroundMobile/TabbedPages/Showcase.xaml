@@ -2,38 +2,69 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
               xmlns:image="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin"
-             x:Class="ShopAroundMobile.TabbedPages.Showcase" Title="Showcase" Icon="home">
+             xmlns:viewModels="clr-namespace:ShopAroundMobile.ViewModels"
+             x:Class="ShopAroundMobile.TabbedPages.Showcase" Title="Showcase" Icon="home" BackgroundColor="White">
+    <ContentPage.BindingContext>
+        <viewModels:ShowcaseViewModel/>
+    </ContentPage.BindingContext>
+    
     <Grid>
-        <ListView  Margin="5,10,5,0" x:Name="listView" RefreshControlColor="Coral" IsPullToRefreshEnabled="True" HorizontalScrollBarVisibility="Default" HasUnevenRows="True" SelectionMode="None">
+        <StackLayout HeightRequest="40" HorizontalOptions="Center" VerticalOptions="Start">
+        <Label Text="ShopAround" FontFamily="{StaticResource PacificoFont}" TextColor="Black" HorizontalOptions="Center" FontSize="16"></Label>
+        </StackLayout>
+        <ListView Margin="5,30,5,0" x:Name="listView" RefreshControlColor="Coral" IsPullToRefreshEnabled="True" HorizontalScrollBarVisibility="Default" HasUnevenRows="True" SelectionMode="None" CachingStrategy="RecycleElement">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell x:Name="viewCell">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="60"></RowDefinition>
-                                <!--<RowDefinition Height="*"></RowDefinition>-->
                                 <RowDefinition Height="250"></RowDefinition>
-                                <RowDefinition Height="200"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
                             </Grid.RowDefinitions>
                             <StackLayout Orientation="Horizontal" Grid.Row="0">
-                            <image:CircleImage Margin="-50,10,0,10" Aspect="AspectFit" HeightRequest="150" HorizontalOptions="Start" VerticalOptions="Center" Source="{Binding ShopLogo}" WidthRequest="150" ></image:CircleImage>
-                            <Label Margin="-50,0,0,0" VerticalOptions="Center" Text="{Binding ShopName}" TextColor="Black" FontSize="18"></Label>
-                                <Image Source="https://cdn3.iconfinder.com/data/icons/glypho-generic-icons/64/info-circle-outline-512.png" HorizontalOptions="EndAndExpand" WidthRequest="40" >
-                                    <Image.GestureRecognizers>
-                                        <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" NumberOfTapsRequired="1" />
-                                    </Image.GestureRecognizers>
-                                </Image>
+                                     
+                               
+                                <image:CircleImage Margin="-50,10,0,10" Aspect="AspectFit" HeightRequest="150" HorizontalOptions="Start" VerticalOptions="Center" Source="{Binding ShopLogo}" WidthRequest="150" ></image:CircleImage>
+                                <Label Margin="-50,0,0,0" VerticalOptions="Center" Text="{Binding ShopName}" TextColor="Black" FontSize="18"></Label>
+                                <StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand" WidthRequest="150">
+                                    <Image HorizontalOptions="Center" Source="Wishlist" WidthRequest="100" HeightRequest="50">
+                                        <Image.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped_1" NumberOfTapsRequired="1"></TapGestureRecognizer>
+                                        </Image.GestureRecognizers>
+                                    </Image>
+                                    <Image HorizontalOptions="End" Source="info" HeightRequest="35" WidthRequest="30">
+                                        <Image.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" NumberOfTapsRequired="1" />
+                                        </Image.GestureRecognizers>
+                                    </Image>
+                                </StackLayout>
                             </StackLayout>
                             
-                            <Frame Margin="0,-15,0,0" Grid.Row="1" BorderColor="Gray">
+                            <Frame Margin="0,-15,0,0" Grid.Row="1" BorderColor="LightGray">
                             <Image Source="{Binding CoverImage}" HorizontalOptions="Fill"></Image>
                             </Frame>
-                            <!--<Frame x:Name="ProductInfo" IsVisible="{Binding ProductInfoVisible}" Margin="0,-15,0,0" Grid.Row="1" Opacity="0.8" BackgroundColor="Black">
-                                <Label Text="Size : M
-                                             Color : Red" TextColor="White" FontSize="14"></Label>
-                                
-                            </Frame>-->
-                            <BoxView Grid.Row="3" BackgroundColor="Lightgray"></BoxView>
+                            
+                            <Frame  Grid.Row="2" BorderColor="LightGray" Margin="0,-5,0,20" >
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition Width="30"/>
+                                    </Grid.ColumnDefinitions>
+
+                                   
+                                    <ImageButton VerticalOptions="Center" Margin="0,10,0,0" BackgroundColor="White" HeightRequest="50" WidthRequest="70" Source="http://essexbedsandfurniture.co.uk/wp-content/uploads/2017/10/Buy-Now.png" Grid.Column="0" Clicked="ImageButton_Clicked"></ImageButton>
+                                    <StackLayout VerticalOptions="Center" HorizontalOptions="End" Grid.Column="1" Orientation="Horizontal">
+                                    <Label x:Name="Price" Text="{Binding Price}" TextColor="Green" FontAttributes="Bold" FontSize="22"></Label>
+                                        <Label Text="$" TextColor="Green" FontAttributes="Bold" FontSize="18" Margin="0,4,0,0"></Label>
+                                    </StackLayout>
+                                    <Image HorizontalOptions="End" VerticalOptions="Center" Source="right" Grid.Column="2" HeightRequest="20" WidthRequest="20"></Image>
+
+                                </Grid>
+                            </Frame>
+
+                        
                         </Grid>
                     </ViewCell>
                 </DataTemplate>

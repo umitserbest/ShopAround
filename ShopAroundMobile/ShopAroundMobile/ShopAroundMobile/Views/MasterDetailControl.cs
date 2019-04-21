@@ -1,4 +1,4 @@
-﻿using ShopAroundMobile.TabbedPages;
+﻿using ShopAroundMobile.ViewModels;
 using ShopAroundMobile.Views;
 using System;
 using System.Collections.Generic;
@@ -14,13 +14,13 @@ namespace ShopAroundMobile.Views
             //var md = new MasterDetailControl();
             //md.MasterBehavior = MasterBehavior.Popover;
 
-            
-            Master = new SettingsMenu();
+           
+            //Master = new SettingsMenu();
             //Detail = new NavigationPage(new ShopProfile());
 
-            var nav = new NavigationPage(new ShopProfile());
+            //var nav = new NavigationPage(new ShopProfile());
             //nav.BarBackgroundColor = Color.Green;
-            Detail = nav;
+            //Detail = nav;
 
 
 

@@ -4,6 +4,7 @@
              xmlns:image="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin"
              xmlns:tvs="clr-namespace:Xam.Plugin.TabView;assembly=Xam.Plugin.TabView"
              x:Class="ShopAroundMobile.TabbedPages.Profile" Title="Profile" BackgroundColor="White" Icon="profile">
+    
     <ScrollView>
 
         <Grid x:Name="MainGrid" ColumnSpacing="0" RowSpacing="0">
@@ -11,8 +12,8 @@
                 <RowDefinition Height="200" />
                 <RowDefinition Height="AUTO" />
                 <RowDefinition Height="AUTO" />
-                <RowDefinition Height="*" />
                 <RowDefinition Height="AUTO" />
+                <RowDefinition Height="1000" />
             </Grid.RowDefinitions>
             
             <Image Aspect="AspectFill" Source="https://i.pinimg.com/originals/5b/31/c7/5b31c7ff0923d641d6da1929f5d4c0c5.jpg" />
@@ -45,6 +46,7 @@
                     <Label FontAttributes="Bold" Text="Followers" />
                 </StackLayout>
             </Grid>
+
             
             <!--<ScrollView x:Name="UserImages">-->
             <!--<Grid x:Name="UserImages" HorizontalOptions="Center" Margin="0,50,0,10">
@@ -73,10 +75,10 @@
             <!--<ScrollView x:Name="WishList">
                 <Label Text="wishlist"></Label>
             </ScrollView>-->
-
-            <tvs:TabViewControl HeaderTabTextFontAttributes="Bold" HeaderSelectionUnderlineColor="Gray" HeaderBackgroundColor="White" HeaderTabTextColor="Black" BackgroundColor="White" Margin="0,20,0,0" Grid.Row="3">
+            
+            <tvs:TabViewControl HeaderTabTextFontAttributes="Bold" HeaderSelectionUnderlineColor="Gray" HeaderBackgroundColor="White" HeaderTabTextColor="Black" BackgroundColor="White" Margin="0,20,0,0" Grid.Row="4">
                 <tvs:TabViewControl.ItemSource>
-                    <tvs:TabItem HeaderText="Profile">
+                    <tvs:TabItem HeaderText="Wishlist">
                         <ScrollView>
                         <Grid x:Name="UserImages" HorizontalOptions="Center" Margin="0,50,0,10">
 
@@ -100,7 +102,7 @@
                         </Grid>
                         </ScrollView>
                     </tvs:TabItem>
-                    <tvs:TabItem HeaderText="Wislist">
+                    <tvs:TabItem HeaderText="Friends">
                         <Button Text="second page"/>
                     </tvs:TabItem>
                    

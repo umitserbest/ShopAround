@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using ShopAroundMobile.Helpers;
+using ShopAroundMobile.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,15 +15,15 @@ namespace ShopAroundMobile.TabbedPages
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class Profile : ContentPage
 	{
-        
+       
         public Profile ()
 		{
 			InitializeComponent ();
-
+            
             //var tabView = new TabViewControl(new List<TabItem>()
             //  {
             //         new TabItem( 
-                         
+
             //              "Profile",
             //              new StackLayout()
             //              {
@@ -51,7 +54,7 @@ namespace ShopAroundMobile.TabbedPages
             ////tabView.HeightRequest = 300;
 
             //MainGrid.Children.Add(tabView,0,3);
-            
+
 
 
             //var mainLayout = new StackLayout();
@@ -59,5 +62,7 @@ namespace ShopAroundMobile.TabbedPages
             //mainLayout.Children.Add(tabView);
             //Content = mainLayout;
         }
+
+       
     }
 }

@@ -41,7 +41,7 @@ namespace ShopAroundMobile.ViewModels
         
         public SuggestShopViewModel()
         {
-
+            
         }
       
         public SuggestShopViewModel(ListView listView)

@@ -23,7 +23,8 @@ namespace ShopAroundMobile.Views
         public ProfileSettings ()
 		{
 			InitializeComponent ();
-		}
+            NavigationPage.SetHasNavigationBar(this, false);
+        }
 
 
         //public static byte[] ReadFully(Stream input)
@@ -84,12 +85,14 @@ namespace ShopAroundMobile.Views
 
             if (result == "true")
             {
-                await DisplayAlert("ShopAround", "You have been registered!", "OK", "Cancel");
+                //await DisplayAlert("ShopAround", "You have been registered!", "OK", "Cancel");
+                DependencyService.Get<IMessage>().Message("You have been registered.");
                 await Navigation.PushAsync(new SuggestShop());
             }
             else
             {
-                await DisplayAlert("ShopAround", "Error", "OK", "Cancel");
+                //await DisplayAlert("ShopAround", "Error", "OK", "Cancel");
+                DependencyService.Get<IMessage>().Message("Error!");
             }
         }
     }

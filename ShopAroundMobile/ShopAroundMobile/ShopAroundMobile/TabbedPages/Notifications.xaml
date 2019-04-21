@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ShopAroundMobile.TabbedPages.Notifications" Title="Notifications" BackgroundColor="White">
     <Grid>
-        <ListView ItemsSource="{Binding Notifications}">
+        <ListView ItemsSource="{Binding Notifications}" SelectionMode="None">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ImageCell Text="{Binding NoticeText}" ImageSource="{Binding NoticeImage}" Detail="{Binding NoticeDate}" TextColor="Black" DetailColor="Gray"></ImageCell>

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Xamarin.Forms;
-using ShopAroundMobile.TabbedPages;
+using ShopAroundMobile.ViewModels;
 namespace ShopAroundMobile.TabbedPages
 {
     public class NotificationTabControl : TabbedPage 
@@ -10,6 +10,7 @@ namespace ShopAroundMobile.TabbedPages
        
         public NotificationTabControl()
         {
+           
             Title = "Notification";
             Icon = "combnye";
             BarBackgroundColor = Color.White;

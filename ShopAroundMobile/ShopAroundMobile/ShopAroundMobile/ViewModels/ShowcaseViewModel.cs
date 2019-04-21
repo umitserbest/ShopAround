@@ -6,66 +6,62 @@ using ShopAroundWeb.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Text;
 using Xamarin.Forms;
 
 namespace ShopAroundMobile.ViewModels
 {
-    public class ShowcaseViewModel
+    public class ShowcaseViewModel 
     {
-        private bool _productInfoVisible;
-        public bool ProductInfoVisible
-        {
-
-            get
-            {
-                return _productInfoVisible;
-            }
-            set
-            {
-                _productInfoVisible = value;
-
-                if(_productInfoVisible == true)
-                {
-                    // Show frame
-                }
-                else
-                {
-                    // Hide frame
-                }
-            }
-        }
-
+        List<Tuple<int, int, int>> wishlist = new List<Tuple<int, int, int>>();
         string Logopath = "https://shoparound.umitserbest.com/shopassets/logo/";
         string Productpath = "https://shoparound.umitserbest.com/shopassets/products/";
 
         private async void GetFlowInfo(ListView listView)
         {
-            string productResult = await WebService.SendDataAsync("GetTheFlow", "userID=" + App.UserdId);
-
-            string shopResult = await WebService.SendDataAsync("GetShopsForTheFlow", "userID=" + App.UserdId);
-
-
             List<ShowcaseModel> showcases = new List<ShowcaseModel>();
             List<ProductModel> products = new List<ProductModel>();
             List<ShopModel> shops = new List<ShopModel>();
 
+            string productResult = await WebService.SendDataAsync("GetTheFlow", "userID=" + App.UserdId);
 
-            if (productResult != null)
+            string shopResult = await WebService.SendDataAsync("GetShopsForTheFlow", "userID=" + App.UserdId);
+
+            
+            if (productResult != "Error" && productResult != null && productResult.Length > 6)
             {
-                products = JsonConvert.DeserializeObject<List<ProductModel>>(productResult);
-                foreach (ProductModel product in products)
+                try
                 {
-                    product.CoverImage = Productpath + product.CoverImage;
-                }                
+
+                    products = JsonConvert.DeserializeObject<List<ProductModel>>(productResult);
+                    foreach (ProductModel product in products)
+                    {
+                        product.CoverImage = Productpath + product.CoverImage;
+                    }
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+                
             }
 
-            if (shopResult != null)
+            if (shopResult != "Error" && shopResult != null && shopResult.Length > 6)
             {
-                shops = JsonConvert.DeserializeObject<List<ShopModel>>(shopResult);
-                foreach (ShopModel shop in shops)
+                try
                 {
-                    shop.Logo = Logopath + shop.Logo;  
+                    shops = JsonConvert.DeserializeObject<List<ShopModel>>(shopResult);
+                    foreach (ShopModel shop in shops)
+                    {
+                        shop.Logo = Logopath + shop.Logo;
+                    }
+                }
+                catch (Exception)
+                {
+
+                    throw;
                 }
             }
 
@@ -88,7 +84,53 @@ namespace ShopAroundMobile.ViewModels
 
         }
 
+        public Command<ShowcaseModel> AddWishList
+        {
+            get
+            {
+                return new Command<ShowcaseModel>((showcase) =>
+                {
+                    AddWishListAsync(showcase.ProductID);
+                    
+                });
+            }
+        }
 
+     
+        private async void AddWishListAsync(int productID)
+        {
+            //bool addedProduct = false;
+            //foreach (var item in wishlist)
+            //{
+            //    if (item.Item3 != productID)
+            //    {
+            //        string userObject = JsonConvert.SerializeObject(new Tuple<int, int>(productID, App.UserdId));
+            //        string result = await WebService.SendDataAsync("AddProductWishlist", "wishlist=" + userObject);
+            //        addedProduct = true;
+            //    }
+            //}
+            //if (addedProduct)
+            //{
+            //    DependencyService.Get<IMessage>().Message("This product added to your Wishlist.");
+            //}
+            string userObject = JsonConvert.SerializeObject(new Tuple<int, int>(productID, App.UserdId));
+            string result = await WebService.SendDataAsync("AddProductWishlist", "wishlist=" + userObject);
+            DependencyService.Get<IMessage>().Message("This product added to your Wishlist.");
+        }
+
+        private async void GetWishlistInfo()
+        {
+            wishlist = new List<Tuple<int, int, int>>();
+
+            string wishresult = await WebService.SendDataAsync("GetWishlist", "userID=" + App.UserdId); // 2 yerine App.UserID; 
+
+            if (wishresult != "Error" && wishresult != null && wishresult.Length > 6)
+            {
+                wishlist = JsonConvert.DeserializeObject<List<Tuple<int, int, int>>>(wishresult);
+
+            }
+
+        }
 
         public ShowcaseViewModel()
         {
@@ -97,41 +139,9 @@ namespace ShopAroundMobile.ViewModels
 
         public ShowcaseViewModel(ListView listview)
         {
+            GetWishlistInfo();
             GetFlowInfo(listview);
         }
-
-        //public ObservableCollection<ShowcaseModel> Posts { get; set; }
-
-        //public ShowcaseViewModel()
-        //{
-        //    Posts = new ObservableCollection<ShowcaseModel>();
-
-        //    Posts.Add(new ShowcaseModel
-        //    {
-        //        ShopName="Mavi",
-        //        Image = "https://upload.wikimedia.org/wikipedia/commons/2/28/Logo_of_Mavi.png"
-        //    });
-
-        //    Posts.Add(new ShowcaseModel
-        //    {
-        //        ShopName = "Zara",
-        //        Image = "https://static.dezeen.com/uploads/2019/02/new-zara-logo-col-2-852x352.jpg"
-        //    });
-
-        //    Posts.Add(new ShowcaseModel
-        //    {
-        //        ShopName = "Adidas",
-        //        Image = "https://i.ebayimg.com/images/g/LJYAAOSwjXRXbI-N/s-l300.jpg"
-        //    });
-
-        //    Posts.Add(new ShowcaseModel
-        //    {
-        //        ShopName = "Pull and Bear",
-        //        Image = "https://upload.wikimedia.org/wikipedia/commons/4/4e/Pull_and_bear_logo_antiguo.jpg"
-        //    });
-
-
-
-        //}
+        
     }
 }

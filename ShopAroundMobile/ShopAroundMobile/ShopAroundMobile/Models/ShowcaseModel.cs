@@ -26,6 +26,8 @@ namespace ShopAroundMobile.Models
         public int ShopID { get; set; }
         public string ShopName { get; set; }
         public string ShopLogo { get; set; }
+        public float Price { get; set; }
+        public string PurchaseLink { get; set; }
 
         public ShowcaseModel(ProductModel productModel, ShopModel shopModel)
         {
@@ -46,6 +48,8 @@ namespace ShopAroundMobile.Models
             this.ShopID = shopModel.ShopID;
             this.ShopName = shopModel.Name;
             this.ShopLogo = shopModel.Logo;
+            this.Price = productModel.Price;
+            this.PurchaseLink = productModel.PurchaseLink;
         }
     }
 }

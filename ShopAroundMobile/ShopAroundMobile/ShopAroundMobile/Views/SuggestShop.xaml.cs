@@ -4,6 +4,7 @@ using ShopAroundMobile.Helpers;
 using ShopAroundMobile.Models;
 using ShopAroundMobile.TabbedPages;
 using ShopAroundMobile.ViewModels;
+using ShopAroundMobile.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -24,13 +25,18 @@ namespace ShopAroundMobile.Views
 
         public SuggestShop()
         {
+           
             InitializeComponent();
+            NavigationPage.SetHasNavigationBar(this, false);
+            DependencyService.Get<IMessage>().Message("You need to choose at least 5 shops.");
             SuggestShopViewModel suggest = new SuggestShopViewModel(listView);
+            
           
         }
 
         private void Checkbox_CheckChanged(object sender, EventArgs e)
         {
+
             CheckBox shopId = (CheckBox)sender;
 
             if (shopId.IsChecked)
@@ -38,6 +44,18 @@ namespace ShopAroundMobile.Views
                 SuggestShopViewModel.checkedShopId.Add(new FollowModel(int.Parse(shopId.Text),App.UserdId));
                 counterlbl.Text = SuggestShopViewModel.checkedShopId.Count.ToString();
                 OnPropertyChanged("CheckedShops");
+                //if(SuggestShopViewModel.checkedShopId.Count > 5)
+                //{
+                //    //menuItem.IsEnabled = true;
+                //    NextBtn.IsEnabled = true;
+                //}
+
+                //else
+                //{
+                //    //menuItem.IsEnabled = false;
+                //    NextBtn.IsEnabled = false;
+                //}
+
 
             }
             else
@@ -68,9 +86,9 @@ namespace ShopAroundMobile.Views
 
                 if (result == "true")
                 {
-                    //await Navigation.PushAsync(new TabPageControl());
-
-                    await Navigation.PushAsync(new Showcase());
+                    await Navigation.PushAsync(new TabPageControl());
+                    //await Navigation.PushAsync(new Showcase());
+                    //await Navigation.PushAsync(new ShopProfile(4));
                 }
                 else
                 {

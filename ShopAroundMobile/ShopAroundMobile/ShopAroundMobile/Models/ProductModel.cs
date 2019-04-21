@@ -22,7 +22,8 @@ namespace ShopAroundWeb.Models
         public string Image1 { get; set; }
         public string Image2 { get; set; }
         public string Image3 { get; set; }
-
+        public float Price { get; set; }
+        public string PurchaseLink { get; set; }
         public ProductModel()
         {
 

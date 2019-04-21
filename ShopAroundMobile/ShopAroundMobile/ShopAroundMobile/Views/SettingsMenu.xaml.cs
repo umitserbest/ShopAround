@@ -1,4 +1,5 @@
 ﻿using ShopAroundMobile.TabbedPages;
+using ShopAroundMobile.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -21,6 +21,19 @@
 
                 <Entry Text="" Placeholder="Name" x:Name="EntryName"></Entry>
                 <Entry Text="" Placeholder="Surname" x:Name="EntrySurname"></Entry>
+                <!--<Picker x:Name="picker" Title="Where do you live ?">
+                    <Picker.ItemsSource>
+                        <x:Array Type="{x:Type x:String}">
+                            <x:String>Ankara</x:String>
+                            <x:String>Antalya</x:String>
+                            <x:String>Eskişehir</x:String>
+                            <x:String>İstanbul</x:String>
+                            <x:String>İzmir</x:String>
+                            <x:String>Muğla</x:String>
+                            <x:String>Trabzon</x:String>
+                        </x:Array>
+                    </Picker.ItemsSource>
+                </Picker>-->
                 <Entry Text="" Placeholder="Phone" x:Name="EntryPhone"></Entry>
                 <Entry Text="" Placeholder="About" x:Name="EntryAbout"></Entry>
                 <Button Margin="0,30,0,0" Clicked="Save_Clicked" VerticalOptions="End" Text="SAVE" TextColor="White" BackgroundColor="Orange"></Button>

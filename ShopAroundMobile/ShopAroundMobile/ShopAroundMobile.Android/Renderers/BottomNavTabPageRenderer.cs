@@ -14,6 +14,7 @@ using ShopAroundMobile;
 using ShopAroundMobile.Droid;
 using ShopAroundMobile.Droid.Renderers;
 using ShopAroundMobile.TabbedPages;
+using ShopAroundMobile.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android.AppCompat;
 using View = Android.Views.View;
