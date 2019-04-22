@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 using ShopAroundMobile.Helpers;
 using ShopAroundMobile.Models;
 using ShopAroundMobile.Views;
-using ShopAroundWeb.Models;
+using ShopAroundMobile.Models;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 

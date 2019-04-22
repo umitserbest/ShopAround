@@ -2,7 +2,7 @@
 using ShopAroundMobile.Helpers;
 using ShopAroundMobile.Model;
 using ShopAroundMobile.Models;
-using ShopAroundWeb.Models;
+using ShopAroundMobile.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

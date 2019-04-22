@@ -23,7 +23,7 @@ namespace ShopAroundMobile.TabbedPages
 
         private async void FollowButton_Clicked(object sender, EventArgs e)
         {
-            FollowsModel followmodel = new FollowsModel(shopID, App.UserdId);// 2 yerine App.UserID; 
+            FollowsModel followmodel = new FollowsModel(shopID, App.AppUser.UserID);// 2 yerine App.UserID; 
             string followObject = JsonConvert.SerializeObject(followmodel);
 
 

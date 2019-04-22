@@ -251,7 +251,7 @@ namespace ShopAroundWeb.WebServices
 
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public void GetTheExplore()
+        public void GetTheExplore(string userID)
         {
             try
             {

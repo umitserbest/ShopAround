@@ -3,7 +3,7 @@ using ShopAroundMobile.Helpers;
 using ShopAroundMobile.Models;
 using ShopAroundMobile.ViewModels;
 using ShopAroundMobile.Views;
-using ShopAroundWeb.Models;
+using ShopAroundMobile.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,7 +39,7 @@ namespace ShopAroundMobile.TabbedPages
         {
             List<ShopModel> shops = new List<ShopModel>();
 
-            string shopresult = await WebService.SendDataAsync("GetShopsForTheFlow", "userID=" + App.UserdId); // 2 yerine App.UserID; 
+            string shopresult = await WebService.SendDataAsync("GetShopsForTheFlow", "userID=" + App.AppUser.UserID); // 2 yerine App.UserID; 
 
             if (shopresult != "Error" && shopresult != null && shopresult.Length > 6)
             {
@@ -190,7 +190,7 @@ namespace ShopAroundMobile.TabbedPages
             
             if (FollowBtn.Text == "Follow")
             {
-                FollowModel followModel = new FollowModel(shopID, App.UserdId);
+                FollowModel followModel = new FollowModel(shopID, App.AppUser.UserID);
                // 2 yerine App.UserID; 
 
                 string followObject = JsonConvert.SerializeObject(followModel);
@@ -206,7 +206,7 @@ namespace ShopAroundMobile.TabbedPages
             }
             else if (FollowBtn.Text == "Unfollow")
             {
-                FollowModel followmodel2 = new FollowModel(shopID, App.UserdId);// 2 yerine App.UserID; 
+                FollowModel followmodel2 = new FollowModel(shopID, App.AppUser.UserID);// 2 yerine App.UserID; 
                 string followObject2 = JsonConvert.SerializeObject(followmodel2);
 
 

@@ -21,17 +21,12 @@ namespace ShopAroundMobile.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class SuggestShop : ContentPage, INotifyPropertyChanged
     {
-
-
         public SuggestShop()
-        {
-           
+        {           
             InitializeComponent();
             NavigationPage.SetHasNavigationBar(this, false);
-            DependencyService.Get<IMessage>().Message("You need to choose at least 5 shops.");
+            //DependencyService.Get<IMessage>().Message("You need to choose at least 5 shops.");
             SuggestShopViewModel suggest = new SuggestShopViewModel(listView);
-            
-          
         }
 
         private void Checkbox_CheckChanged(object sender, EventArgs e)
@@ -41,7 +36,7 @@ namespace ShopAroundMobile.Views
 
             if (shopId.IsChecked)
             {
-                SuggestShopViewModel.checkedShopId.Add(new FollowModel(int.Parse(shopId.Text),App.UserdId));
+                SuggestShopViewModel.checkedShopId.Add(new FollowModel(int.Parse(shopId.Text),App.AppUser.UserID));
                 counterlbl.Text = SuggestShopViewModel.checkedShopId.Count.ToString();
                 OnPropertyChanged("CheckedShops");
                 //if(SuggestShopViewModel.checkedShopId.Count > 5)
@@ -92,7 +87,7 @@ namespace ShopAroundMobile.Views
                 }
                 else
                 {
-                    await DisplayAlert("ShopAround", "Error", "OK", "Cancel");
+                    await DisplayAlert("ShopAround", "Error", "OK");
                 }
             }
             catch(Exception ex)

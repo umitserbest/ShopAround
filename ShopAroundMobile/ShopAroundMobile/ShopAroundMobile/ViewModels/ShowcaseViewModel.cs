@@ -2,7 +2,7 @@
 using ShopAroundMobile.Helpers;
 using ShopAroundMobile.Model;
 using ShopAroundMobile.Models;
-using ShopAroundWeb.Models;
+using ShopAroundMobile.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -24,9 +24,9 @@ namespace ShopAroundMobile.ViewModels
             List<ProductModel> products = new List<ProductModel>();
             List<ShopModel> shops = new List<ShopModel>();
 
-            string productResult = await WebService.SendDataAsync("GetTheFlow", "userID=" + App.UserdId);
+            string productResult = await WebService.SendDataAsync("GetTheFlow", "userID=" + App.AppUser.UserID);
 
-            string shopResult = await WebService.SendDataAsync("GetShopsForTheFlow", "userID=" + App.UserdId);
+            string shopResult = await WebService.SendDataAsync("GetShopsForTheFlow", "userID=" + App.AppUser.UserID);
 
             
             if (productResult != "Error" && productResult != null && productResult.Length > 6)
@@ -113,7 +113,7 @@ namespace ShopAroundMobile.ViewModels
             //{
             //    DependencyService.Get<IMessage>().Message("This product added to your Wishlist.");
             //}
-            string userObject = JsonConvert.SerializeObject(new Tuple<int, int>(productID, App.UserdId));
+            string userObject = JsonConvert.SerializeObject(new Tuple<int, int>(productID, App.AppUser.UserID));
             string result = await WebService.SendDataAsync("AddProductWishlist", "wishlist=" + userObject);
             DependencyService.Get<IMessage>().Message("This product added to your Wishlist.");
         }
@@ -122,7 +122,7 @@ namespace ShopAroundMobile.ViewModels
         {
             wishlist = new List<Tuple<int, int, int>>();
 
-            string wishresult = await WebService.SendDataAsync("GetWishlist", "userID=" + App.UserdId); // 2 yerine App.UserID; 
+            string wishresult = await WebService.SendDataAsync("GetWishlist", "userID=" + App.AppUser.UserID); // 2 yerine App.UserID; 
 
             if (wishresult != "Error" && wishresult != null && wishresult.Length > 6)
             {

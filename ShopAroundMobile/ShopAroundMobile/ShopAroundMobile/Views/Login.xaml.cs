@@ -29,12 +29,14 @@ namespace ShopAroundMobile.Views
 
             string result = await WebService.SendDataAsync("SignIn", "userSignIn=" + signInObject);
 
-            if(result != "false")
+            if (result != "false")
             {
-                App.UserdId = int.Parse(result);
+                Database.AddUser(new LocalUserModel(int.Parse(result)));
+
+                App.AppUser = Database.GetUser();
+
                 await Navigation.PushAsync(new ProfileSettings());
             }
-
         }
 
         private async void SignUp_Clicked(object sender, EventArgs e)

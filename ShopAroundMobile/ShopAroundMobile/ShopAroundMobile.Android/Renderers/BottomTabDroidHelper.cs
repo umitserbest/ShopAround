@@ -42,7 +42,7 @@ namespace ShopAroundMobile.Droid.Renderers
                     if (item == null)
                         continue;
 
-                    item.SetShiftingMode(enableItemShiftMode);
+                    item.SetShifting(enableItemShiftMode);
                     item.SetChecked(item.ItemData.IsChecked);
 
                 }
