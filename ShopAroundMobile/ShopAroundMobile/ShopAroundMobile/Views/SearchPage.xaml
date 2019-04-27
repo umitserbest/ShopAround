@@ -1,10 +1,39 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:image="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin"
              x:Class="ShopAroundMobile.Views.SearchPage" Title="Shops">
-    <ContentPage.Content>
-        <StackLayout>
-            <SearchBar Placeholder="Search" CancelButtonColor="Coral" Margin="0,0,20,0"></SearchBar>
-        </StackLayout>
-    </ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <StackLayout Grid.Row="0">
+                <SearchBar x:Name="searchBar" Placeholder="Shop Search" CancelButtonColor="Coral" Margin="0,0,20,0" TextChanged="SearchBar_TextChanged"></SearchBar>
+            </StackLayout>
+
+        <ListView x:Name="listView"
+                  Grid.Row="1"
+                  RowHeight="60"
+                  SelectionMode="None"
+                  HasUnevenRows="True">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell x:Name="viewCell">
+                        <Grid Padding="20,20" >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="50"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                             </Grid.ColumnDefinitions>
+
+                            <image:CircleImage x:Name="img" Grid.Column="0" Aspect="Fill" Source="{Binding Logo}" HeightRequest="30"></image:CircleImage>
+                            <Label Text="{Binding Name}" Grid.Column="1" VerticalOptions="Center" FontSize="16"></Label>
+                            <Button Text="Go" CommandParameter="{Binding ShopID}" Clicked="Button_Clicked"></Button>
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
 </ContentPage>

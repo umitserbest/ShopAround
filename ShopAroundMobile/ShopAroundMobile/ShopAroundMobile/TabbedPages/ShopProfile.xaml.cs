@@ -21,18 +21,14 @@ namespace ShopAroundMobile.TabbedPages
         string Logopath = "https://shoparound.umitserbest.com/shopassets/logo/";
         string Productpath = "https://shoparound.umitserbest.com/shopassets/products/";
         int shopID = 0;
-        //Image image2 = new Image();
-
+      
         public ShopProfile(int shopId)
         {
             shopID = shopId;
             InitializeComponent();
             GetShopInfo(shopId);
             FollowedShops(shopId);
-            
-            //var titleView = new Slider { HeightRequest = 44, WidthRequest = 300 };
-            //NavigationPage.SetTitleView(this, BackgroundColor);
-            
+        
         }
         
         async void FollowedShops(int shopId)
@@ -111,19 +107,8 @@ namespace ShopAroundMobile.TabbedPages
 
                 }
                 
-
                 int counter = 0;
-
-                //Image topLeft = new Image { Source = "explore" };
-                //Image topRight = new Image { Source = "explore" };
-                //Image bottomLeft = new Image { Source = "explore" };
-                //Image bottomRight = new Image { Source = "explore" };
-
-                //ProductsGrid.Children.Add(topLeft, 0, 0);
-                //ProductsGrid.Children.Add(topRight, 1, 0);
-                //ProductsGrid.Children.Add(bottomLeft, 0, 1);
-                //ProductsGrid.Children.Add(bottomRight, 1, 1);
-
+                
                 for (int j = 0; j < products.Count + 1 / 2; j++)
                 {
 
@@ -152,18 +137,13 @@ namespace ShopAroundMobile.TabbedPages
 
                             var vm = BindingContext as ShowcaseViewModel;
 
-                            Navigation.PushAsync(new PhotoDetailPage(image.Source, productDetail, shop));
+                             Navigation.PushAsync(new PhotoDetailPage(image.Source, productDetail, shop));
                             //Navigation.PushAsync(new PhotoDetailPage(image2.Source,shop,products));
                         };
                         image.GestureRecognizers.Add(tapGestureRecognizer);
 
                     }
-
-
                 }
-
-               
-
             }
             catch (Exception ex)
             {

@@ -12,7 +12,7 @@
         <StackLayout HeightRequest="40" HorizontalOptions="Center" VerticalOptions="Start">
         <Label Text="ShopAround" FontFamily="{StaticResource PacificoFont}" TextColor="Black" HorizontalOptions="Center" FontSize="16"></Label>
         </StackLayout>
-        <ListView Margin="5,30,5,0" x:Name="listView" RefreshControlColor="Coral" IsPullToRefreshEnabled="True" HorizontalScrollBarVisibility="Default" HasUnevenRows="True" SelectionMode="None" CachingStrategy="RecycleElement">
+        <ListView Margin="5,30,5,0" x:Name="listView" RefreshControlColor="Coral" IsPullToRefreshEnabled="True" HorizontalScrollBarVisibility="Default" HasUnevenRows="True" SelectionMode="None" RefreshCommand="{Binding RefreshCommand}" IsRefreshing="{Binding IsRefreshing}" CachingStrategy="RecycleElement">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell x:Name="viewCell">

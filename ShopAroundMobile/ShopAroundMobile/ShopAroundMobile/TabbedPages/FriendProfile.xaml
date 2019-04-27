@@ -24,7 +24,7 @@
 
             <!--  Profile Name  -->
             <StackLayout Grid.Row="1" Padding="0,50,0,00" HorizontalOptions="Center">
-                <Label Text="Adidas" TextColor="Black" HorizontalOptions="Center" FontSize="20" FontAttributes="Bold"/>
+                <Label x:Name="UserName" Text="Adidas" TextColor="Black" HorizontalOptions="Center" FontSize="20" FontAttributes="Bold"/>
                 <Label Margin="0,-5" Text="@adidas" HorizontalOptions="Center" TextColor="lightgray" FontSize="14" />
             </StackLayout>
 
@@ -48,7 +48,7 @@
             </Grid>
 
             <StackLayout Grid.Row="3">
-                <Button Text="Follow" HorizontalOptions="Center" Margin="0,15,0,0" CornerRadius="10" WidthRequest="150" TextColor="White" BackgroundColor="Orange" FontAttributes="Bold" Clicked="FollowButton_Clicked"></Button>
+                <Button x:Name="FollowBtn" Text="Follow" HorizontalOptions="Center" Margin="0,15,0,0" CornerRadius="10" WidthRequest="150" TextColor="White" BackgroundColor="Orange" FontAttributes="Bold" Clicked="FollowButton_Clicked"></Button>
             </StackLayout>
            
             <tvs:TabViewControl HeaderTabTextFontAttributes="Bold" HeaderSelectionUnderlineColor="Gray" HeaderBackgroundColor="White" HeaderTabTextColor="Black" BackgroundColor="White" Margin="0,20,0,0" Grid.Row="4">
@@ -77,9 +77,7 @@
                             </Grid>
                         </ScrollView>
                     </tvs:TabItem>
-                    <tvs:TabItem HeaderText="Friends">
-                        <Button Text="second page"/>
-                    </tvs:TabItem>
+                   
 
                 </tvs:TabViewControl.ItemSource>
             </tvs:TabViewControl>

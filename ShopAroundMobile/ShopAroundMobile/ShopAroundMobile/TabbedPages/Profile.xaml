@@ -19,13 +19,13 @@
             <Image Aspect="AspectFill" Source="https://i.pinimg.com/originals/5b/31/c7/5b31c7ff0923d641d6da1929f5d4c0c5.jpg" />
             <Image Aspect="Fill" Margin="0,-1,0,-1" Source="https://github.com/kphillpotts/XamarinFormsLayoutChallenges/blob/master/SocialNetwork/SocialNetwork/SocialNetwork.Android/Resources/drawable-hdpi/CurvedMask.png?raw=true" VerticalOptions="End" />
 
-            <image:CircleImage BorderThickness="5" Aspect="Fill" HeightRequest="100" HorizontalOptions="Center" Source="https://steamuserimages-a.akamaihd.net/ugc/263849659131348331/E48DD9974AAECCF9330B7E9E3782CAC43EC06010/" TranslationY="50" VerticalOptions="End" WidthRequest="100" ></image:CircleImage>
+            <image:CircleImage BorderThickness="5" Aspect="Fill" HeightRequest="100" HorizontalOptions="Center" x:Name="UserImage" TranslationY="50" VerticalOptions="End" WidthRequest="100" ></image:CircleImage>
 
 
             <!--  Profile Name  -->
             <StackLayout Grid.Row="1" Padding="0,50,0,00" HorizontalOptions="Center">
-                <Label Text="Adidas" TextColor="Black" HorizontalOptions="Center" FontSize="20" FontAttributes="Bold"/>
-                <Label Margin="0,-5" Text="@adidas" HorizontalOptions="Center" TextColor="lightgray" FontSize="14" />
+                <Label x:Name="Name" TextColor="Black" HorizontalOptions="Center" FontSize="20" FontAttributes="Bold"/>
+                <Label x:Name="UserName" Margin="0,-5" HorizontalOptions="Center" TextColor="lightgray" FontSize="14" />
             </StackLayout>
 
             <!--  Social Stats Section  -->
@@ -47,35 +47,6 @@
                 </StackLayout>
             </Grid>
 
-            
-            <!--<ScrollView x:Name="UserImages">-->
-            <!--<Grid x:Name="UserImages" HorizontalOptions="Center" Margin="0,50,0,10">
-                    --><!--Grid.Row="3"--><!--
-
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="150"></ColumnDefinition>
-                        <ColumnDefinition Width="150"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="200"></RowDefinition>
-                        <RowDefinition Height="200"></RowDefinition>
-                        <RowDefinition Height="200"></RowDefinition>
-                    </Grid.RowDefinitions>
-
-                    <Image BackgroundColor="Red" Grid.Column="0" Grid.Row="0" ></Image>
-                    <Image BackgroundColor="Blue" Grid.Column="1" Grid.Row="0" ></Image>
-                    <Image BackgroundColor="Yellow" Grid.Column="0" Grid.Row="1"></Image>
-                    <Image BackgroundColor="Green" Grid.Column="1" Grid.Row="1"></Image>
-                    <Image BackgroundColor="Black" Grid.Column="0" Grid.Row="2"></Image>
-                    <Image BackgroundColor="Pink" Grid.Column="1" Grid.Row="2"></Image>
-
-                </Grid>-->
-            <!--</ScrollView>-->
-
-            <!--<ScrollView x:Name="WishList">
-                <Label Text="wishlist"></Label>
-            </ScrollView>-->
-            
             <tvs:TabViewControl HeaderTabTextFontAttributes="Bold" HeaderSelectionUnderlineColor="Gray" HeaderBackgroundColor="White" HeaderTabTextColor="Black" BackgroundColor="White" Margin="0,20,0,0" Grid.Row="4">
                 <tvs:TabViewControl.ItemSource>
                     <tvs:TabItem HeaderText="Wishlist">
@@ -86,24 +57,29 @@
                                 <ColumnDefinition Width="150"></ColumnDefinition>
                                 <ColumnDefinition Width="150"></ColumnDefinition>
                             </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="200"></RowDefinition>
-                                <RowDefinition Height="200"></RowDefinition>
-                                <RowDefinition Height="200"></RowDefinition>
-                            </Grid.RowDefinitions>
-
-                            <Image BackgroundColor="Red" Grid.Column="0" Grid.Row="0" ></Image>
-                            <Image BackgroundColor="Blue" Grid.Column="1" Grid.Row="0" ></Image>
-                            <Image BackgroundColor="Yellow" Grid.Column="0" Grid.Row="1"></Image>
-                            <Image BackgroundColor="Green" Grid.Column="1" Grid.Row="1"></Image>
-                            <Image BackgroundColor="Black" Grid.Column="0" Grid.Row="2"></Image>
-                            <Image BackgroundColor="Pink" Grid.Column="1" Grid.Row="2"></Image>
-
+                           
                         </Grid>
                         </ScrollView>
                     </tvs:TabItem>
                     <tvs:TabItem HeaderText="Friends">
-                        <Button Text="second page"/>
+                        <ListView x:Name="listView" HasUnevenRows="True" SelectionMode="None">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                    <ViewCell x:Name="viewCell">
+                                        <Grid Padding="20,20" >
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="50"></ColumnDefinition>
+                                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                            </Grid.ColumnDefinitions>
+
+                                            <image:CircleImage x:Name="img" Grid.Column="0" Aspect="Fill" Source="{Binding Image}" HeightRequest="30"></image:CircleImage>
+                                            <Label Text="{Binding Username}" Grid.Column="1" VerticalOptions="Center" FontSize="16"></Label>
+                                            <Button Text="Go" CommandParameter="{Binding UserID}" Clicked="Button_Clicked"></Button>
+                                        </Grid>
+                                    </ViewCell>
+                                </DataTemplate>
+                        </ListView.ItemTemplate>
+                        </ListView>
                     </tvs:TabItem>
                    
                 </tvs:TabViewControl.ItemSource>

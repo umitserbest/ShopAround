@@ -25,10 +25,10 @@ namespace ShopAroundMobile.TabbedPages
             InitializeComponent();
             
             ShowcaseViewModel showcase = new ShowcaseViewModel(listView);
-
-            
             
         }
+
+
 
         async void TapGestureRecognizer_Tapped(object sender, EventArgs e)
         {

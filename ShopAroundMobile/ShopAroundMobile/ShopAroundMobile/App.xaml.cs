@@ -30,7 +30,7 @@ namespace ShopAroundMobile
             }
             else
             {
-                MainPage = new NavigationPage(new Showcase());
+                MainPage = new NavigationPage(new TabPageControl());
             }
 
             //MainPage = new NavigationPage(new Login());

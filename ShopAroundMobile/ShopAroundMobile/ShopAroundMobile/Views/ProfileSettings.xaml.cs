@@ -38,13 +38,11 @@ namespace ShopAroundMobile.Views
 
             if (result == "true")
             {
-                //await DisplayAlert("ShopAround", "You have been registered!", "OK", "Cancel");
                 //DependencyService.Get<IMessage>().Message("You have been registered.");
                 await Navigation.PushAsync(new SuggestShop());
             }
             else
             {
-                //await DisplayAlert("ShopAround", "Error", "OK", "Cancel");
                 DependencyService.Get<IMessage>().Message("Error!");
             }
         }

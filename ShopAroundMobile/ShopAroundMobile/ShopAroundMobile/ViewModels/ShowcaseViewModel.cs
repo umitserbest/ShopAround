@@ -2,21 +2,59 @@
 using ShopAroundMobile.Helpers;
 using ShopAroundMobile.Model;
 using ShopAroundMobile.Models;
-using ShopAroundMobile.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Text;
+using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace ShopAroundMobile.ViewModels
 {
-    public class ShowcaseViewModel 
+    public class ShowcaseViewModel : INotifyPropertyChanged
     {
         List<Tuple<int, int, int>> wishlist = new List<Tuple<int, int, int>>();
         string Logopath = "https://shoparound.umitserbest.com/shopassets/logo/";
         string Productpath = "https://shoparound.umitserbest.com/shopassets/products/";
+
+        ListView list = new ListView();
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanged([CallerMemberName]string propName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
+        }
+
+        private bool _isRefreshing = false;
+        public bool IsRefreshing
+        {
+            get { return _isRefreshing; }
+            set
+            {
+                _isRefreshing = value;
+                OnPropertyChanged(nameof(IsRefreshing));
+            }
+        }
+
+
+        public ICommand RefreshCommand
+        {
+            get
+            {
+                return new Command(() =>
+                {
+                    IsRefreshing = true;
+
+                    GetFlowInfo(list);
+
+                    IsRefreshing = false;
+                });
+            }
+        }
+
 
         private async void GetFlowInfo(ListView listView)
         {
@@ -80,6 +118,8 @@ namespace ShopAroundMobile.ViewModels
                 }
 
                 listView.ItemsSource = showcases;
+
+                list = listView;
             }
 
         }

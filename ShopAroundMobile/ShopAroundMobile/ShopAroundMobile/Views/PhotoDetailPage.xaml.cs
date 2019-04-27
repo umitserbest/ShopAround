@@ -19,6 +19,8 @@ namespace ShopAroundMobile.Views
 		{
 			InitializeComponent ();
             Img.Source = image;
+            //name.Text = products.Name;
+            //size.Text = products.Size;
             //Logo.Source = Logopath + shop.Logo;
             // Brand.Text = shop.Name;
             
