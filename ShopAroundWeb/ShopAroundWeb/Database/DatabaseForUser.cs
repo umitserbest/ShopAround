@@ -8,6 +8,9 @@ namespace ShopAroundWeb.Database
 {
     public static class DatabaseForUser
     {
+
+        #region User
+
         public static bool IsAvailableUsername(string username)
         {
             try
@@ -15,27 +18,25 @@ namespace ShopAroundWeb.Database
                 DatabaseConnection.OpenConnection();
 
                 string query = "SELECT UserID FROM [User] WHERE Username=@Username";
+
                 SqlCommand cmd = new SqlCommand(query, DatabaseConnection.connection);
                 cmd.Parameters.Add("@Username", SqlDbType.NVarChar).Value = username;
 
-                SqlDataReader reader = cmd.ExecuteReader();
-
-                if (reader.HasRows)
+                using (SqlDataReader reader = cmd.ExecuteReader())
                 {
-                    return false;
-                }
-                else
-                {
-                    return true;
+                    if (reader.HasRows)
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        return true;
+                    }
                 }
             }
             catch
             {
                 return false;
-            }
-            finally
-            {
-                DatabaseConnection.CloseConnection();
             }
         }
 
@@ -46,27 +47,25 @@ namespace ShopAroundWeb.Database
                 DatabaseConnection.OpenConnection();
 
                 string query = "SELECT UserID FROM [User] WHERE Email=@Email";
+
                 SqlCommand cmd = new SqlCommand(query, DatabaseConnection.connection);
                 cmd.Parameters.Add("@Email", SqlDbType.NVarChar).Value = email;
 
-                SqlDataReader reader = cmd.ExecuteReader();
-
-                if (reader.HasRows)
+                using (SqlDataReader reader = cmd.ExecuteReader())
                 {
-                    return false;
-                }
-                else
-                {
-                    return true;
+                    if (reader.HasRows)
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        return true;
+                    }
                 }
             }
             catch
             {
                 return false;
-            }
-            finally
-            {
-                DatabaseConnection.CloseConnection();
             }
         }
 
@@ -77,21 +76,20 @@ namespace ShopAroundWeb.Database
                 DatabaseConnection.OpenConnection();
 
                 string query = "INSERT INTO [User] (Username, Password, Email) VALUES (@Username, @Password, @Email)";
+
                 SqlCommand cmd = new SqlCommand(query, DatabaseConnection.connection);
                 cmd.Parameters.Add("@Username", SqlDbType.NVarChar).Value = signUpModel.Username;
                 cmd.Parameters.Add("@Password", SqlDbType.NVarChar).Value = signUpModel.Password;
                 cmd.Parameters.Add("@Email", SqlDbType.NVarChar).Value = signUpModel.Email;
+
                 cmd.ExecuteNonQuery();
+                cmd.Dispose();
 
                 return true;
             }
             catch
             {
                 return false;
-            }
-            finally
-            {
-                DatabaseConnection.CloseConnection();
             }
         }
 
@@ -102,33 +100,172 @@ namespace ShopAroundWeb.Database
                 DatabaseConnection.OpenConnection();
 
                 string query = "SELECT UserID FROM [User] WHERE Username=@Username AND Password=@Password";
+
                 SqlCommand cmd = new SqlCommand(query, DatabaseConnection.connection);
                 cmd.Parameters.Add("@Username", SqlDbType.NVarChar).Value = signInModel.Username;
                 cmd.Parameters.Add("@Password", SqlDbType.NVarChar).Value = signInModel.Password;
 
-                SqlDataReader reader = cmd.ExecuteReader();
-
-                if (reader.HasRows)
+                using (SqlDataReader reader = cmd.ExecuteReader())
                 {
-                    while (reader.Read())
+                    if (reader.HasRows)
                     {
-                        return reader[0].ToString(); //UserID  
-                    }
+                        while (reader.Read())
+                        {
+                            return reader[0].ToString(); //UserID  
+                        }
 
-                    return null;
-                }
-                else
-                {
-                    return null;
+                        return null;
+                    }
+                    else
+                    {
+                        return null;
+                    }
                 }
             }
             catch
             {
                 return null;
             }
-            finally
+        }
+
+        public static List<UserModel> GetAllUsers()
+        {
+            try
             {
-                DatabaseConnection.CloseConnection();
+                DatabaseConnection.OpenConnection();
+
+                string query = "SELECT * FROM [User]";
+
+                SqlCommand cmd = new SqlCommand(query, DatabaseConnection.connection);
+
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    List<UserModel> users = new List<UserModel>();
+
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            UserModel user = new UserModel
+                            {
+                                UserID = int.Parse(reader[0].ToString()),
+                                Username = reader[1].ToString(),
+                                Email = reader[3].ToString(),
+                                Name = reader[4].ToString(),
+                                Surname = reader[5].ToString(),
+                                Phone = reader[6].ToString(),
+                                City = reader[7].ToString(),
+                                About = reader[8].ToString()
+                            };
+
+                            users.Add(user);
+                        }
+
+                        return users;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public static List<UserModel> GetUsers(string name)
+        {
+            try
+            {
+                DatabaseConnection.OpenConnection();
+
+                string query = "SELECT * FROM [User] WHERE Username LIKE @Username";
+
+                SqlCommand cmd = new SqlCommand(query, DatabaseConnection.connection);
+                cmd.Parameters.AddWithValue("@Username", "%" + name + "%");
+
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    List<UserModel> users = new List<UserModel>();
+
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            UserModel user = new UserModel
+                            {
+                                UserID = int.Parse(reader[0].ToString()),
+                                Username = reader[1].ToString(),
+                                Email = reader[3].ToString(),
+                                Name = reader[4].ToString(),
+                                Surname = reader[5].ToString(),
+                                Phone = reader[6].ToString(),
+                                City = reader[7].ToString(),
+                                About = reader[8].ToString()
+                            };
+
+                            users.Add(user);
+                        }
+
+                        return users;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public static UserModel GetUser(int userID)
+        {
+            try
+            {
+                DatabaseConnection.OpenConnection();
+
+                string query = "SELECT * FROM [User] WHERE UserID=@UserID";
+
+                SqlCommand cmd = new SqlCommand(query, DatabaseConnection.connection);
+                cmd.Parameters.Add("@UserID", SqlDbType.Int).Value = userID;
+
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            UserModel user = new UserModel
+                            {
+                                UserID = int.Parse(reader[0].ToString()),
+                                Username = reader[1].ToString(),
+                                Email = reader[3].ToString(),
+                                Name = reader[4].ToString(),
+                                Surname = reader[5].ToString(),
+                                Phone = reader[6].ToString(),
+                                City = reader[7].ToString(),
+                                About = reader[8].ToString()
+                            };
+
+                            return user;
+                        }
+
+                        return null;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+            }
+            catch
+            {
+                return null;
             }
         }
 
@@ -140,23 +277,21 @@ namespace ShopAroundWeb.Database
 
                 string query = "UPDATE [User] SET Name=@Name, Surname=@Surname, Phone=@Phone, About=@About WHERE UserID=@UserID";
 
-                SqlCommand cmd = new SqlCommand(query, DatabaseConnection.connection);             
+                SqlCommand cmd = new SqlCommand(query, DatabaseConnection.connection);
                 cmd.Parameters.Add("@Name", SqlDbType.NVarChar).Value = userModel.Name;
                 cmd.Parameters.Add("@Surname", SqlDbType.NVarChar).Value = userModel.Surname;
-                cmd.Parameters.Add("@Phone", SqlDbType.NVarChar).Value = userModel.Phone;               
-                cmd.Parameters.Add("@About", SqlDbType.NVarChar).Value = userModel.About;      
+                cmd.Parameters.Add("@Phone", SqlDbType.NVarChar).Value = userModel.Phone;
+                cmd.Parameters.Add("@About", SqlDbType.NVarChar).Value = userModel.About;
                 cmd.Parameters.Add("@UserID", SqlDbType.Int).Value = userModel.UserID;
+
                 cmd.ExecuteNonQuery();
+                cmd.Dispose();
 
                 return true;
             }
             catch
             {
                 return false;
-            }
-            finally
-            {
-                DatabaseConnection.CloseConnection();
             }
         }
 
@@ -176,7 +311,9 @@ namespace ShopAroundWeb.Database
                 cmd.Parameters.Add("@Phone", SqlDbType.NVarChar).Value = userModel.Phone;
                 cmd.Parameters.Add("@About", SqlDbType.NVarChar).Value = userModel.About;
                 cmd.Parameters.Add("@UserID", SqlDbType.Int).Value = userModel.UserID;
+
                 cmd.ExecuteNonQuery();
+                cmd.Dispose();
 
                 return true;
             }
@@ -184,11 +321,174 @@ namespace ShopAroundWeb.Database
             {
                 return false;
             }
-            finally
+        }
+
+        public static List<ProductModel> GetWishlist(int userID)
+        {
+            try
             {
-                DatabaseConnection.CloseConnection();
+                DatabaseConnection.OpenConnection();
+
+                string query = "SELECT dbo.Product.* FROM dbo.Product INNER JOIN"
+                  + " dbo.Wishlist ON dbo.Product.ProductID = dbo.Wishlist.ProductID WHERE(dbo.Wishlist.UserID = @UserID)";
+
+                SqlCommand cmd = new SqlCommand(query, DatabaseConnection.connection);
+                cmd.Parameters.Add("@UserID", SqlDbType.Int).Value = userID;
+
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    List<ProductModel> products = new List<ProductModel>();
+
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            ProductModel product = new ProductModel
+                            {
+                                ProductID = int.Parse(reader[0].ToString()),
+                                ShopID = int.Parse(reader[1].ToString()),
+                                ProductTypeID = int.Parse(reader[2].ToString()),
+                                Code = reader[3].ToString(),
+                                Name = reader[4].ToString(),
+                                Brand = reader[5].ToString(),
+                                Color = reader[6].ToString(),
+                                Size = reader[7].ToString(),
+                                Material = reader[8].ToString(),
+                                Details = reader[9].ToString(),
+                                CombineImage = reader[10].ToString(),
+                                CoverImage = reader[11].ToString(),
+                                Image1 = reader[12].ToString(),
+                                Image2 = reader[13].ToString(),
+                                Image3 = reader[14].ToString(),
+                                Price = float.Parse(reader[15].ToString()),
+                                PurchaseLink = reader[16].ToString()
+                            };
+
+                            products.Add(product);
+                        }
+
+                        return products;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+            }
+            catch
+            {
+                return null;
             }
         }
+
+        public static bool AddProductToWishlist(Tuple<int, int> data)
+        {
+            try
+            {
+                DatabaseConnection.OpenConnection();
+
+                string query = "INSERT INTO [Wishlist] (UserID, ProductID) VALUES (@UserID, @ProductID)";
+
+                SqlCommand cmd = new SqlCommand(query, DatabaseConnection.connection);
+                cmd.Parameters.Add("@UserID", SqlDbType.Int).Value = data.Item2;
+                cmd.Parameters.Add("@ProductID", SqlDbType.Int).Value = data.Item1;
+
+                cmd.ExecuteNonQuery();
+                cmd.Dispose();
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public static List<int> GetFriends(int userID)
+        {
+            try
+            {
+                DatabaseConnection.OpenConnection();
+
+                string query = "SELECT FriendUserID FROM [Friend] WHERE UserID=@UserID";
+
+                SqlCommand cmd = new SqlCommand(query, DatabaseConnection.connection);
+                cmd.Parameters.Add("@UserID", SqlDbType.Int).Value = userID;
+
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    List<int> friends = new List<int>();
+
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            friends.Add(int.Parse(reader[0].ToString()));
+                        }
+
+                        return friends;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public static bool FollowUser(Tuple<int, int> followModel)
+        {
+            try
+            {
+                DatabaseConnection.OpenConnection();
+
+                string query = "INSERT INTO [Friend] (UserID, FriendUserID) VALUES (@UserID, @FriendUserID)";
+
+                SqlCommand cmd = new SqlCommand(query, DatabaseConnection.connection);
+                cmd.Parameters.Add("@UserID", SqlDbType.Int).Value = followModel.Item1;
+                cmd.Parameters.Add("@FriendUserID", SqlDbType.Int).Value = followModel.Item2;
+
+                cmd.ExecuteNonQuery();
+                cmd.Dispose();
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public static bool UnfollowUser(Tuple<int, int> follow)
+        {
+            try
+            {
+                DatabaseConnection.OpenConnection();
+
+                string query = "DELETE FROM [Friend] WHERE UserID=@UserID AND FriendUserID=@FriendUserID";
+
+                SqlCommand cmd = new SqlCommand(query, DatabaseConnection.connection);
+                cmd.Parameters.Add("@UserID", SqlDbType.Int).Value = follow.Item1;
+                cmd.Parameters.Add("@FriendUserID", SqlDbType.Int).Value = follow.Item2;
+
+                cmd.ExecuteNonQuery();
+                cmd.Dispose();
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+         
+        #endregion
+
+        #region Shop
 
         public static ShopModel GetShop(int shopID)
         {
@@ -197,44 +497,42 @@ namespace ShopAroundWeb.Database
                 DatabaseConnection.OpenConnection();
 
                 string query = "SELECT * FROM [Shop] WHERE ShopID=@ShopID";
+
                 SqlCommand cmd = new SqlCommand(query, DatabaseConnection.connection);
                 cmd.Parameters.Add("@ShopID", SqlDbType.Int).Value = shopID;
 
-                SqlDataReader reader = cmd.ExecuteReader();
-
-                if (reader.HasRows)
+                using (SqlDataReader reader = cmd.ExecuteReader())
                 {
-                    while (reader.Read())
+                    if (reader.HasRows)
                     {
-                        ShopModel shop = new ShopModel();
+                        while (reader.Read())
+                        {
+                            ShopModel shop = new ShopModel
+                            {
+                                ShopID = int.Parse(reader[0].ToString()),
+                                Email = reader[1].ToString(),
+                                Name = reader[3].ToString(),
+                                Phone = reader[4].ToString(),
+                                Address = reader[5].ToString(),
+                                City = byte.Parse(reader[6].ToString()),
+                                About = reader[7].ToString(),
+                                Logo = reader[8].ToString()
+                            };
 
-                        shop.ShopID = int.Parse(reader[0].ToString());
-                        shop.Email = reader[1].ToString();
-                        //shop.Password = reader[2].ToString();
-                        shop.Name = reader[3].ToString();
-                        shop.Phone = reader[4].ToString();
-                        shop.Address = reader[5].ToString();
-                        shop.City = byte.Parse(reader[6].ToString());
-                        shop.About = reader[7].ToString();
-                        shop.Logo = reader[8].ToString();
+                            return shop;
+                        }
 
-                        return shop;
+                        return null;
                     }
-
-                    return null;
-                }
-                else
-                {
-                    return null;
+                    else
+                    {
+                        return null;
+                    }
                 }
             }
             catch
             {
                 return null;
-            }
-            finally
-            {
-                DatabaseConnection.CloseConnection();
             }
         }
 
@@ -245,45 +543,91 @@ namespace ShopAroundWeb.Database
                 DatabaseConnection.OpenConnection();
 
                 string query = "SELECT TOP " + numberOfRecords + " * FROM [Shop]";
+
                 SqlCommand cmd = new SqlCommand(query, DatabaseConnection.connection);
 
-                SqlDataReader reader = cmd.ExecuteReader();
-
-                List<ShopModel> shops = new List<ShopModel>();
-
-                if (reader.HasRows)
+                using (SqlDataReader reader = cmd.ExecuteReader())
                 {
-                    while (reader.Read())
+                    List<ShopModel> shops = new List<ShopModel>();
+
+                    if (reader.HasRows)
                     {
-                        ShopModel shop = new ShopModel();
+                        while (reader.Read())
+                        {
+                            ShopModel shop = new ShopModel
+                            {
+                                ShopID = int.Parse(reader[0].ToString()),
+                                Email = reader[1].ToString(),
+                                Name = reader[3].ToString(),
+                                Phone = reader[4].ToString(),
+                                Address = reader[5].ToString(),
+                                City = byte.Parse(reader[6].ToString()),
+                                About = reader[7].ToString(),
+                                Logo = reader[8].ToString()
+                            };
 
-                        shop.ShopID = int.Parse(reader[0].ToString());
-                        shop.Email = reader[1].ToString();
-                        //shop.Password = reader[2].ToString();
-                        shop.Name = reader[3].ToString();
-                        shop.Phone = reader[4].ToString();
-                        shop.Address = reader[5].ToString();
-                        shop.City = byte.Parse(reader[6].ToString());
-                        shop.About = reader[7].ToString();
-                        shop.Logo = reader[8].ToString();
+                            shops.Add(shop);
+                        }
 
-                        shops.Add(shop);
+                        return shops;
                     }
-
-                    return shops;
-                }
-                else
-                {
-                    return null;
+                    else
+                    {
+                        return null;
+                    }
                 }
             }
             catch
             {
                 return null;
             }
-            finally
+        }
+
+        public static List<ShopModel> GetShops(string name)
+        {
+            try
             {
-                DatabaseConnection.CloseConnection();
+                DatabaseConnection.OpenConnection();
+
+                string query = "SELECT * FROM [Shop] WHERE Name LIKE @Name";
+
+                SqlCommand cmd = new SqlCommand(query, DatabaseConnection.connection);
+                cmd.Parameters.AddWithValue("@Name", "%" + name + "%");
+
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    List<ShopModel> shops = new List<ShopModel>();
+
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            ShopModel shop = new ShopModel
+                            {
+                                ShopID = int.Parse(reader[0].ToString()),
+                                Email = reader[1].ToString(),
+                                Name = reader[3].ToString(),
+                                Phone = reader[4].ToString(),
+                                Address = reader[5].ToString(),
+                                City = byte.Parse(reader[6].ToString()),
+                                About = reader[7].ToString(),
+                                Logo = reader[8].ToString()
+                            };
+
+                            shops.Add(shop);
+                        }
+
+                        return shops;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+            }
+            catch
+            {
+                return null;
             }
         }
 
@@ -294,20 +638,19 @@ namespace ShopAroundWeb.Database
                 DatabaseConnection.OpenConnection();
 
                 string query = "INSERT INTO [Follow] (UserID, ShopID) VALUES (@UserID, @ShopID)";
+
                 SqlCommand cmd = new SqlCommand(query, DatabaseConnection.connection);
                 cmd.Parameters.Add("@UserID", SqlDbType.Int).Value = followModel.UserID;
                 cmd.Parameters.Add("@ShopID", SqlDbType.Int).Value = followModel.ShopID;
+
                 cmd.ExecuteNonQuery();
+                cmd.Dispose();
 
                 return true;
             }
             catch
             {
                 return false;
-            }
-            finally
-            {
-                DatabaseConnection.CloseConnection();
             }
         }
 
@@ -318,20 +661,19 @@ namespace ShopAroundWeb.Database
                 DatabaseConnection.OpenConnection();
 
                 string query = "DELETE FROM [Follow] WHERE UserID=@UserID AND ShopID=@ShopID";
+
                 SqlCommand cmd = new SqlCommand(query, DatabaseConnection.connection);
                 cmd.Parameters.Add("@UserID", SqlDbType.Int).Value = follow.UserID;
                 cmd.Parameters.Add("@ShopID", SqlDbType.Int).Value = follow.ShopID;
+
                 cmd.ExecuteNonQuery();
+                cmd.Dispose();
 
                 return true;
             }
             catch
             {
                 return false;
-            }
-            finally
-            {
-                DatabaseConnection.CloseConnection();
             }
         }
 
@@ -347,51 +689,49 @@ namespace ShopAroundWeb.Database
                 SqlCommand cmd = new SqlCommand(query, DatabaseConnection.connection);
                 cmd.Parameters.Add("@UserID", SqlDbType.Int).Value = userID;
 
-                SqlDataReader reader = cmd.ExecuteReader();
-
-                List<ProductModel> products = new List<ProductModel>();
-
-                if (reader.HasRows)
+                using (SqlDataReader reader = cmd.ExecuteReader())
                 {
-                    while (reader.Read())
+                    List<ProductModel> products = new List<ProductModel>();
+
+                    if (reader.HasRows)
                     {
-                        ProductModel product = new ProductModel();
+                        while (reader.Read())
+                        {
+                            ProductModel product = new ProductModel
+                            {
+                                ProductID = int.Parse(reader[0].ToString()),
+                                ShopID = int.Parse(reader[1].ToString()),
+                                ProductTypeID = int.Parse(reader[2].ToString()),
+                                Code = reader[3].ToString(),
+                                Name = reader[4].ToString(),
+                                Brand = reader[5].ToString(),
+                                Color = reader[6].ToString(),
+                                Size = reader[7].ToString(),
+                                Material = reader[8].ToString(),
+                                Details = reader[9].ToString(),
+                                CombineImage = reader[10].ToString(),
+                                CoverImage = reader[11].ToString(),
+                                Image1 = reader[12].ToString(),
+                                Image2 = reader[13].ToString(),
+                                Image3 = reader[14].ToString(),
+                                Price = float.Parse(reader[15].ToString()),
+                                PurchaseLink = reader[16].ToString()
+                            };
 
-                        product.ProductID = int.Parse(reader[0].ToString());
-                        product.ShopID = int.Parse(reader[1].ToString());
-                        product.ProductTypeID = int.Parse(reader[2].ToString());
-                        product.Code = reader[3].ToString();
-                        product.Name = reader[4].ToString();
-                        product.Brand = reader[5].ToString();
-                        product.Color = reader[6].ToString();
-                        product.Size = reader[7].ToString();
-                        product.Material = reader[8].ToString();
-                        product.Details = reader[9].ToString();
-                        product.CombineImage = reader[10].ToString();
-                        product.CoverImage = reader[11].ToString();
-                        product.Image1 = reader[12].ToString();
-                        product.Image2 = reader[13].ToString();
-                        product.Image3 = reader[14].ToString();
-                        product.Price = float.Parse(reader[15].ToString());
-                        product.PurchaseLink = reader[16].ToString();                   
+                            products.Add(product);
+                        }
 
-                        products.Add(product);
+                        return products;
                     }
-
-                    return products;
-                }
-                else
-                {
-                    return null;
+                    else
+                    {
+                        return null;
+                    }
                 }
             }
             catch
             {
                 return null;
-            }
-            finally
-            {
-                DatabaseConnection.CloseConnection();
             }
         }
 
@@ -406,51 +746,49 @@ namespace ShopAroundWeb.Database
                 SqlCommand cmd = new SqlCommand(query, DatabaseConnection.connection);
                 cmd.Parameters.Add("@ShopID", SqlDbType.Int).Value = shopID;
 
-                SqlDataReader reader = cmd.ExecuteReader();
-
-                List<ProductModel> products = new List<ProductModel>();
-
-                if (reader.HasRows)
+                using (SqlDataReader reader = cmd.ExecuteReader())
                 {
-                    while (reader.Read())
+                    List<ProductModel> products = new List<ProductModel>();
+
+                    if (reader.HasRows)
                     {
-                        ProductModel product = new ProductModel();
+                        while (reader.Read())
+                        {
+                            ProductModel product = new ProductModel
+                            {
+                                ProductID = int.Parse(reader[0].ToString()),
+                                ShopID = int.Parse(reader[1].ToString()),
+                                ProductTypeID = int.Parse(reader[2].ToString()),
+                                Code = reader[3].ToString(),
+                                Name = reader[4].ToString(),
+                                Brand = reader[5].ToString(),
+                                Color = reader[6].ToString(),
+                                Size = reader[7].ToString(),
+                                Material = reader[8].ToString(),
+                                Details = reader[9].ToString(),
+                                CombineImage = reader[10].ToString(),
+                                CoverImage = reader[11].ToString(),
+                                Image1 = reader[12].ToString(),
+                                Image2 = reader[13].ToString(),
+                                Image3 = reader[14].ToString(),
+                                Price = float.Parse(reader[15].ToString()),
+                                PurchaseLink = reader[16].ToString()
+                            };
 
-                        product.ProductID = int.Parse(reader[0].ToString());
-                        product.ShopID = int.Parse(reader[1].ToString());
-                        product.ProductTypeID = int.Parse(reader[2].ToString());
-                        product.Code = reader[3].ToString();
-                        product.Name = reader[4].ToString();
-                        product.Brand = reader[5].ToString();
-                        product.Color = reader[6].ToString();
-                        product.Size = reader[7].ToString();
-                        product.Material = reader[8].ToString();
-                        product.Details = reader[9].ToString();
-                        product.CombineImage = reader[10].ToString();
-                        product.CoverImage = reader[11].ToString();
-                        product.Image1 = reader[12].ToString();
-                        product.Image2 = reader[13].ToString();
-                        product.Image3 = reader[14].ToString();
-                        product.Price = float.Parse(reader[15].ToString());
-                        product.PurchaseLink = reader[16].ToString();
+                            products.Add(product);
+                        }
 
-                        products.Add(product);
+                        return products;
                     }
-
-                    return products;
-                }
-                else
-                {
-                    return null;
+                    else
+                    {
+                        return null;
+                    }
                 }
             }
             catch
             {
                 return null;
-            }
-            finally
-            {
-                DatabaseConnection.CloseConnection();
             }
         }
 
@@ -464,75 +802,106 @@ namespace ShopAroundWeb.Database
 
                 SqlCommand cmd = new SqlCommand(query, DatabaseConnection.connection);
 
-                SqlDataReader reader = cmd.ExecuteReader();
-
-                List<ProductModel> products = new List<ProductModel>();
-
-                if (reader.HasRows)
+                using (SqlDataReader reader = cmd.ExecuteReader())
                 {
-                    while (reader.Read())
+                    List<ProductModel> products = new List<ProductModel>();
+
+                    if (reader.HasRows)
                     {
-                        ProductModel product = new ProductModel();
+                        while (reader.Read())
+                        {
+                            ProductModel product = new ProductModel
+                            {
+                                ProductID = int.Parse(reader[0].ToString()),
+                                ShopID = int.Parse(reader[1].ToString()),
+                                ProductTypeID = int.Parse(reader[2].ToString()),
+                                Code = reader[3].ToString(),
+                                Name = reader[4].ToString(),
+                                Brand = reader[5].ToString(),
+                                Color = reader[6].ToString(),
+                                Size = reader[7].ToString(),
+                                Material = reader[8].ToString(),
+                                Details = reader[9].ToString(),
+                                CombineImage = reader[10].ToString(),
+                                CoverImage = reader[11].ToString(),
+                                Image1 = reader[12].ToString(),
+                                Image2 = reader[13].ToString(),
+                                Image3 = reader[14].ToString(),
+                                Price = float.Parse(reader[15].ToString()),
+                                PurchaseLink = reader[16].ToString()
+                            };
 
-                        product.ProductID = int.Parse(reader[0].ToString());
-                        product.ShopID = int.Parse(reader[1].ToString());
-                        product.ProductTypeID = int.Parse(reader[2].ToString());
-                        product.Code = reader[3].ToString();
-                        product.Name = reader[4].ToString();
-                        product.Brand = reader[5].ToString();
-                        product.Color = reader[6].ToString();
-                        product.Size = reader[7].ToString();
-                        product.Material = reader[8].ToString();
-                        product.Details = reader[9].ToString();
-                        product.CombineImage = reader[10].ToString();
-                        product.CoverImage = reader[11].ToString();
-                        product.Image1 = reader[12].ToString();
-                        product.Image2 = reader[13].ToString();
-                        product.Image3 = reader[14].ToString();
-                        product.Price = float.Parse(reader[15].ToString());
-                        product.PurchaseLink = reader[16].ToString();
+                            products.Add(product);
+                        }
 
-                        products.Add(product);
+                        return products;
                     }
-
-                    return products;
-                }
-                else
-                {
-                    return null;
+                    else
+                    {
+                        return null;
+                    }
                 }
             }
             catch
             {
                 return null;
             }
-            finally
-            {
-                DatabaseConnection.CloseConnection();
-            }
         }
 
-        public static bool AddProductToWishlist(Tuple<int,int> data)
+        public static List<ProductModel> GetAllProducts(int productTypeID)
         {
             try
             {
                 DatabaseConnection.OpenConnection();
 
-                string query = "INSERT INTO [Wishlist] (UserID, ProductID) VALUES (@UserID, @ProductID)";
-                SqlCommand cmd = new SqlCommand(query, DatabaseConnection.connection);
-                cmd.Parameters.Add("@UserID", SqlDbType.Int).Value = data.Item2;
-                cmd.Parameters.Add("@ProductID", SqlDbType.Int).Value = data.Item1;
-                cmd.ExecuteNonQuery();
+                string query = "SELECT * FROM [Product] WHERE ProductTypeID=@ProductTypeID";
 
-                return true;
+                SqlCommand cmd = new SqlCommand(query, DatabaseConnection.connection);
+                cmd.Parameters.Add("@ProductTypeID", SqlDbType.Int).Value = productTypeID;
+
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    List<ProductModel> products = new List<ProductModel>();
+
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            ProductModel product = new ProductModel
+                            {
+                                ProductID = int.Parse(reader[0].ToString()),
+                                ShopID = int.Parse(reader[1].ToString()),
+                                ProductTypeID = int.Parse(reader[2].ToString()),
+                                Code = reader[3].ToString(),
+                                Name = reader[4].ToString(),
+                                Brand = reader[5].ToString(),
+                                Color = reader[6].ToString(),
+                                Size = reader[7].ToString(),
+                                Material = reader[8].ToString(),
+                                Details = reader[9].ToString(),
+                                CombineImage = reader[10].ToString(),
+                                CoverImage = reader[11].ToString(),
+                                Image1 = reader[12].ToString(),
+                                Image2 = reader[13].ToString(),
+                                Image3 = reader[14].ToString(),
+                                Price = float.Parse(reader[15].ToString()),
+                                PurchaseLink = reader[16].ToString()
+                            };
+
+                            products.Add(product);
+                        }
+
+                        return products;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
             }
             catch
             {
-                return false;
-            }
-            finally
-            {
-                DatabaseConnection.CloseConnection();
+                return null;
             }
         }
 
@@ -547,73 +916,39 @@ namespace ShopAroundWeb.Database
                 SqlCommand cmd = new SqlCommand(query, DatabaseConnection.connection);
                 cmd.Parameters.Add("@UserID", SqlDbType.Int).Value = userID;
 
-                SqlDataReader reader = cmd.ExecuteReader();
-
-                List<ShopModel> shops = new List<ShopModel>();
-
-                if (reader.HasRows)
+                using (SqlDataReader reader = cmd.ExecuteReader())
                 {
-                    while (reader.Read())
+                    List<ShopModel> shops = new List<ShopModel>();
+
+                    if (reader.HasRows)
                     {
-                        ShopModel shop = new ShopModel();
+                        while (reader.Read())
+                        {
+                            ShopModel shop = new ShopModel
+                            {
+                                ShopID = int.Parse(reader[0].ToString()),
+                                Name = reader[3].ToString(),
+                                Logo = reader[8].ToString()
+                            };
 
-                        shop.ShopID = int.Parse(reader[0].ToString());
-                        shop.Name = reader[3].ToString();
-                        shop.Logo = reader[8].ToString();
+                            shops.Add(shop);
+                        }
 
-                        shops.Add(shop);
+                        return shops;
                     }
-
-                    return shops;
-                }
-                else
-                {
-                    return null;
+                    else
+                    {
+                        return null;
+                    }
                 }
             }
             catch
             {
                 return null;
             }
-            finally
-            {
-                DatabaseConnection.CloseConnection();
-            }
         }
 
-        public static List<Tuple<int, int, int>> GetWishlist(int userID)
-        {
-            try
-            {
-                DatabaseConnection.OpenConnection();
-
-                string query = "SELECT * FROM [Wishlist] WHERE UserID=@UserID";
-                SqlCommand cmd = new SqlCommand(query, DatabaseConnection.connection);
-                cmd.Parameters.Add("@UserID", SqlDbType.Int).Value = userID;
-
-                SqlDataReader reader = cmd.ExecuteReader();
-
-                List<Tuple<int, int, int>> wishlist = new List<Tuple<int, int, int>>(); //WishlistID, UserID, ProductID
-
-                if (reader.HasRows)
-                {
-                    if (reader.Read())
-                    {
-                        wishlist.Add(new Tuple<int, int, int>(int.Parse(reader[0].ToString()), int.Parse(reader[1].ToString()), int.Parse(reader[2].ToString())));
-                    }
-                }
-
-                return wishlist;
-            }
-            catch
-            {
-                return null;
-            }
-            finally
-            {
-                DatabaseConnection.CloseConnection();
-            }
-        }
+        #endregion
 
     }
 }

@@ -29,6 +29,7 @@ namespace ShopAroundWeb.Database
             }
             catch
             {
+
             }
         }
 
@@ -43,6 +44,7 @@ namespace ShopAroundWeb.Database
             }
             catch
             {
+
             }
         }
     }
