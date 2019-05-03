@@ -16,6 +16,8 @@ namespace ShopAroundWeb
             {
                 Response.Redirect("/Login");
             }
+
+            Response.Redirect("/Products");
         }
     }
 }

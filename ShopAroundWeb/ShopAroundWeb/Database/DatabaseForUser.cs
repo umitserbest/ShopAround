@@ -38,6 +38,10 @@ namespace ShopAroundWeb.Database
             {
                 return false;
             }
+            finally
+            {
+                DatabaseConnection.CloseConnection();
+            }
         }
 
         public static bool IsAvailableEmail(string email)
@@ -67,6 +71,10 @@ namespace ShopAroundWeb.Database
             {
                 return false;
             }
+            finally
+            {
+                DatabaseConnection.CloseConnection();
+            }
         }
 
         public static bool SignUp(UserSignUpModel signUpModel)
@@ -90,6 +98,10 @@ namespace ShopAroundWeb.Database
             catch
             {
                 return false;
+            }
+            finally
+            {
+                DatabaseConnection.CloseConnection();
             }
         }
 
@@ -125,6 +137,10 @@ namespace ShopAroundWeb.Database
             catch
             {
                 return null;
+            }
+            finally
+            {
+                DatabaseConnection.CloseConnection();
             }
         }
 
@@ -172,6 +188,10 @@ namespace ShopAroundWeb.Database
             catch
             {
                 return null;
+            }
+            finally
+            {
+                DatabaseConnection.CloseConnection();
             }
         }
 
@@ -221,6 +241,10 @@ namespace ShopAroundWeb.Database
             {
                 return null;
             }
+            finally
+            {
+                DatabaseConnection.CloseConnection();
+            }
         }
 
         public static UserModel GetUser(int userID)
@@ -267,6 +291,10 @@ namespace ShopAroundWeb.Database
             {
                 return null;
             }
+            finally
+            {
+                DatabaseConnection.CloseConnection();
+            }
         }
 
         public static bool AddUserInfo(UserModel userModel)
@@ -292,6 +320,10 @@ namespace ShopAroundWeb.Database
             catch
             {
                 return false;
+            }
+            finally
+            {
+                DatabaseConnection.CloseConnection();
             }
         }
 
@@ -320,6 +352,10 @@ namespace ShopAroundWeb.Database
             catch
             {
                 return false;
+            }
+            finally
+            {
+                DatabaseConnection.CloseConnection();
             }
         }
 
@@ -379,6 +415,10 @@ namespace ShopAroundWeb.Database
             {
                 return null;
             }
+            finally
+            {
+                DatabaseConnection.CloseConnection();
+            }
         }
 
         public static bool AddProductToWishlist(Tuple<int, int> data)
@@ -401,6 +441,10 @@ namespace ShopAroundWeb.Database
             catch
             {
                 return false;
+            }
+            finally
+            {
+                DatabaseConnection.CloseConnection();
             }
         }
 
@@ -438,6 +482,10 @@ namespace ShopAroundWeb.Database
             {
                 return null;
             }
+            finally
+            {
+                DatabaseConnection.CloseConnection();
+            }
         }
 
         public static bool FollowUser(Tuple<int, int> followModel)
@@ -460,6 +508,10 @@ namespace ShopAroundWeb.Database
             catch
             {
                 return false;
+            }
+            finally
+            {
+                DatabaseConnection.CloseConnection();
             }
         }
 
@@ -484,8 +536,172 @@ namespace ShopAroundWeb.Database
             {
                 return false;
             }
+            finally
+            {
+                DatabaseConnection.CloseConnection();
+            }
         }
-         
+
+        public static bool DeleteProductFromWishlist(Tuple<int, int> tuple)
+        {
+            try
+            {
+                DatabaseConnection.OpenConnection();
+
+                string query = "DELETE FROM [Wishlist] WHERE UserID=@UserID AND ProductID=@ProductID";
+
+                SqlCommand cmd = new SqlCommand(query, DatabaseConnection.connection);
+                cmd.Parameters.Add("@UserID", SqlDbType.Int).Value = tuple.Item1;
+                cmd.Parameters.Add("@ProductID", SqlDbType.Int).Value = tuple.Item2;
+
+                cmd.ExecuteNonQuery();
+                cmd.Dispose();
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+            finally
+            {
+                DatabaseConnection.CloseConnection();
+            }
+        }
+
+        public static List<NotificationModel> GetNotifications(int userID)
+        {
+            try
+            {
+                DatabaseConnection.OpenConnection();
+
+                string query = "SELECT dbo.[User].UserID, dbo.[User].Username FROM dbo.[User] INNER JOIN"
+                + " dbo.Notification ON dbo.[User].UserID = dbo.[Notification].SenderID"
+                + " WHERE dbo.[Notification].ReceiverID=@ReceiverID ORDER BY dbo.[Notification].CreationDate";
+
+                SqlCommand cmd = new SqlCommand(query, DatabaseConnection.connection);
+                cmd.Parameters.Add("@ReceiverID", SqlDbType.Int).Value = userID;
+
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    List<NotificationModel> notifications = new List<NotificationModel>();
+
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            NotificationModel notification = new NotificationModel
+                            {
+                                SenderID = int.Parse(reader[0].ToString()),
+                                SenderUsername = reader[1].ToString(),
+                                ReceiverID = userID
+                            };
+
+                            notifications.Add(notification);
+                        }
+
+                        return notifications;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+            }
+            catch
+            {
+                return null;
+            }
+            finally
+            {
+                DatabaseConnection.CloseConnection();
+            }
+        }
+
+        public static bool AddNotification(NotificationModel notification)
+        {
+            try
+            {
+                DatabaseConnection.OpenConnection();
+
+                string query = "INSERT INTO [Notification] (SenderID, ReceiverID) VALUES (@SenderID, @ReceiverID)";
+
+                SqlCommand cmd = new SqlCommand(query, DatabaseConnection.connection);
+                cmd.Parameters.Add("@SenderID", SqlDbType.Int).Value = notification.SenderID;
+                cmd.Parameters.Add("@ReceiverID", SqlDbType.Int).Value = notification.ReceiverID;
+
+                cmd.ExecuteNonQuery();
+                cmd.Dispose();
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+            finally
+            {
+                DatabaseConnection.CloseConnection();
+            }
+        }
+
+        public static List<DiscountModel> GetDiscounts(int userID)
+        {
+            try
+            {
+                DatabaseConnection.OpenConnection();
+
+                string query = "SELECT dbo.Shop.ShopID, dbo.Discount.DiscountID, dbo.Discount.ProductID, dbo.Discount.Date, dbo.Discount.Details,"
+                  + " dbo.Discount.Code, dbo.Follow.UserID, dbo.Shop.Name, dbo.Shop.Logo FROM dbo.Discount INNER JOIN"
+                  + " dbo.Shop ON dbo.Discount.ShopID = dbo.Shop.ShopID INNER JOIN"
+                  + " dbo.Follow ON dbo.Shop.ShopID = dbo.Follow.ShopID GROUP BY dbo.Shop.ShopID,"
+                  + " dbo.Discount.DiscountID, dbo.Discount.ProductID, dbo.Discount.Date, dbo.Discount.Details, dbo.Discount.Code, dbo.Follow.UserID, dbo.Shop.Name, dbo.Shop.Logo"
+                  + " HAVING(dbo.Follow.UserID = @UserID)";
+
+                SqlCommand cmd = new SqlCommand(query, DatabaseConnection.connection);
+                cmd.Parameters.Add("@UserID", SqlDbType.Int).Value = userID;
+
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    List<DiscountModel> discounts = new List<DiscountModel>();
+
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            DiscountModel discount = new DiscountModel
+                            {
+                                ShopID = int.Parse(reader[0].ToString()),
+                                DiscountID = int.Parse(reader[1].ToString()),
+                                ProductID = int.Parse(reader[2].ToString()),
+                                Date = DateTime.Parse(reader[3].ToString()),
+                                Details = reader[4].ToString(),
+                                Code = reader[5].ToString(),
+                                ShopName = reader[7].ToString(),
+                                ShopLogo = reader[8].ToString()
+                            };
+
+                            discounts.Add(discount);
+                        }
+
+                        return discounts;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+            }
+            catch
+            {
+                return null;
+            }
+            finally
+            {
+                DatabaseConnection.CloseConnection();
+            }
+        }
+
         #endregion
 
         #region Shop
@@ -534,6 +750,10 @@ namespace ShopAroundWeb.Database
             {
                 return null;
             }
+            finally
+            {
+                DatabaseConnection.CloseConnection();
+            }
         }
 
         public static List<ShopModel> GetShops(int numberOfRecords)
@@ -580,6 +800,10 @@ namespace ShopAroundWeb.Database
             catch
             {
                 return null;
+            }
+            finally
+            {
+                DatabaseConnection.CloseConnection();
             }
         }
 
@@ -629,6 +853,10 @@ namespace ShopAroundWeb.Database
             {
                 return null;
             }
+            finally
+            {
+                DatabaseConnection.CloseConnection();
+            }
         }
 
         public static bool FollowShop(FollowModel followModel)
@@ -651,6 +879,10 @@ namespace ShopAroundWeb.Database
             catch
             {
                 return false;
+            }
+            finally
+            {
+                DatabaseConnection.CloseConnection();
             }
         }
 
@@ -675,15 +907,19 @@ namespace ShopAroundWeb.Database
             {
                 return false;
             }
+            finally
+            {
+                DatabaseConnection.CloseConnection();
+            }
         }
 
-        public static List<ProductModel> GetProductsForTheFlow(int numberOfRecords, int userID)
+        public static List<ProductModel> GetProductsForTheFlow(int count, int userID)
         {
             try
             {
                 DatabaseConnection.OpenConnection();
 
-                string query = "SELECT TOP " + numberOfRecords + " dbo.Product.* FROM dbo.Product INNER JOIN dbo.Shop ON dbo.Product.ShopID = dbo.Shop.ShopID INNER JOIN "
+                string query = "SELECT TOP " + count + " dbo.Product.* FROM dbo.Product INNER JOIN dbo.Shop ON dbo.Product.ShopID = dbo.Shop.ShopID INNER JOIN "
                  + "dbo.Follow ON dbo.Shop.ShopID = dbo.Follow.ShopID WHERE dbo.Follow.UserID=@UserID";
 
                 SqlCommand cmd = new SqlCommand(query, DatabaseConnection.connection);
@@ -732,6 +968,10 @@ namespace ShopAroundWeb.Database
             catch
             {
                 return null;
+            }
+            finally
+            {
+                DatabaseConnection.CloseConnection();
             }
         }
 
@@ -790,6 +1030,10 @@ namespace ShopAroundWeb.Database
             {
                 return null;
             }
+            finally
+            {
+                DatabaseConnection.CloseConnection();
+            }
         }
 
         public static List<ProductModel> GetAllProducts()
@@ -845,6 +1089,84 @@ namespace ShopAroundWeb.Database
             catch
             {
                 return null;
+            }
+            finally
+            {
+                DatabaseConnection.CloseConnection();
+            }
+        }
+
+        public static List<ProductModel> GetAllProducts(Tuple<int, int, int> tuple) //userID, count, startPoint
+        {
+            try
+            {
+                DatabaseConnection.OpenConnection();
+
+                string query = "SELECT * FROM [Product]";
+
+                SqlCommand cmd = new SqlCommand(query, DatabaseConnection.connection);
+
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    List<ProductModel> products = new List<ProductModel>();
+
+                    if (reader.HasRows)
+                    {
+                        int productCount = 0;
+
+                        while (reader.Read())
+                        {
+                            ProductModel product = new ProductModel
+                            {
+                                ProductID = int.Parse(reader[0].ToString()),
+                                ShopID = int.Parse(reader[1].ToString()),
+                                ProductTypeID = int.Parse(reader[2].ToString()),
+                                Code = reader[3].ToString(),
+                                Name = reader[4].ToString(),
+                                Brand = reader[5].ToString(),
+                                Color = reader[6].ToString(),
+                                Size = reader[7].ToString(),
+                                Material = reader[8].ToString(),
+                                Details = reader[9].ToString(),
+                                CombineImage = reader[10].ToString(),
+                                CoverImage = reader[11].ToString(),
+                                Image1 = reader[12].ToString(),
+                                Image2 = reader[13].ToString(),
+                                Image3 = reader[14].ToString(),
+                                Price = float.Parse(reader[15].ToString()),
+                                PurchaseLink = reader[16].ToString()
+                            };
+
+                            productCount++;
+
+                            if (productCount < tuple.Item2 + tuple.Item3) //Item2 => count
+                            {
+                                if (productCount >= tuple.Item3) //Item3 => startPoint
+                                {
+                                    products.Add(product);
+                                }
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
+
+                        return products;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+            }
+            catch
+            {
+                return null;
+            }
+            finally
+            {
+                DatabaseConnection.CloseConnection();
             }
         }
 
@@ -903,6 +1225,10 @@ namespace ShopAroundWeb.Database
             {
                 return null;
             }
+            finally
+            {
+                DatabaseConnection.CloseConnection();
+            }
         }
 
         public static List<ShopModel> GetFollowedShopsInfo(int userID)
@@ -945,6 +1271,10 @@ namespace ShopAroundWeb.Database
             catch
             {
                 return null;
+            }
+            finally
+            {
+                DatabaseConnection.CloseConnection();
             }
         }
 

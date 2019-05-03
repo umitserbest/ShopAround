@@ -14,6 +14,8 @@ namespace ShopAroundWeb
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            //string json = JsonConvert.SerializeObject(new Tuple<int, int, int>(1003, 12, 0));
+
             Response.Redirect("Login");
         }
     }

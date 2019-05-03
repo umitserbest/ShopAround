@@ -55,8 +55,17 @@ namespace ShopAroundWeb
 
             /* Private Area */
             routes.MapPageRoute("Dashboard", "Dashboard", "~/Dashboard.aspx");
+
             routes.MapPageRoute("Profile", "Profile", "~/Profile.aspx");
+
+            routes.MapPageRoute("Products", "Products", "~/Products.aspx");
             routes.MapPageRoute("AddProduct", "AddProduct", "~/AddProduct.aspx");
+            routes.MapPageRoute("EditProduct", "EditProduct", "~/EditProduct.aspx");
+
+            routes.MapPageRoute("Discounts", "Discounts", "~/Discounts.aspx");
+            routes.MapPageRoute("AddDiscount", "AddDiscount", "~/AddDiscount.aspx");
+            routes.MapPageRoute("EditDiscount", "EditDiscount", "~/EditDiscount.aspx");
+
         }
     }
 }

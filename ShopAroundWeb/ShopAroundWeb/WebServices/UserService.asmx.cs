@@ -256,12 +256,147 @@ namespace ShopAroundWeb.WebServices
                 }
                 else
                 {
-                    Context.Response.Write("false1");
+                    Context.Response.Write("false");
                 }
             }
             catch
             {
-                Context.Response.Write("false2");
+                Context.Response.Write("false");
+            }
+        }
+
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public void RemoveProductFromWishlist(string wishlist)
+        {
+            try
+            {
+                Tuple<int, int> wishlistModel = JsonConvert.DeserializeObject<Tuple<int, int>>(wishlist); //UserID, ProductID
+
+                if (DatabaseForUser.DeleteProductFromWishlist(wishlistModel))
+                {
+                    Context.Response.Write("true");
+                }
+                else
+                {
+                    Context.Response.Write("false");
+                }
+            }
+            catch
+            {
+                Context.Response.Write("false");
+            }
+        }
+
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public void GetNotifications(string userID)
+        {
+            try
+            {
+                int intUserID = JsonConvert.DeserializeObject<int>(userID);
+
+                List<NotificationModel> notifications = DatabaseForUser.GetNotifications(intUserID);
+
+                Context.Response.Write(JsonConvert.SerializeObject(notifications));
+            }
+            catch
+            {
+                Context.Response.Write("false");
+            }
+        }
+
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public void AddNotification(string notification)
+        {
+            try
+            {
+                NotificationModel notificationModel = JsonConvert.DeserializeObject<NotificationModel>(notification);
+
+                if (DatabaseForUser.AddNotification(notificationModel))
+                {
+                    Context.Response.Write("true");
+                }
+                else
+                {
+                    Context.Response.Write("false");
+                }
+            }
+            catch
+            {
+                Context.Response.Write("false");
+            }
+        }
+
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public void GetDiscounts(string userID)
+        {
+            try
+            {
+                int intUserID = JsonConvert.DeserializeObject<int>(userID);
+
+                List<DiscountModel> discounts = DatabaseForUser.GetDiscounts(intUserID);
+
+                Context.Response.Write(JsonConvert.SerializeObject(discounts));
+            }
+            catch
+            {
+                Context.Response.Write("false");
+            }
+        }
+
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public void GetTheFlow(string userID)
+        {
+            try
+            {
+                int intUserID = JsonConvert.DeserializeObject<int>(userID);
+
+                List<ProductModel> products = DatabaseForUser.GetProductsForTheFlow(50, intUserID);
+
+                Context.Response.Write(JsonConvert.SerializeObject(products));
+            }
+            catch
+            {
+                Context.Response.Write("false");
+            }
+        }
+
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public void GetTheExplore(string explore)
+        {
+            try
+            {
+                Tuple<int, int, int> tuple = JsonConvert.DeserializeObject<Tuple<int, int, int>>(explore); //userID, count, startPoint
+
+                List<ProductModel> products = DatabaseForUser.GetAllProducts(tuple);
+                Context.Response.Write(JsonConvert.SerializeObject(products));
+            }
+            catch
+            {
+                Context.Response.Write("false");
+            }
+        }
+
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public void GetTheExploreTEST()
+        {
+            try
+            {
+                Tuple<int, int, int> tuple = new Tuple<int, int, int>(2, 9, 9);
+                //Tuple<int, int, int> tuple = JsonConvert.DeserializeObject<Tuple<int, int, int>>(explore); //userID, count, startPoint
+
+                List<ProductModel> products = DatabaseForUser.GetAllProducts(tuple);
+                Context.Response.Write(JsonConvert.SerializeObject(products));
+            }
+            catch
+            {
+                Context.Response.Write("false");
             }
         }
 
@@ -379,38 +514,9 @@ namespace ShopAroundWeb.WebServices
             }
         }
         
-        [WebMethod]
-        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public void GetTheFlow(string userID)
-        {
-            try
-            {
-                int intUserID = JsonConvert.DeserializeObject<int>(userID);
+        
 
-                List<ProductModel> products = DatabaseForUser.GetProductsForTheFlow(50, intUserID);
-
-                Context.Response.Write(JsonConvert.SerializeObject(products));
-            }
-            catch
-            {
-                Context.Response.Write("false");
-            }
-        }
-
-        [WebMethod]
-        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public void GetTheExplore()
-        {
-            try
-            {
-                List<ProductModel> products = DatabaseForUser.GetAllProducts();
-                Context.Response.Write(JsonConvert.SerializeObject(products));
-            }
-            catch
-            {
-                Context.Response.Write("false");
-            }
-        }
+        
 
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]

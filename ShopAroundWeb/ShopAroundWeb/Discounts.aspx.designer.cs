@@ -10,6 +10,6 @@
 namespace ShopAroundWeb {
     
     
-    public partial class Products {
+    public partial class Discounts {
     }
 }

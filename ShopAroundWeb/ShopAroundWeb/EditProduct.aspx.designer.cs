@@ -10,7 +10,7 @@
 namespace ShopAroundWeb {
     
     
-    public partial class AddProduct {
+    public partial class EditProduct {
         
         /// <summary>
         /// pnlError control.

@@ -62,10 +62,12 @@ namespace ShopAroundWeb
                 product.Image1 = image1Name;
                 product.Image2 = image2Name;
                 product.Image3 = image3Name;
+                product.Price = int.Parse(txtPrice.Text);
+                product.PurchaseLink = txtPurchaseLink.Text;
 
                 DatabaseForShop.AddProduct(product);
 
-                Response.Redirect("/Dashboard");
+                Response.Redirect("/Products");
 
                 //pnlSuccessful.Visible = true;
             }

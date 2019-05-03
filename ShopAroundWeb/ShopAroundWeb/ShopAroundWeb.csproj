@@ -70,6 +70,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="EditDiscount.aspx" />
+    <Content Include="AddDiscount.aspx" />
+    <Content Include="EditProduct.aspx" />
     <Content Include="AddProduct.aspx" />
     <Content Include="css\dashboard.css" />
     <Content Include="css\login.css" />
@@ -77,6 +80,7 @@
     <Content Include="css\register.css" />
     <Content Include="Dashboard.aspx" />
     <Content Include="Default.aspx" />
+    <Content Include="ForgotPassword.aspx" />
     <Content Include="Global.asax" />
     <Content Include="favicon.ico" />
     <Content Include="img\hanger.png" />
@@ -86,6 +90,7 @@
     <Content Include="js\login.js" />
     <Content Include="js\register.js" />
     <Content Include="Login.aspx" />
+    <Content Include="Discounts.aspx" />
     <Content Include="Products.aspx" />
     <Content Include="Profile.aspx" />
     <Content Include="Register.aspx" />
@@ -93,6 +98,27 @@
     <Content Include="WebServices\UserService.asmx" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EditDiscount.aspx.cs">
+      <DependentUpon>EditDiscount.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="EditDiscount.aspx.designer.cs">
+      <DependentUpon>EditDiscount.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AddDiscount.aspx.cs">
+      <DependentUpon>AddDiscount.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AddDiscount.aspx.designer.cs">
+      <DependentUpon>AddDiscount.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="EditProduct.aspx.cs">
+      <DependentUpon>EditProduct.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="EditProduct.aspx.designer.cs">
+      <DependentUpon>EditProduct.aspx</DependentUpon>
+    </Compile>
     <Compile Include="AddProduct.aspx.cs">
       <DependentUpon>AddProduct.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -103,7 +129,16 @@
     <Compile Include="Database\DatabaseConnection.cs" />
     <Compile Include="Database\DatabaseForUser.cs" />
     <Compile Include="Database\DatabaseForShop.cs" />
+    <Compile Include="ForgotPassword.aspx.cs">
+      <DependentUpon>ForgotPassword.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ForgotPassword.aspx.designer.cs">
+      <DependentUpon>ForgotPassword.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DiscountModel.cs" />
     <Compile Include="Models\FollowModel.cs" />
+    <Compile Include="Models\NotificationModel.cs" />
     <Compile Include="Models\ProductModel.cs" />
     <Compile Include="Models\ProductTypeModel.cs" />
     <Compile Include="Models\ShopModel.cs" />
@@ -150,6 +185,13 @@
     <Compile Include="Menu.Master.designer.cs">
       <DependentUpon>Menu.Master</DependentUpon>
     </Compile>
+    <Compile Include="Discounts.aspx.cs">
+      <DependentUpon>Discounts.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Discounts.aspx.designer.cs">
+      <DependentUpon>Discounts.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Products.aspx.cs">
       <DependentUpon>Products.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -193,7 +235,6 @@
   <ItemGroup>
     <Folder Include="ShopAssets\Logo\" />
     <Folder Include="ShopAssets\Products\" />
-    <Folder Include="UserAssets\ProfileImages\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

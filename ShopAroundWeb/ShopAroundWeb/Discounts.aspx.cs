@@ -9,9 +9,9 @@ using System.Web.UI.WebControls;
 
 namespace ShopAroundWeb
 {
-    public partial class Products : Page
+    public partial class Discounts : Page
     {
-        public List<ProductModel> products;
+        public List<DiscountModel> discounts;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -23,7 +23,7 @@ namespace ShopAroundWeb
             if (!IsPostBack)
             {
                 string shopID = HttpContext.Current.Request.Cookies["Shop"]["ShopID"];
-                products = DatabaseForShop.GetProducts(int.Parse(shopID));
+                discounts = DatabaseForShop.GetDiscounts(int.Parse(shopID));
             }           
         }
     }

@@ -31,42 +31,42 @@
 		<nav class="col-md-2 d-none d-md-block bg-light sidebar">
 		  <div class="sidebar-sticky">
 			<ul class="nav flex-column">
-			  <li class="nav-item">
+			  <%--<li class="nav-item">
 				<a class="nav-link" href="/Dashboard">
 				  <span data-feather="home"></span>
-				  Dashboard <%--<span class="sr-only">(current)</span>--%>
+				  Dashboard <%--<span class="sr-only">(current)</span>
 				</a>
-			  </li>
+			  </li>--%>
 			  <li class="nav-item">
 				<a class="nav-link" href="/Profile">
 				  <span data-feather="user"></span>
 				  Profile
 				</a>
 			  </li>
-			  <%--<li class="nav-item">
-				<a class="nav-link" href="#">
+			  <li class="nav-item">
+				<a class="nav-link" href="/Products">
 				  <span data-feather="shopping-cart"></span>
 				  Products
 				</a>
-			  </li>--%>
+			  </li>
 			  <li class="nav-item">
 				<a class="nav-link" href="/AddProduct">
 				  <span data-feather="users"></span>
 				  Add Products
 				</a>
 			  </li>
-			  <%--<li class="nav-item">
-				<a class="nav-link" href="#">
+			  <li class="nav-item">
+				<a class="nav-link" href="/Discounts">
 				  <span data-feather="bar-chart-2"></span>
-				  Reports
+				  Discounts
 				</a>
 			  </li>
 			  <li class="nav-item">
-				<a class="nav-link" href="#">
+				<a class="nav-link" href="/AddDiscount">
 				  <span data-feather="layers"></span>
-				  Integrations
+				  Add Discount
 				</a>
-			  </li>--%>
+			  </li>
 			</ul>
 
 			<%--<h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">

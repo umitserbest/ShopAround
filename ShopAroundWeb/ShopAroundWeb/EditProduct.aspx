@@ -1,18 +1,18 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Menu.Master" AutoEventWireup="true" CodeBehind="AddProduct.aspx.cs" Inherits="ShopAroundWeb.AddProduct" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Menu.Master" AutoEventWireup="true" CodeBehind="EditProduct.aspx.cs" Inherits="ShopAroundWeb.EditProduct" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
 	<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Add Product</h1>
+        <h1 class="h2">Edit Product</h1>
         <div class="btn-toolbar mb-2 mb-md-0">     
         </div>
       </div>
 		
       <div class="row">    
 		<div class="col-md-8 order-md-1">
-		  <h4 class="mb-3">Create Your New Product</h4>
+		  <h4 class="mb-3">Edit Your Product</h4>
 
 			<asp:Panel ID="pnlError" runat="server">
 				<div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -86,11 +86,11 @@
 				<asp:TextBox ID="txtMaterial" CssClass="form-control" runat="server"></asp:TextBox>
 			</div>	
 
-			  <div class="mb-3">
+			<div class="mb-3">
 				<label for="details">Details</label>
-				  <asp:TextBox ID="txtDetails" CssClass="form-control" runat="server"></asp:TextBox>
-			  </div>			
-
+				<asp:TextBox ID="txtDetails" CssClass="form-control" runat="server"></asp:TextBox>
+			</div>
+            
             <div class="mb-3">
 				<label for="details">Price</label>
 				<asp:TextBox ID="txtPrice" CssClass="form-control" runat="server"></asp:TextBox>
