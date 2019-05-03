@@ -2,12 +2,14 @@
 using ShopAroundMobile.Helpers;
 using ShopAroundMobile.Model;
 using ShopAroundMobile.Models;
+using ShopAroundMobile.TabbedPages;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -15,19 +17,13 @@ namespace ShopAroundMobile.ViewModels
 {
     public class ShowcaseViewModel : INotifyPropertyChanged
     {
-        List<Tuple<int, int, int>> wishlist = new List<Tuple<int, int, int>>();
+        List<ProductModel> wishlistProducts = new List<ProductModel>();
         string Logopath = "https://shoparound.umitserbest.com/shopassets/logo/";
         string Productpath = "https://shoparound.umitserbest.com/shopassets/products/";
-
-        ListView list = new ListView();
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged([CallerMemberName]string propName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
-        }
-
+        bool isLoading;
+        public ListView list;
+        public List<ShowcaseModel> Item = new List<ShowcaseModel>();
+                
         private bool _isRefreshing = false;
         public bool IsRefreshing
         {
@@ -71,7 +67,6 @@ namespace ShopAroundMobile.ViewModels
             {
                 try
                 {
-
                     products = JsonConvert.DeserializeObject<List<ProductModel>>(productResult);
                     foreach (ProductModel product in products)
                     {
@@ -80,7 +75,6 @@ namespace ShopAroundMobile.ViewModels
                 }
                 catch (Exception)
                 {
-
                     throw;
                 }
                 
@@ -98,7 +92,6 @@ namespace ShopAroundMobile.ViewModels
                 }
                 catch (Exception)
                 {
-
                     throw;
                 }
             }
@@ -118,11 +111,43 @@ namespace ShopAroundMobile.ViewModels
                 }
 
                 listView.ItemsSource = showcases;
-
                 list = listView;
+                //Item = showcases;
+
+                //listView.ItemAppearing += async (sender, e) =>
+                //{
+                //    if (isLoading || showcases.Count == 0)
+                //        return;
+
+                //    //hit bottom!
+                //    if (e.Item.ToString() == Item[Item.Count - 1].ToString())
+                //    {
+                //        await LoadItems();
+                //    }
+                //};
+
+                //await LoadItems();    
             }
 
         }
+
+        //private async Task LoadItems()
+        //{
+        //    isLoading = true;
+
+        //    //simulator delayed load
+        //    Device.StartTimer(TimeSpan.FromSeconds(2), () =>
+        //    {
+        //        for (int i = 0; i < 5; i++)
+        //        {
+        //            Item.Add(Item);                   
+        //        }
+
+        //        isLoading = false;
+        //        //stop timer
+        //        return false;
+        //    });
+        //}
 
         public Command<ShowcaseModel> AddWishList
         {
@@ -139,49 +164,63 @@ namespace ShopAroundMobile.ViewModels
      
         private async void AddWishListAsync(int productID)
         {
-            //bool addedProduct = false;
-            //foreach (var item in wishlist)
-            //{
-            //    if (item.Item3 != productID)
-            //    {
-            //        string userObject = JsonConvert.SerializeObject(new Tuple<int, int>(productID, App.UserdId));
-            //        string result = await WebService.SendDataAsync("AddProductWishlist", "wishlist=" + userObject);
-            //        addedProduct = true;
-            //    }
-            //}
-            //if (addedProduct)
-            //{
-            //    DependencyService.Get<IMessage>().Message("This product added to your Wishlist.");
-            //}
-            string userObject = JsonConvert.SerializeObject(new Tuple<int, int>(productID, App.AppUser.UserID));
-            string result = await WebService.SendDataAsync("AddProductWishlist", "wishlist=" + userObject);
-            DependencyService.Get<IMessage>().Message("This product added to your Wishlist.");
+            bool isExistWishlist = false;
+
+            foreach (var item in wishlistProducts)
+            {
+                if (item.ProductID == productID)
+                {
+                    isExistWishlist = true;
+                }
+            }
+
+            if (!isExistWishlist)
+            {
+                string userObject = JsonConvert.SerializeObject(new Tuple<int, int>(productID, App.AppUser.UserID));
+                string result = await WebService.SendDataAsync("AddProductWishlist", "wishlist=" + userObject);
+
+                if (result == "true")
+                {
+                    wishlistProducts.Add(new ProductModel() { ProductID = productID });
+                    DependencyService.Get<IMessage>().Message("This product added to your Wishlist.");
+                    TabPageControl.profileTabbed.Reload();
+                }
+            }
+            else
+            {
+                DependencyService.Get<IMessage>().Message("This product already in your wishlist.");
+            }
         }
 
         private async void GetWishlistInfo()
         {
-            wishlist = new List<Tuple<int, int, int>>();
-
-            string wishresult = await WebService.SendDataAsync("GetWishlist", "userID=" + App.AppUser.UserID); // 2 yerine App.UserID; 
+            string wishresult = await WebService.SendDataAsync("GetWishlist", "userID=" + App.AppUser.UserID);  
 
             if (wishresult != "Error" && wishresult != null && wishresult.Length > 6)
             {
-                wishlist = JsonConvert.DeserializeObject<List<Tuple<int, int, int>>>(wishresult);
+                wishlistProducts = JsonConvert.DeserializeObject<List<ProductModel>>(wishresult);
 
             }
 
         }
-
-        public ShowcaseViewModel()
-        {
-
-        }
+        
 
         public ShowcaseViewModel(ListView listview)
         {
+            
             GetWishlistInfo();
             GetFlowInfo(listview);
+            
         }
-        
+
+       
+
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanged([CallerMemberName]string propName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
+        }
     }
 }

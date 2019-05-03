@@ -16,16 +16,16 @@
                 <RowDefinition Height="1000" />
             </Grid.RowDefinitions>
 
-            <Image Aspect="AspectFill" Source="https://i.pinimg.com/originals/5b/31/c7/5b31c7ff0923d641d6da1929f5d4c0c5.jpg" />
+            <Image Aspect="AspectFill" Source="https://cdn.pixabay.com/photo/2018/05/24/04/56/tag-3425870_1280.jpg" />
             <Image Aspect="Fill" Margin="0,-1,0,-1" Source="https://github.com/kphillpotts/XamarinFormsLayoutChallenges/blob/master/SocialNetwork/SocialNetwork/SocialNetwork.Android/Resources/drawable-hdpi/CurvedMask.png?raw=true" VerticalOptions="End" />
 
-            <image:CircleImage BorderThickness="5" Aspect="Fill" HeightRequest="100" HorizontalOptions="Center" Source="https://steamuserimages-a.akamaihd.net/ugc/263849659131348331/E48DD9974AAECCF9330B7E9E3782CAC43EC06010/" TranslationY="50" VerticalOptions="End" WidthRequest="100" ></image:CircleImage>
+            <image:CircleImage BorderThickness="5" Aspect="Fill" HeightRequest="100" HorizontalOptions="Center" Source="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" TranslationY="50" VerticalOptions="End" WidthRequest="100" ></image:CircleImage>
 
 
             <!--  Profile Name  -->
             <StackLayout Grid.Row="1" Padding="0,50,0,00" HorizontalOptions="Center">
-                <Label x:Name="UserName" Text="Adidas" TextColor="Black" HorizontalOptions="Center" FontSize="20" FontAttributes="Bold"/>
-                <Label Margin="0,-5" Text="@adidas" HorizontalOptions="Center" TextColor="lightgray" FontSize="14" />
+                <Label x:Name="UserName" TextColor="Black" HorizontalOptions="Center" FontSize="20" FontAttributes="Bold"/>
+                <Label x:Name="User" Margin="0,-5" HorizontalOptions="Center" TextColor="lightgray" FontSize="14" />
             </StackLayout>
 
             <!--  Social Stats Section  -->
@@ -67,12 +67,7 @@
                                     <RowDefinition Height="200"></RowDefinition>
                                 </Grid.RowDefinitions>
 
-                                <Image BackgroundColor="Red" Grid.Column="0" Grid.Row="0" ></Image>
-                                <Image BackgroundColor="Blue" Grid.Column="1" Grid.Row="0" ></Image>
-                                <Image BackgroundColor="Yellow" Grid.Column="0" Grid.Row="1"></Image>
-                                <Image BackgroundColor="Green" Grid.Column="1" Grid.Row="1"></Image>
-                                <Image BackgroundColor="Black" Grid.Column="0" Grid.Row="2"></Image>
-                                <Image BackgroundColor="Pink" Grid.Column="1" Grid.Row="2"></Image>
+                               
 
                             </Grid>
                         </ScrollView>

@@ -8,7 +8,7 @@ using Android.Widget;
 using Android.OS;
 using IconEntry.FormsPlugin.Android;
 using CarouselView.FormsPlugin.Android;
-using FFImageLoading.Forms.Droid;
+using FFImageLoading.Forms;
 
 namespace ShopAroundMobile.Droid
 {
@@ -21,22 +21,32 @@ namespace ShopAroundMobile.Droid
             ToolbarResource = Resource.Layout.Toolbar;
 
             base.OnCreate(savedInstanceState);
-           
 
-            IconEntryRenderer.Init();
+            
+            FFImageLoading.Forms.Platform.CachedImageRenderer.Init(true);
             Rg.Plugins.Popup.Popup.Init(this, savedInstanceState);
-            CarouselViewRenderer.Init();
-            //FFImageLoading.Forms.Platform.CachedImageRenderer.Init(true);
+            
             Plugin.CurrentActivity.CrossCurrentActivity.Current.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             LoadApplication(new App());
 
             
         }
-
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Android.Content.PM.Permission[] grantResults)
         {
             Plugin.Permissions.PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+            base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
+
+        public override void OnLowMemory()
+        {
+            GC.Collect();
+        }
+
+
+        //public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Android.Content.PM.Permission[] grantResults)
+        //{
+        //    Plugin.Permissions.PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+        //}
     }
 }

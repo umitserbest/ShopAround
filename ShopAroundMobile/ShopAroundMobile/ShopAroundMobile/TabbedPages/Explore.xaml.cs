@@ -11,18 +11,22 @@ using ShopAroundMobile.Models;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using ShopAroundMobile.ViewModels;
+using FFImageLoading.Forms;
 
 namespace ShopAroundMobile.TabbedPages
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class Explore : ContentPage
     {
+        int productPosition = 0;
+        bool reloaded;
+
         public Explore()
         {
             InitializeComponent();
-            GetProductImagesAync();
-           //BindingContext = new ExploreViewModel();
+            //GetProductImagesAync(0);
         }
+
 
         private async void SearchBar_Focused(object sender, FocusEventArgs e)
         {
@@ -32,112 +36,158 @@ namespace ShopAroundMobile.TabbedPages
         List<ProductModel> Products = new List<ProductModel>();
         string Logopath = "https://shoparound.umitserbest.com/shopassets/logo/";
         string Productpath = "https://shoparound.umitserbest.com/shopassets/products/";
-       
 
-        private async void GetProductImagesAync()
+        public void Reload()
         {
-            ProductModel signUpModel = new ProductModel();
-            string signUpObject = JsonConvert.SerializeObject(signUpModel);
+            //productPosition = 0;
 
-            string result = await WebService.SendDataAsync("GetTheExplore", null);
+            //int rowCount = ProductsGrid.RowDefinitions.Count;
 
-            if (result != "Error" && result != null && result.Length > 6)
+            //for (int i = 0; i < rowCount; i++)
+            //{
+            //    ProductsGrid.RowDefinitions.RemoveAt(i);
+
+            //}
+
+            if (!reloaded)
             {
-
-                Products = JsonConvert.DeserializeObject<List<ProductModel>>(result);
-
-                for (int i = 0; i < Products.Count + 1 / 2; i++)
-                {
-                    ProductsGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(150) });
-
-
-                }
-
-                int counter = 0;
-
-                for (int j = 0; j < Products.Count + 1 / 2; j++)
-                {
-
-                    for (int k = 0; k < 3; k++)
-                    {
-                        if (counter == Products.Count)
-                        {
-                            j = Products.Count + 1;
-                            break;
-                        }
-                        Image image = new Image();
-                        image.Source = Productpath + Products[counter].CoverImage;
-                        image.Aspect = Aspect.AspectFill;
-                        ProductsGrid.Children.Add(image, k, j);
-                        counter++;
-
-
-                    }
-
-
-                }
+                GetProductImagesAync(0);
+                reloaded = true;
             }
 
+          
 
+        }
+
+        private async void GetProductImagesAync(int StartRowPosition)
+        {
+
+            try
+            {
+                Tuple<int, int, int> tuple = new Tuple<int, int, int>(App.AppUser.UserID, 9, productPosition);
+
+               
+
+                string tupleJson = JsonConvert.SerializeObject(tuple);
+
+                string result = await WebService.SendDataAsync("GetTheExplore", "explore=" + tupleJson);
+
+                if (result != "Error" && result != null && result.Length > 6)
+                {
+
+                    Products = JsonConvert.DeserializeObject<List<ProductModel>>(result);
+
+                    productPosition += 9;
+
+                    for (int i = 0; i < (Products.Count + 2) / 3; i++)
+                    {
+                        ProductsGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(150) });                        
+                    }
+
+                    int counter = 0;
+
+                    for (int j = StartRowPosition; j < ((Products.Count + 2) / 3) + StartRowPosition; j++)
+                    {
+
+                        for (int k = 0; k < 3; k++)
+                        {
+                            if (counter == Products.Count)
+                            {
+                                j = Products.Count + 1;
+                                break;
+                            }
+                            //Image image = new Image();
+                            CachedImage image = new CachedImage();
+                            image.Source = Productpath + Products[counter].CoverImage;
+                            image.Aspect = Aspect.AspectFill;
+                            ProductModel product = Products[counter];
+
+                            var tapGestureRecognizer = new TapGestureRecognizer();
+                            tapGestureRecognizer.Tapped += (s, e) =>
+                            {
+                                tapGestureRecognizer.NumberOfTapsRequired = 1;
+
+                                Navigation.PushAsync(new PhotoDetailPage(product, false, "Explore"));
+                               
+                            };
+                            image.GestureRecognizers.Add(tapGestureRecognizer);
+                            ProductsGrid.Children.Add(image, k, j);
+                            counter++;
+                            
+                        }
+                        
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            
         }
 
         private async void CategoryTapped(int id)
         {
-            ProductsGrid.Children.Clear();
-
-            Tuple<int, int> tuple = new Tuple<int, int>(App.AppUser.UserID,id);
-
-            string signUpObject = JsonConvert.SerializeObject(tuple);
-
-            string result = await WebService.SendDataAsync("GetTheExploreByProductType", "items=" + signUpObject);
-
-
-            if (result != "Error" && result != null && result.Length > 6)
+            try
             {
+                ProductsGrid.Children.Clear();
 
-                Products = JsonConvert.DeserializeObject<List<ProductModel>>(result);
+                Tuple<int, int> tuple = new Tuple<int, int>(App.AppUser.UserID, id);
 
-                for (int i = 0; i < Products.Count + 1 / 2; i++)
+                string signUpObject = JsonConvert.SerializeObject(tuple);
+
+                string result = await WebService.SendDataAsync("GetTheExploreByProductType", "items=" + signUpObject);
+
+
+                if (result != "Error" && result != null && result.Length > 6)
                 {
-                    ProductsGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(150) });
-                }
 
-                int counter = 0;
+                    Products = JsonConvert.DeserializeObject<List<ProductModel>>(result);
 
-                for (int j = 0; j < Products.Count + 1 / 2; j++)
-                {
-
-                    for (int k = 0; k < 3; k++)
+                    for (int i = 0; i < (Products.Count + 2) / 3; i++)
                     {
-                        if (counter == Products.Count)
-                        {
-                            j = Products.Count + 1;
-                            break;
-                        }
-                        Image image = new Image();
-                        
-                        image.Source = Productpath + Products[counter].CoverImage;
-                        image.Aspect = Aspect.AspectFill;
-                        ProductsGrid.Children.Add(image, k, j);
-                        counter++;
-
-
-                        var tapGestureRecognizer = new TapGestureRecognizer();
-                        tapGestureRecognizer.Tapped += (s, e) =>
-                        {
-                            tapGestureRecognizer.NumberOfTapsRequired = 1;
-
-                            tapGestureRecognizer.SetBinding(TapGestureRecognizer.CommandProperty, "imageTapped");
-
-                            //Navigation.PushAsync(new PhotoDetailPage(image.Source,));
-                            
-                        };
-                        image.GestureRecognizers.Add(tapGestureRecognizer);
-
+                        ProductsGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(150) });
                     }
 
+                    int counter = 0;
 
+                    for (int j = 0; j < (Products.Count + 2) / 3; j++)
+                    {
+
+                        for (int k = 0; k < 3; k++)
+                        {
+                            if (counter == Products.Count)
+                            {
+                                j = Products.Count + 1;
+                                break;
+                            }
+                            //Image image = new Image();
+                            CachedImage image = new CachedImage();
+                            image.Source = Productpath + Products[counter].CoverImage;
+                            image.Aspect = Aspect.AspectFill;
+
+
+                            ProductModel product = Products[counter];
+                            var tapGestureRecognizer = new TapGestureRecognizer();
+                            tapGestureRecognizer.Tapped += (s, e) =>
+                            {
+                                tapGestureRecognizer.NumberOfTapsRequired = 1;
+
+                                Navigation.PushAsync(new PhotoDetailPage(product, true, "Explore"));
+                            };
+                            image.GestureRecognizers.Add(tapGestureRecognizer);
+                            ProductsGrid.Children.Add(image, k, j);
+                            counter++;
+                        }
+
+
+                    }
                 }
+            }
+            catch (Exception)
+            {
+
+                throw;
             }
 
 
@@ -151,48 +201,53 @@ namespace ShopAroundMobile.TabbedPages
         private void Pants_Tapped(object sender, EventArgs e)
         {
           
-            CategoryTapped(1);
+            CategoryTapped(4);
             
         }
 
         private void Accessories_Tapped(object sender, EventArgs e)
         {
-            CategoryTapped(2);
+            CategoryTapped(8);
         }
 
         private void Shoes_Tapped(object sender, EventArgs e)
         {
-            CategoryTapped(3);
+            CategoryTapped(1);
         }
 
         private void Bags_Tapped(object sender, EventArgs e)
         {
-            CategoryTapped(4);
+            CategoryTapped(2);
         }
 
         private void Tshirts_Tapped(object sender, EventArgs e)
         {
-            CategoryTapped(5);
+            CategoryTapped(1008);
         }
 
         private void Skirts_Tapped(object sender, EventArgs e)
         {
-            CategoryTapped(6);
+            CategoryTapped(3);
         }
 
         private void Jackets_Tapped(object sender, EventArgs e)
         {
-            CategoryTapped(7);
+            CategoryTapped(6);
         }
 
         private void Dress_Tapped(object sender, EventArgs e)
         {
-            CategoryTapped(8);
+            CategoryTapped(7);
         }
 
         private void Others_Tapped(object sender, EventArgs e)
         {
             CategoryTapped(9);
+        }
+
+        private void LoadMore_Clicked(object sender, EventArgs e)
+        {
+            GetProductImagesAync(ProductsGrid.RowDefinitions.Count);
         }
     }
 }

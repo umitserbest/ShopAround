@@ -1,4 +1,7 @@
-﻿using ShopAroundMobile.ViewModels;
+﻿using Newtonsoft.Json;
+using ShopAroundMobile.Helpers;
+using ShopAroundMobile.Models;
+using ShopAroundMobile.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,11 +16,65 @@ namespace ShopAroundMobile.TabbedPages
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class Discounts : ContentPage
 	{
-		public Discounts ()
+        bool reloaded;
+        string Logopath = "https://shoparound.umitserbest.com/shopassets/logo/";
+        public Discounts ()
 		{
 			InitializeComponent ();
+            //GetDiscount();
 
-            BindingContext = new DiscountViewModel();
-		}
-	}
+        }
+
+        public void Reload()
+        {
+
+            if (!reloaded)
+            {
+                GetDiscount();
+
+                reloaded = true;
+            }
+        }
+
+        public async void GetDiscount()
+        {
+
+            try
+            {
+                List<DiscountModel> discounts = new List<DiscountModel>();
+
+                string discountresult = await WebService.SendDataAsync("GetDiscounts", "userID=" + App.AppUser.UserID);
+                
+                if (discountresult != "Error" && discountresult != null && discountresult.Length > 0 && discountresult != "null")
+                {
+                    discounts = JsonConvert.DeserializeObject<List<DiscountModel>>(discountresult);
+
+                    foreach (var item in discounts)
+                    {
+                        item.ShopLogo = Logopath + item.ShopLogo;
+                    }
+                   
+                }
+                listView.ItemsSource = discounts;
+            }
+
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+
+        private void ListView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+        {
+            var listview = sender as ListView;
+
+            if (e.SelectedItem is DiscountModel discount)
+            {
+                listView.SelectedItem = null;
+                Navigation.PushAsync(new DiscountsDetail(discount));
+                
+            }
+        }
+    }
 }

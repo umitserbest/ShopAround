@@ -1,18 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-              xmlns:image="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin"
+             xmlns:image="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin"
+             xmlns:ci="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              xmlns:viewModels="clr-namespace:ShopAroundMobile.ViewModels"
              x:Class="ShopAroundMobile.TabbedPages.Showcase" Title="Showcase" Icon="home" BackgroundColor="White">
-    <ContentPage.BindingContext>
+    <!--<ContentPage.BindingContext>
         <viewModels:ShowcaseViewModel/>
-    </ContentPage.BindingContext>
+    </ContentPage.BindingContext>-->
     
     <Grid>
         <StackLayout HeightRequest="40" HorizontalOptions="Center" VerticalOptions="Start">
         <Label Text="ShopAround" FontFamily="{StaticResource PacificoFont}" TextColor="Black" HorizontalOptions="Center" FontSize="16"></Label>
         </StackLayout>
-        <ListView Margin="5,30,5,0" x:Name="listView" RefreshControlColor="Coral" IsPullToRefreshEnabled="True" HorizontalScrollBarVisibility="Default" HasUnevenRows="True" SelectionMode="None" RefreshCommand="{Binding RefreshCommand}" IsRefreshing="{Binding IsRefreshing}" CachingStrategy="RecycleElement">
+        <ListView Margin="5,30,5,0" x:Name="listView" RefreshControlColor="Coral" IsPullToRefreshEnabled="True" HorizontalScrollBarVisibility="Default" HasUnevenRows="True" SelectionMode="None" RefreshCommand="{Binding RefreshCommand}" IsRefreshing="{Binding IsRefreshing}" CachingStrategy="RetainElement">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell x:Name="viewCell">
@@ -26,7 +27,11 @@
                                      
                                
                                 <image:CircleImage Margin="-50,10,0,10" Aspect="AspectFit" HeightRequest="150" HorizontalOptions="Start" VerticalOptions="Center" Source="{Binding ShopLogo}" WidthRequest="150" ></image:CircleImage>
-                                <Label Margin="-50,0,0,0" VerticalOptions="Center" Text="{Binding ShopName}" TextColor="Black" FontSize="18"></Label>
+                                <Label Margin="-50,0,0,0" VerticalOptions="Center" Text="{Binding ShopName}" TextColor="Black" FontSize="18">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="Label_Tapped"/>
+                                    </Label.GestureRecognizers>
+                                </Label>
                                 <StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand" WidthRequest="150">
                                     <Image HorizontalOptions="Center" Source="Wishlist" WidthRequest="100" HeightRequest="50">
                                         <Image.GestureRecognizers>
@@ -42,7 +47,8 @@
                             </StackLayout>
                             
                             <Frame Margin="0,-15,0,0" Grid.Row="1" BorderColor="LightGray">
-                            <Image Source="{Binding CoverImage}" HorizontalOptions="Fill"></Image>
+                            <!--<Image Source="{Binding CoverImage}" HorizontalOptions="Fill"></Image>-->
+                                <ci:CachedImage Source="{Binding CoverImage}" HorizontalOptions="Center"/>
                             </Frame>
                             
                             <Frame  Grid.Row="2" BorderColor="LightGray" Margin="0,-5,0,20" >
@@ -59,7 +65,7 @@
                                     <Label x:Name="Price" Text="{Binding Price}" TextColor="Green" FontAttributes="Bold" FontSize="22"></Label>
                                         <Label Text="$" TextColor="Green" FontAttributes="Bold" FontSize="18" Margin="0,4,0,0"></Label>
                                     </StackLayout>
-                                    <Image HorizontalOptions="End" VerticalOptions="Center" Source="right" Grid.Column="2" HeightRequest="20" WidthRequest="20"></Image>
+                                    <ci:CachedImage HorizontalOptions="End" VerticalOptions="Center" Source="right" Grid.Column="2" HeightRequest="20" WidthRequest="20"></ci:CachedImage>
 
                                 </Grid>
                             </Frame>

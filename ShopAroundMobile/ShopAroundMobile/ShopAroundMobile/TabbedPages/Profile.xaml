@@ -6,7 +6,7 @@
              x:Class="ShopAroundMobile.TabbedPages.Profile" Title="Profile" BackgroundColor="White" Icon="profile">
     
     <ScrollView>
-
+        
         <Grid x:Name="MainGrid" ColumnSpacing="0" RowSpacing="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="200" />
@@ -15,11 +15,12 @@
                 <RowDefinition Height="AUTO" />
                 <RowDefinition Height="1000" />
             </Grid.RowDefinitions>
-            
-            <Image Aspect="AspectFill" Source="https://i.pinimg.com/originals/5b/31/c7/5b31c7ff0923d641d6da1929f5d4c0c5.jpg" />
-            <Image Aspect="Fill" Margin="0,-1,0,-1" Source="https://github.com/kphillpotts/XamarinFormsLayoutChallenges/blob/master/SocialNetwork/SocialNetwork/SocialNetwork.Android/Resources/drawable-hdpi/CurvedMask.png?raw=true" VerticalOptions="End" />
 
-            <image:CircleImage BorderThickness="5" Aspect="Fill" HeightRequest="100" HorizontalOptions="Center" x:Name="UserImage" TranslationY="50" VerticalOptions="End" WidthRequest="100" ></image:CircleImage>
+            <Image Aspect="AspectFill" Source="https://cdn.pixabay.com/photo/2018/05/24/04/56/tag-3425870_1280.jpg"/>
+            <Image Aspect="Fill" Margin="0,-1,0,-1" Source="https://github.com/kphillpotts/XamarinFormsLayoutChallenges/blob/master/SocialNetwork/SocialNetwork/SocialNetwork.Android/Resources/drawable-hdpi/CurvedMask.png?raw=true" VerticalOptions="End" />
+            <ImageButton BackgroundColor="Transparent" Source="https://cdn0.iconfinder.com/data/icons/cosmetic-store/25/Logout-512.png" HorizontalOptions="End" VerticalOptions="Start" Margin="0,10,5,0" WidthRequest="30" Clicked="ImageButton_Clicked"/>
+            <Label Text="Logout" FontSize="12" HorizontalOptions="End" TextColor="Black" FontAttributes="Bold" VerticalOptions="Start" Margin="0,40,5,0"/>
+            <image:CircleImage BorderThickness="5" Aspect="Fill" HeightRequest="100" HorizontalOptions="Center" x:Name="UserImage" TranslationY="50" VerticalOptions="End" WidthRequest="100" Source="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" ></image:CircleImage>
 
 
             <!--  Profile Name  -->
@@ -37,7 +38,7 @@
                 </Grid.ColumnDefinitions>
 
                 <StackLayout Grid.Column="0">
-                    <Label  Margin="20,0,0,0" Text="94" />
+                    <Label  Margin="20,0,0,0" Text="34" />
                     <Label FontAttributes="Bold" Text="Following" />
                 </StackLayout>
 
@@ -70,11 +71,12 @@
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="50"></ColumnDefinition>
                                                 <ColumnDefinition Width="*"></ColumnDefinition>
+                                                <ColumnDefinition Width="*"></ColumnDefinition>
                                             </Grid.ColumnDefinitions>
 
                                             <image:CircleImage x:Name="img" Grid.Column="0" Aspect="Fill" Source="{Binding Image}" HeightRequest="30"></image:CircleImage>
                                             <Label Text="{Binding Username}" Grid.Column="1" VerticalOptions="Center" FontSize="16"></Label>
-                                            <Button Text="Go" CommandParameter="{Binding UserID}" Clicked="Button_Clicked"></Button>
+                                            <Button Grid.Column="2" Text="Unfollow" HorizontalOptions="End" CommandParameter="{Binding UserID}" Clicked="Button_Clicked"></Button>
                                         </Grid>
                                     </ViewCell>
                                 </DataTemplate>

@@ -23,12 +23,15 @@ namespace ShopAroundMobile.TabbedPages
         public Showcase()
         {
             InitializeComponent();
-            
-            ShowcaseViewModel showcase = new ShowcaseViewModel(listView);
+            BindingContext = new ShowcaseViewModel(listView);
+            //ShowcaseViewModel showcase = new ShowcaseViewModel(listView);
             
         }
 
+        public void Reload()
+        {
 
+        }
 
         async void TapGestureRecognizer_Tapped(object sender, EventArgs e)
         {
@@ -54,7 +57,9 @@ namespace ShopAroundMobile.TabbedPages
 
             vm.AddWishList.Execute(showcase);
 
-            Image.Source = "Wishedlist";
+            //Image.Source = "Wishedlist";
+
+            TabPageControl.profileTabbed.Reload();
         }
 
         private async void ImageButton_Clicked(object sender, EventArgs e)
@@ -67,5 +72,18 @@ namespace ShopAroundMobile.TabbedPages
 
             await Browser.OpenAsync(showcase.PurchaseLink,BrowserLaunchMode.SystemPreferred);
         }
+              
+        private async void Label_Tapped(object sender, EventArgs e)
+        {
+            var LabelTapped = (Label)sender;
+
+            var showcase = LabelTapped?.BindingContext as ShowcaseModel;
+
+            var vm = BindingContext as ShowcaseViewModel;
+
+            await Navigation.PushAsync(new ShopProfile(showcase.ShopID));
+        }
+
+    
     }
 }

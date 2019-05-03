@@ -6,14 +6,14 @@
     <ContentPage.Content>
         <StackLayout Orientation="Vertical" Padding="20">
             <Label x:Name="Add_Img_Text" Text="Add Image" TextColor="Gray" HorizontalOptions="End"></Label>
-            <!--<Image x:Name="Add_Image" Margin="0,0,12,0" HeightRequest="50" WidthRequest="50" HorizontalOptions="End" Source="https://img.icons8.com/ios/1600/add.png">
+            <Image x:Name="Add_Image" Margin="0,0,12,0" HeightRequest="50" WidthRequest="50" HorizontalOptions="End" Source="https://img.icons8.com/ios/1600/add.png">
 
                 <Image.GestureRecognizers>
                     <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="TapGestureRecognizer_Tapped">
 
                     </TapGestureRecognizer>
                 </Image.GestureRecognizers>
-            </Image>-->
+            </Image>
 
             <image:CircleImage x:Name="Image" WidthRequest="200" HeightRequest="100" ></image:CircleImage>
 

@@ -40,6 +40,7 @@ namespace ShopAroundMobile.TabbedPages
                 {
                     user = JsonConvert.DeserializeObject<UserModel>(userresult);
                     UserName.Text = user.Name + " " + user.Surname;
+                    User.Text = "@" + user.Username;
                 }
                 
                
@@ -103,6 +104,27 @@ namespace ShopAroundMobile.TabbedPages
             }
         }
 
+        public async void AddNotification()
+        {
+
+            try
+            {
+                NotificationModel notice = new NotificationModel();
+
+                notice.SenderID = App.AppUser.UserID;
+                notice.ReceiverID = UserID;
+
+                string friendresult = await WebService.SendDataAsync("AddNotification","notification=" + JsonConvert.SerializeObject(notice));
+                
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+
+
+        }
+
         private async void FollowButton_Clicked(object sender, EventArgs e)
         {
 
@@ -120,6 +142,10 @@ namespace ShopAroundMobile.TabbedPages
                     FollowBtn.Text = "Unfollow";
                     FollowBtn.BackgroundColor = Color.LightGray;
                     FollowBtn.TextColor = Color.Black;
+
+                    AddNotification();
+                    TabPageControl.noticeTabbed.GetNotification();
+                    TabPageControl.profileTabbed.Reload();
                 }
             }
             else if (FollowBtn.Text == "Unfollow")
