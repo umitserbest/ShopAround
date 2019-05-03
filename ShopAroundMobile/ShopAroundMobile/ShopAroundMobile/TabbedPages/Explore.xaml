@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:ci="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              x:Class="ShopAroundMobile.TabbedPages.Explore" Title="Explore" Icon="explore" BackgroundColor="White">
     <ScrollView>
             <Grid x:Name="mainGrid">
@@ -8,127 +9,128 @@
                     <RowDefinition Height="50"></RowDefinition>
                     <RowDefinition Height="120"></RowDefinition>
                     <RowDefinition Height="*"></RowDefinition>
-                </Grid.RowDefinitions>
+                    <RowDefinition Height="30"></RowDefinition>
+            </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
 
-                <!--<local1:ImageEntry Grid.Column="0" Grid.Row="0" Placeholder="Search" ImageAlignment="Left" ImageHeight="50" ImageWidth="100" Image="explore"></local1:ImageEntry>-->
-                <!--<Entry Grid.Column="0" Grid.Row="0" Placeholder="Search" PlaceholderColor="Gray" Margin="10,0,10,0"></Entry>-->
+                
                 <SearchBar Grid.Column="0" Grid.Row="0" Placeholder="Search" CancelButtonColor="Coral" Margin="0,0,20,0"  Focused="SearchBar_Focused"></SearchBar>
                 <ScrollView Margin="5,0,5,0" Orientation="Horizontal" Grid.Row="1" Grid.Column="0" >
 
                     <FlexLayout Margin="0,10,0,-18" >
-                        <Frame IsVisible="True" Margin="10,0,0,0" BorderColor="LightGray" CornerRadius="10" WidthRequest="100" HeightRequest="100" BackgroundColor="Transparent">
+                        <Frame IsVisible="True" Margin="10,0,0,0" BorderColor="LightGray" CornerRadius="10" WidthRequest="150" HeightRequest="100" BackgroundColor="Transparent" Padding="0">
                         <FlexLayout Direction="Column">
-                            <Image Margin="0,-20,0,0" BackgroundColor="Transparent" Source="https://cdn0.iconfinder.com/data/icons/galaxy-open-line-gradient-iii/200/my-places-512.png">
+                            <Image Aspect="Fill" BackgroundColor="Transparent" Source="location">
                                 <Image.GestureRecognizers>
                                     <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="Location_Tapped"/>
                                 </Image.GestureRecognizers>
                             </Image>
-                            <Label Text="Location" TextDecorations="Underline" TextColor="Black" FontSize="18" FontAttributes="Bold" Margin="20,-10,0,0" HorizontalOptions="Center"></Label>
+                            <Label Text="Location" TextColor="White" FontSize="18" FontAttributes="Bold" Margin="35,-60,0,0" HorizontalOptions="Center"></Label>
                         </FlexLayout>
                         </Frame>
+                        
                         <Frame IsVisible="True" Margin="10,0,0,0" CornerRadius="10" WidthRequest="150" Padding="0" HeightRequest="100" BackgroundColor="Transparent" BorderColor="LightGray">
                             <FlexLayout Direction="Column">
-                            <Image Aspect="AspectFill" BackgroundColor="Transparent" Source="https://img.etimg.com/thumb/msid-62337531,width-643,imgsize-187210,resizemode-4/jean-denim-fashion-thinkstockphotos-540741052.jpg">
-                                <Image.GestureRecognizers>
-                                    <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="Pants_Tapped"/>
-                                </Image.GestureRecognizers>
-                            </Image>
-                                <Label Text="Pants" TextDecorations="Underline" TextColor="White" FontSize="18" FontAttributes="Bold" Margin="50,-50,0,0" HorizontalOptions="Center"></Label>
+                            <FlexLayout.GestureRecognizers>
+                                <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="Pants_Tapped"/>
+                            </FlexLayout.GestureRecognizers>
+                            <Image Aspect="AspectFill" BackgroundColor="Transparent" Source="pant1"/>
+
+                            <Label Text="Pants" TextColor="White" FontSize="18" FontAttributes="Bold" Margin="50,-60,0,0" HorizontalOptions="Center"></Label>
                             </FlexLayout>
                         </Frame>
                         <Frame Padding="0" IsVisible="True"  Margin="10,0,0,0" CornerRadius="10" WidthRequest="150" HeightRequest="100" BackgroundColor="Transparent" BorderColor="LightGray" >
 
                             <FlexLayout Direction="Column">
-                            <Image Aspect="AspectFill" BackgroundColor="Transparent" Source="https://media.tiffany.com/is/image/Tiffany/1X/20160322_CB_Tiffany_View_All_Browse_Grid_Tile1_3x2Promo_MX_CT60_Watches_3x2_v1.jpg?v=20161026164213">
-                                <Image.GestureRecognizers>
-                                    <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="Accessories_Tapped"/>
-                                </Image.GestureRecognizers>
-                            </Image>
-                                <Label Text="Accessories" TextDecorations="Underline" TextColor="White" FontSize="18" FontAttributes="Bold" Margin="50,-50,0,0" HorizontalOptions="Center"></Label>
+                            <FlexLayout.GestureRecognizers>
+                                <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="Accessories_Tapped"/>
+                            </FlexLayout.GestureRecognizers>
+                            <Image Aspect="AspectFill" BackgroundColor="Transparent" Source="accessory"/>
+
+                            <Label Text="Accessories" TextColor="White" FontSize="18" FontAttributes="Bold" Margin="20,-60,0,0" HorizontalOptions="Center"></Label>
                             </FlexLayout>
                         </Frame>
                         <Frame Padding="0" IsVisible="True"  Margin="10,0,0,0" CornerRadius="10"  WidthRequest="150" HeightRequest="100" BackgroundColor="Transparent" BorderColor="LightGray">
 
                             <FlexLayout Direction="Column">
-                            <Image Aspect="AspectFill" BackgroundColor="Transparent" Source="https://www.florsheimshoes.ca/shop/resources/images/index/index6.jpg">
-                                <Image.GestureRecognizers>
-                                    <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="Shoes_Tapped"/>
-                                </Image.GestureRecognizers>
-                            </Image>
-                                <Label Text="Shoes" TextDecorations="Underline" TextColor="White" FontSize="18" FontAttributes="Bold" Margin="50,-50,0,0" HorizontalOptions="Center"></Label>
+                            <FlexLayout.GestureRecognizers>
+                                <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="Shoes_Tapped"/>
+                            </FlexLayout.GestureRecognizers>
+                            <Image Aspect="AspectFill" BackgroundColor="Transparent" Source="shoes"/>
+
+                            <Label Text="Shoes" TextColor="White" FontSize="18" FontAttributes="Bold" Margin="50,-60,0,0" HorizontalOptions="Center"></Label>
                             </FlexLayout>
                         </Frame>
                         <Frame IsVisible="True" Margin="10,0,0,0" CornerRadius="10"  WidthRequest="150" Padding="0" HeightRequest="100" BackgroundColor="Transparent" BorderColor="LightGray">
 
                             <FlexLayout Direction="Column">
-                            <Image Aspect="AspectFill" BackgroundColor="Transparent" Source="http://www.matandmay.co.za/ImageLibrary/landingPages/42bb90cd-a7f1-414d-9d9e-2a0ec5e6daa2-lrg.jpeg">
-                                <Image.GestureRecognizers>
-                                    <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="Bags_Tapped"/>
-                                </Image.GestureRecognizers>
-                            </Image>
-                                <Label Text="Bags" TextDecorations="Underline" TextColor="White" FontSize="18" FontAttributes="Bold" Margin="50,-50,0,0" HorizontalOptions="Center"></Label>
+                            <FlexLayout.GestureRecognizers>
+                                <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="Bags_Tapped"/>
+                            </FlexLayout.GestureRecognizers>
+                            <Image Aspect="AspectFill" BackgroundColor="Transparent" Source="bags"/>
+
+                            <Label Text="Bags" TextColor="White" FontSize="18" FontAttributes="Bold" Margin="50,-60,0,0" HorizontalOptions="Center"></Label>
                             </FlexLayout>
                         </Frame>
                         <Frame IsVisible="True"  Margin="10,0,0,0" CornerRadius="10"  WidthRequest="150" Padding="0" HeightRequest="100" BackgroundColor="Transparent" BorderColor="LightGray">
 
                             <FlexLayout Direction="Column">
-                            <Image Aspect="AspectFill" BackgroundColor="Transparent" Source="http://www.impex-experts.com/wp-content/uploads/2017/07/t-shirts-720.jpg">
-                                <Image.GestureRecognizers>
-                                    <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="Tshirts_Tapped"/>
-                                </Image.GestureRecognizers>
-                            </Image>
-                                <Label Text="T-shirts" TextDecorations="Underline" TextColor="White" FontSize="18" FontAttributes="Bold" Margin="50,-50,0,0" HorizontalOptions="Center"></Label>
+                            <FlexLayout.GestureRecognizers>
+                                <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="Tshirts_Tapped"/>
+                            </FlexLayout.GestureRecognizers>
+                            <Image Aspect="AspectFill" BackgroundColor="Transparent" Source="tshirts"/>
+
+                            <Label Text="T-shirts" TextColor="White" FontSize="18" FontAttributes="Bold" Margin="50,-60,0,0" HorizontalOptions="Center"></Label>
                             </FlexLayout>
                         </Frame>
 
                     <Frame IsVisible="True"  Margin="10,0,0,0" CornerRadius="10"  WidthRequest="150" Padding="0" HeightRequest="100" BackgroundColor="Transparent" BorderColor="LightGray">
 
                         <FlexLayout Direction="Column">
-                            <Image Aspect="AspectFill" BackgroundColor="Transparent" Source="https://www.yde.co.za/media/product/45a/black-airtech-skater-873.jpg">
-                                <Image.GestureRecognizers>
-                                    <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="Skirts_Tapped"/>
-                                </Image.GestureRecognizers>
-                            </Image>
-                            <Label Text="Skirts" TextDecorations="Underline" TextColor="White" FontSize="18" FontAttributes="Bold" Margin="50,-50,0,0" HorizontalOptions="Center"></Label>
+                            <FlexLayout.GestureRecognizers>
+                                <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="Skirts_Tapped"/>
+                            </FlexLayout.GestureRecognizers>
+                            <Image Aspect="AspectFill" BackgroundColor="Transparent" Source="skirts"/>
+
+                            <Label Text="Skirts" TextColor="White" FontSize="18" FontAttributes="Bold" Margin="50,-60,0,0" HorizontalOptions="Center"></Label>
                         </FlexLayout>
                     </Frame>
 
                     <Frame IsVisible="True"  Margin="10,0,0,0" CornerRadius="10"  WidthRequest="150" Padding="0" HeightRequest="100" BackgroundColor="Transparent" BorderColor="LightGray">
 
                         <FlexLayout Direction="Column">
-                            <Image Aspect="AspectFill" BackgroundColor="Transparent" Source="https://ae01.alicdn.com/kf/HTB1JRk6E4SYBuNjSspjq6x73VXau/Free-Shipping-Bomber-Solid-Jacket-Men-Casual-Spring-Sportswear-Motorcycle-Mens-Jackets-for-Male-Coats-Plus.jpg">
-                                <Image.GestureRecognizers>
-                                    <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="Jackets_Tapped"/>
-                                </Image.GestureRecognizers>
-                            </Image>
-                            <Label Text="Jackets" TextDecorations="Underline" TextColor="White" FontSize="18" FontAttributes="Bold" Margin="50,-50,0,0" HorizontalOptions="Center"></Label>
+                            <FlexLayout.GestureRecognizers>
+                                <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="Jackets_Tapped"/>
+                            </FlexLayout.GestureRecognizers>
+                            <Image Aspect="AspectFill" BackgroundColor="Transparent" Source="jacket"/>
+
+                            <Label Text="Jackets" TextColor="White" FontSize="18" FontAttributes="Bold" Margin="50,-60,0,0" HorizontalOptions="Center"></Label>
                         </FlexLayout>
                     </Frame>
 
                     <Frame IsVisible="True"  Margin="10,0,0,0" CornerRadius="10"  WidthRequest="150" Padding="0" HeightRequest="100" BackgroundColor="Transparent" BorderColor="LightGray">
 
                         <FlexLayout Direction="Column">
-                            <Image Aspect="AspectFill" BackgroundColor="Transparent" Source="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5H5QPjH7xxlUEgCvwfhk4zA7Ssner7bYH6hAfxEte1opeLAC-1A">
-                                <Image.GestureRecognizers>
-                                    <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="Dress_Tapped"/>
-                                </Image.GestureRecognizers>
-                            </Image>
-                            <Label Text="Dress" TextDecorations="Underline" TextColor="White" FontSize="18" FontAttributes="Bold" Margin="50,-50,0,0" HorizontalOptions="Center"></Label>
+                            <FlexLayout.GestureRecognizers>
+                                <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="Dress_Tapped"/>
+                            </FlexLayout.GestureRecognizers>
+                            <Image Aspect="AspectFill" BackgroundColor="Transparent" Source="dress"/>
+
+                            <Label Text="Dress" TextColor="White" FontSize="18" FontAttributes="Bold" Margin="50,-60,0,0" HorizontalOptions="Center"></Label>
                         </FlexLayout>
                     </Frame>
 
                     <Frame IsVisible="True"  Margin="10,0,0,0" CornerRadius="10"  WidthRequest="150" Padding="0" HeightRequest="100" BackgroundColor="Transparent" BorderColor="LightGray">
 
                         <FlexLayout Direction="Column">
-                            <Image Aspect="AspectFill" BackgroundColor="Transparent" Source="https://nld.mediacdn.vn/2014/man-shopping-1416236552576.jpg">
-                                <Image.GestureRecognizers>
-                                    <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="Others_Tapped"/>
-                                </Image.GestureRecognizers>
-                            </Image>
-                            <Label Text="Others" TextDecorations="Underline" TextColor="White" FontSize="18" FontAttributes="Bold" Margin="50,-50,0,0" HorizontalOptions="Center"></Label>
+                            <FlexLayout.GestureRecognizers>
+                                <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="Others_Tapped"/>
+                            </FlexLayout.GestureRecognizers>
+                            <Image Aspect="AspectFill" BackgroundColor="Transparent" Source="others"/>
+
+                            <Label Text="Others" TextColor="White" FontSize="18" FontAttributes="Bold" Margin="50,-60,0,0" HorizontalOptions="Center"></Label>
                         </FlexLayout>
                     </Frame>
 
@@ -136,7 +138,7 @@
 
                 </ScrollView>
 
-                <Grid x:Name="ProductsGrid" HorizontalOptions="Center" Grid.Row="2" Margin="10,10,10,10">
+                <Grid x:Name="ProductsGrid" VerticalOptions="StartAndExpand" HorizontalOptions="Center" Grid.Row="2" Margin="10,10,10,10">
 
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"></ColumnDefinition>
@@ -147,6 +149,7 @@
                 
                 </Grid>
 
-    </Grid>
+            <ImageButton BackgroundColor="Transparent" Source="https://cdn2.iconfinder.com/data/icons/arrows-53/24/arrows-29-256.png" Clicked="LoadMore_Clicked" Grid.Row="3"/>
+        </Grid>
     </ScrollView>
 </ContentPage>

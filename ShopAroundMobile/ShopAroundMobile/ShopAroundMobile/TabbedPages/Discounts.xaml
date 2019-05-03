@@ -1,12 +1,27 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:image="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin"
              x:Class="ShopAroundMobile.TabbedPages.Discounts" Title="Discounts" BackgroundColor="White">
     <Grid>
-        <ListView ItemsSource="{Binding Discounts}" HasUnevenRows="True" SeparatorColor="Coral" SelectionMode="None">
+        <ListView x:Name="listView" HasUnevenRows="True" SeparatorColor="Coral" ItemSelected="ListView_ItemSelected">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <ImageCell Text="{Binding DiscountText}" ImageSource="{Binding DiscountImage}" Detail="{Binding DiscountDetail}" TextColor="Black" DetailColor="Gray"></ImageCell>
+                    <ViewCell x:Name="viewCell">
+                        <Grid Padding="20,20">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="50"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+
+                            <image:CircleImage x:Name="img" Grid.Column="0" Aspect="Fill" Source="{Binding ShopLogo}" HeightRequest="30"/>
+                            <Label Text="{Binding ShopName}" Grid.Column="1" VerticalOptions="Center" FontSize="16"></Label>
+                            <Label Text="{Binding Details}" FontSize="16" Grid.Column="2"/>
+
+
+                        </Grid>
+                    </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>

@@ -16,18 +16,40 @@
                                    ScaleOut="0.8" 
                                   />
     </pages:PopupPage.Animation>
-    <!--  You can use any elements here which are extended from Xamarin.Forms.View  -->
+    <ScrollView>
     <StackLayout Padding="20,20,20,20"
                  HorizontalOptions="Center"
                  VerticalOptions="Start"
                  Orientation="Vertical">
-        <Label Text="X" VerticalOptions="Start" HorizontalOptions="End" TextColor="White" FontAttributes="Bold" FontSize="20">
+        <Label Text="X" VerticalOptions="Start" HorizontalOptions="End" TextColor="White" FontAttributes="Bold" FontSize="22">
             <Label.GestureRecognizers>
                 <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="CloseTheInfo_Tapped"/>
             </Label.GestureRecognizers>
         </Label>
-        
-        <StackLayout Orientation="Horizontal">
+
+            <Frame Padding="0" Margin="0,20,0,0" VerticalOptions="Center" HorizontalOptions="Center" BackgroundColor="Transparent" BorderColor="White" CornerRadius="10" HeightRequest="300" WidthRequest="300">
+                <Image Aspect="Fill" x:Name="LargeImage" Scale="1" ></Image>
+            </Frame>
+
+            <StackLayout Margin="0,30,0,0" Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="EndAndExpand">
+                <Image  Aspect="AspectFill" x:Name="Image1" HeightRequest="100" WidthRequest="100" Scale="1">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="Image1_Tapped"/>
+                    </Image.GestureRecognizers>
+                </Image>
+                <Image Aspect="AspectFill" x:Name="Image2" HeightRequest="100" WidthRequest="100">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="Image2_Tapped"/>
+                    </Image.GestureRecognizers>
+                </Image>
+                <Image Aspect="AspectFill" x:Name="Image3" HeightRequest="100" WidthRequest="100" Scale="1">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="Image3_Tapped"/>
+                    </Image.GestureRecognizers>
+                </Image>
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal">
             <Label Text="Name: " TextColor="White" FontSize="18"></Label>
             <Label x:Name="name" Text="{Binding Name}" TextColor="White" FontSize="18" FontAttributes="Bold"/>
         </StackLayout>
@@ -58,27 +80,7 @@
             <Label Text="$" TextColor="White" FontSize="18" FontAttributes="Bold"/>
         </StackLayout>
         
-        <Frame Padding="0" Margin="0,20,0,0" VerticalOptions="Center" HorizontalOptions="Center" BackgroundColor="Transparent" BorderColor="White" CornerRadius="10" HeightRequest="200" WidthRequest="300">
-            <Image Aspect="Fill" x:Name="LargeImage"></Image>
-        </Frame>
         
-        <StackLayout Margin="0,50,0,0" Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="EndAndExpand">
-            <Image Aspect="AspectFill" x:Name="Image1" HeightRequest="100" WidthRequest="100">
-                <Image.GestureRecognizers>
-                    <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="Image1_Tapped"/>
-                </Image.GestureRecognizers>
-            </Image>
-            <Image Aspect="AspectFill" x:Name="Image2" HeightRequest="100" WidthRequest="100">
-                <Image.GestureRecognizers>
-                    <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="Image2_Tapped"/>
-                </Image.GestureRecognizers>
-            </Image>
-            <Image Aspect="AspectFill" x:Name="Image3" HeightRequest="100" WidthRequest="100">
-                <Image.GestureRecognizers>
-                    <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="Image3_Tapped"/>
-                </Image.GestureRecognizers>
-            </Image>
-        </StackLayout>
     </StackLayout>
-
+    </ScrollView>
 </pages:PopupPage>

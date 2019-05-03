@@ -7,7 +7,9 @@ namespace ShopAroundMobile.TabbedPages
 {
     public class NotificationTabControl : TabbedPage 
     {
-       
+        public static Notifications tabbedNotifications;
+        public static Discounts tabbedDiscounts;
+
         public NotificationTabControl()
         {
            
@@ -15,9 +17,12 @@ namespace ShopAroundMobile.TabbedPages
             Icon = "combnye";
             BarBackgroundColor = Color.White;
             BarTextColor = Color.Gray;
+
+            tabbedNotifications = new Notifications();
+            tabbedDiscounts = new Discounts();
             
-            Children.Add(new Notifications());
-            Children.Add(new Discounts());
+            Children.Add(tabbedNotifications);
+            Children.Add(tabbedDiscounts);
 
         }
         protected override void OnCurrentPageChanged()

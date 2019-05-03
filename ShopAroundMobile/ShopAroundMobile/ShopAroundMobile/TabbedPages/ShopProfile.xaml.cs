@@ -99,7 +99,7 @@ namespace ShopAroundMobile.TabbedPages
 
                 shopname.Text = shop.Name;
                 ShopImg.Source = Logopath + shop.Logo;
-                MainImg.Source = Logopath + shop.Logo;
+                //MainImg.Source = Logopath + shop.Logo;
 
                 for (int i = 0; i < products.Count + 1 / 2; i++)
                 {
@@ -122,26 +122,21 @@ namespace ShopAroundMobile.TabbedPages
 
                         Image image = new Image();
                         image.Source = Productpath + products[counter].CoverImage;
-                        ProductsGrid.Children.Add(image, k, j);
-                        counter++;
+                        ProductModel product = products[counter];
+                       
 
 
                         var tapGestureRecognizer = new TapGestureRecognizer();
                         tapGestureRecognizer.Tapped += (s, e) =>
                         {
                             tapGestureRecognizer.NumberOfTapsRequired = 1;
+                            
 
-                            var Image = s as Image;
-
-                            var productDetail = Image?.BindingContext as ProductModel;
-
-                            var vm = BindingContext as ShowcaseViewModel;
-
-                             Navigation.PushAsync(new PhotoDetailPage(image.Source, productDetail, shop));
-                            //Navigation.PushAsync(new PhotoDetailPage(image2.Source,shop,products));
+                             Navigation.PushAsync(new PhotoDetailPage(product,false,null));
                         };
                         image.GestureRecognizers.Add(tapGestureRecognizer);
-
+                        ProductsGrid.Children.Add(image, k, j);
+                        counter++;
                     }
                 }
             }

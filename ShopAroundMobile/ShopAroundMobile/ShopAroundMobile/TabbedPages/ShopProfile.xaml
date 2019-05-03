@@ -5,49 +5,6 @@
              xmlns:viewModels="clr-namespace:ShopAroundMobile.ViewModels"
              x:Class="ShopAroundMobile.TabbedPages.ShopProfile" BackgroundColor="White">
 
-    <ContentPage.BindingContext>
-        <viewModels:ShowcaseViewModel/>
-    </ContentPage.BindingContext>
-
-    <!--<ContentPage.ToolbarItems>
-        <ToolbarItem Order="Primary"
-                     Icon="settings"
-                     Priority="0" />
-    </ContentPage.ToolbarItems>-->
-    <!--<NavigationPage.TitleView>
-        <StackLayout>
-            <Label Text="Profile"></Label>
-            <SearchBar></SearchBar>
-        </StackLayout>
-    </NavigationPage.TitleView>
-    <NavigationPage.TitleIcon>
-        <FileImageSource >
-           
-        </FileImageSource>
-    </NavigationPage.TitleIcon>-->
-    <!--<RelativeLayout>
-        <BoxView x:Name="Boxview1" BackgroundColor="LightGray"   
-            RelativeLayout.WidthConstraint="{ConstraintExpression  
-            Type=RelativeToParent,  
-            Property=Width,  
-            Factor=1}"  
-            RelativeLayout.HeightConstraint="{ConstraintExpression  
-            Type=RelativeToParent,  
-            Property=Height,  
-            Factor=0.3}"></BoxView>
-        <Image Source="profile" HeightRequest="150"  
-               RelativeLayout.YConstraint="{ConstraintExpression  
-        Type=RelativeToView,  
-        ElementName=Boxview1,  
-        Property=Height,  
-        Factor=0.5}"  
-        RelativeLayout.XConstraint="{ConstraintExpression  
-        Type=RelativeToView,  
-        ElementName=Boxview1,  
-        Property=Width,  
-        Factor=0.3}"></Image>
-        
-    </RelativeLayout>-->
     <ScrollView>
         <Grid ColumnSpacing="0" RowSpacing="0">
             <Grid.RowDefinitions>
@@ -57,8 +14,8 @@
                 <RowDefinition Height="AUTO" />
                 <RowDefinition Height="AUTO" />
             </Grid.RowDefinitions>
-            
-            <Image Aspect="AspectFill" x:Name="MainImg"/>
+
+            <Image Aspect="AspectFill" x:Name="MainImg" Margin="0,-50,0,0" Source="https://cdn.pixabay.com/photo/2017/11/22/10/52/blank-2970215_1280.jpg"/>
             <Image Aspect="Fill" Margin="0,-1,0,-1" Source="https://github.com/kphillpotts/XamarinFormsLayoutChallenges/blob/master/SocialNetwork/SocialNetwork/SocialNetwork.Android/Resources/drawable-hdpi/CurvedMask.png?raw=true" VerticalOptions="End" />
 
             <image:CircleImage x:Name="ShopImg" BorderThickness="5" Aspect="Fill" HeightRequest="100" HorizontalOptions="Center" TranslationY="50" VerticalOptions="End" WidthRequest="100" ></image:CircleImage>
@@ -99,8 +56,8 @@
                     <ColumnDefinition Width="150"></ColumnDefinition>
                     <ColumnDefinition Width="150"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-               
 
+                
             </Grid>
         </Grid>
        </ScrollView>

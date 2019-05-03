@@ -16,7 +16,7 @@ namespace ShopAroundMobile.Models
         public string Phone { get; set; }
         public string City { get; set; }
         public string About { get; set; }
-       // public string Image { get; set; }
+        public string Image { get; set; }
 
         public UserModel()
         {

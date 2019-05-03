@@ -57,5 +57,6 @@ namespace ShopAroundMobile
         {
             // Handle when your app resumes
         }
+      
     }
 }

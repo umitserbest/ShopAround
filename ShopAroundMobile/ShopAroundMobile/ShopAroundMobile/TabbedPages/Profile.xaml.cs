@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using ShopAroundMobile.Helpers;
 using ShopAroundMobile.Models;
+using ShopAroundMobile.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,54 +16,28 @@ namespace ShopAroundMobile.TabbedPages
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class Profile : ContentPage
 	{
+        bool reloaded;
         string Productpath = "https://shoparound.umitserbest.com/shopassets/products/";
         public Profile ()
 		{
 			InitializeComponent ();
-            GetUserInfo();
-            GetWishList();
-            GetFriendList();
-            //var tabView = new TabViewControl(new List<TabItem>()
-            //  {
-            //         new TabItem( 
+            NavigationPage.SetHasNavigationBar(this, true);
+            //GetUserInfo();
+            //GetWishList();
+            //GetFriendList();
+           
+        }
 
-            //              "Profile",
-            //              new StackLayout()
-            //              {
-            //                  Children =
-            //                  {
-            //                     UserImages
-            //                  },
-            //                  BackgroundColor = Color.LightGray,
-            //                  Padding = 10
-            //              }),
-            //           new TabItem(
-            //                  "WishList",
-            //                  new StackLayout()
-            //                  {
-            //                      Children =
-            //                      {
-            //                         WishList
-            //                      },
-            //                      BackgroundColor = Color.LightSalmon,
-            //                      Padding = 10
-            //                        })
-            //                   });
-
-
-            //tabView.VerticalOptions = LayoutOptions.End;
-            //tabView.HeaderBackgroundColor = Color.White;
-            //tabView.HeaderTabTextColor = Color.Gray;
-            ////tabView.HeightRequest = 300;
-
-            //MainGrid.Children.Add(tabView,0,3);
-
-
-
-            //var mainLayout = new StackLayout();
-            //mainLayout.Children.Add(layout);
-            //mainLayout.Children.Add(tabView);
-            //Content = mainLayout;
+        public void Reload()
+        {
+           
+            if (!reloaded)
+            {
+                GetUserInfo();
+                GetWishList();
+                GetFriendList();
+                reloaded = true;
+            }
         }
 
         async void GetFriendList()
@@ -75,7 +50,7 @@ namespace ShopAroundMobile.TabbedPages
 
                 string friendresult = await WebService.SendDataAsync("GetFriends", "userID=" + App.AppUser.UserID);
 
-                if (friendresult != "Error" && friendresult != null && friendresult.Length > 0)
+                if (friendresult != "Error" && friendresult != null && friendresult.Length > 0 && friendresult != "null")
                 {
                     friend = JsonConvert.DeserializeObject<List<int>>(friendresult);
                     foreach (int item in friend)
@@ -106,6 +81,7 @@ namespace ShopAroundMobile.TabbedPages
         {
             try
             {
+                UserImages.Children.Clear();
                 List<ProductModel> products = new List<ProductModel>();
 
                 string wishlistresult = await WebService.SendDataAsync("GetWishlist", "userID=" + App.AppUser.UserID);
@@ -136,26 +112,22 @@ namespace ShopAroundMobile.TabbedPages
 
                         Image image = new Image();
                         image.Source = Productpath + products[counter].CoverImage;
+                        
+
+                        ProductModel product = products[counter];
+
+                        var tapGestureRecognizer = new TapGestureRecognizer();
+                        tapGestureRecognizer.Tapped += (s, e) =>
+                        {
+                            tapGestureRecognizer.NumberOfTapsRequired = 1;
+
+                            Navigation.PushAsync(new PhotoDetailPage(product,true,"Profile"));
+                        };
+                        image.GestureRecognizers.Add(tapGestureRecognizer);
                         UserImages.Children.Add(image, k, j);
                         counter++;
-
-
-                        //var tapGestureRecognizer = new TapGestureRecognizer();
-                        //tapGestureRecognizer.Tapped += (s, e) =>
-                        //{
-                        //    tapGestureRecognizer.NumberOfTapsRequired = 1;
-
-                        //    var Image = s as Image;
-
-                        //    var productDetail = Image?.BindingContext as ProductModel;
-
-                        //    var vm = BindingContext as ShowcaseViewModel;
-
-                        //    Navigation.PushAsync(new PhotoDetailPage(image.Source, productDetail, shop));
-                        //    //Navigation.PushAsync(new PhotoDetailPage(image2.Source,shop,products));
-                        //};
-                        //image.GestureRecognizers.Add(tapGestureRecognizer);
-
+                        
+                        
                     }
                 }
             }
@@ -166,6 +138,7 @@ namespace ShopAroundMobile.TabbedPages
             }
         }
 
+       
         async void GetUserInfo()
         {
 
@@ -183,6 +156,7 @@ namespace ShopAroundMobile.TabbedPages
 
                 UserName.Text ="@" + user.Username;
                 Name.Text = user.Name + " " + user.Surname;
+                UserImage.Source = user.Image;
             }
             catch (Exception ex)
             {
@@ -210,5 +184,17 @@ namespace ShopAroundMobile.TabbedPages
             
         }
 
+        private async void ImageButton_Clicked(object sender, EventArgs e)
+        {
+            Database.DeleteUser();
+
+            var answer = await DisplayAlert("Logout", "Are you sure you want to Logout ?", "No", "Yes");
+
+            if (!answer)
+            {
+                await Navigation.PushAsync(new Login());
+            } 
+           
+        }
     }
 }

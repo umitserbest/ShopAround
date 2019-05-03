@@ -10,6 +10,7 @@ namespace ShopAroundMobile.Helpers
     public class WebService
     {
         private const string ServiceURL = "http://shoparound.umitserbest.com/WebServices/UserService.asmx";
+        private const int MAX_REQUEST = 5;
 
         public static async Task<string> SendDataAsync(string methodName, string data)
         {
@@ -19,18 +20,27 @@ namespace ShopAroundMobile.Helpers
                 {
                     string requestURL = ServiceURL + "/" + methodName + "?" + data;
 
-                    HttpResponseMessage response = await client.GetAsync(requestURL);                    
-
-                    if (response.IsSuccessStatusCode)
+                    for (int request = 0; request < MAX_REQUEST; request++)
                     {
-                        string result = await response.Content.ReadAsStringAsync();
+                        HttpResponseMessage response = await client.GetAsync(requestURL);
 
-                        return result;
+                        if (response.IsSuccessStatusCode)
+                        {
+                            string result = await response.Content.ReadAsStringAsync();
+
+                            if(result != "null")
+                            {
+                                return result;
+                            }
+                            await Task.Delay(500);
+                        }
+                        else
+                        {
+                            return "Error";
+                        }
                     }
-                    else
-                    {
-                        return "Error";
-                    }
+                    return "null";
+                   
                 }
             }
             catch
