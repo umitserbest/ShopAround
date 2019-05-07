@@ -12,6 +12,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using ShopAroundMobile.ViewModels;
 using FFImageLoading.Forms;
+using Plugin.Connectivity;
 
 namespace ShopAroundMobile.TabbedPages
 {
@@ -19,6 +20,7 @@ namespace ShopAroundMobile.TabbedPages
     public partial class Explore : ContentPage
     {
         int productPosition = 0;
+        int StartRowPosition = 0;
         bool reloaded;
 
         public Explore()
@@ -33,40 +35,77 @@ namespace ShopAroundMobile.TabbedPages
             await Navigation.PushAsync(new SearchTabControl());
         }
 
+        bool IsConnected = CrossConnectivity.Current.IsConnected;
+
         List<ProductModel> Products = new List<ProductModel>();
-        string Logopath = "https://shoparound.umitserbest.com/shopassets/logo/";
+        //string Logopath = "https://shoparound.umitserbest.com/shopassets/logo/";
         string Productpath = "https://shoparound.umitserbest.com/shopassets/products/";
 
-        public void Reload()
-        {
-            //productPosition = 0;
-
-            //int rowCount = ProductsGrid.RowDefinitions.Count;
-
-            //for (int i = 0; i < rowCount; i++)
-            //{
-            //    ProductsGrid.RowDefinitions.RemoveAt(i);
-
-            //}
-
+        public async void Reload()
+        {  
             if (!reloaded)
             {
-                GetProductImagesAync(0);
-                reloaded = true;
-            }
-
-          
-
+                await GetProductImagesAync();
+                
+            }   
         }
 
-        private async void GetProductImagesAync(int StartRowPosition)
+        private bool _isBusy = false;
+        public bool IsBusy
+        {
+            get { return _isBusy; }
+            set
+            {
+                if (_isBusy == value)
+                    return;
+
+                _isBusy = value;
+                OnPropertyChanged("IsBusy");
+
+            }
+        }
+
+        //public async Task LoadData()
+        //{
+        //    if (IsConnected == true)
+        //    {
+
+        //        if (IsBusy)
+        //            return;
+
+        //        try
+        //        {
+        //            IsBusy = true;
+
+        //            await GetProductImagesAync();
+                   
+
+        //            IsBusy = false;
+        //        }
+        //        catch (Exception e)
+        //        {
+        //            DependencyService.Get<IMessage>().Message("No connection, please try again.");
+        //        }
+        //        finally
+        //        {
+        //            IsBusy = false;
+        //        }
+
+        //    }
+
+        //    else
+        //    {
+        //        DependencyService.Get<IMessage>().Message("No connection, please try again.");
+
+        //    }
+        //}
+
+        private async Task GetProductImagesAync()
         {
 
             try
             {
-                Tuple<int, int, int> tuple = new Tuple<int, int, int>(App.AppUser.UserID, 9, productPosition);
-
-               
+                Tuple<int, int, int> tuple = new Tuple<int, int, int>(App.AppUser.UserID, 9, productPosition);               
 
                 string tupleJson = JsonConvert.SerializeObject(tuple);
 
@@ -99,6 +138,7 @@ namespace ShopAroundMobile.TabbedPages
                             //Image image = new Image();
                             CachedImage image = new CachedImage();
                             image.Source = Productpath + Products[counter].CoverImage;
+                            image.WidthRequest = 150;
                             image.Aspect = Aspect.AspectFill;
                             ProductModel product = Products[counter];
 
@@ -113,10 +153,18 @@ namespace ShopAroundMobile.TabbedPages
                             image.GestureRecognizers.Add(tapGestureRecognizer);
                             ProductsGrid.Children.Add(image, k, j);
                             counter++;
-                            
+
                         }
                         
                     }
+                    LoadBtn.IsVisible = true;
+                    activity.IsVisible = false;
+                    reloaded = true;
+                }
+                else
+                {
+                    LoadBtn.IsVisible = false;
+                    tryButton.IsVisible = true;
                 }
             }
             catch (Exception)
@@ -130,7 +178,19 @@ namespace ShopAroundMobile.TabbedPages
         {
             try
             {
-                ProductsGrid.Children.Clear();
+                ProductsGrid.RowDefinitions.Clear();
+                List<RowDefinition> rows = new List<RowDefinition>();
+
+                foreach (var row in ProductsGrid.RowDefinitions)
+                {
+                    rows.Add(row);
+
+                }
+
+                foreach (var row in rows)
+                {
+                    ProductsGrid.RowDefinitions.Remove(row);
+                }
 
                 Tuple<int, int> tuple = new Tuple<int, int>(App.AppUser.UserID, id);
 
@@ -143,6 +203,8 @@ namespace ShopAroundMobile.TabbedPages
                 {
 
                     Products = JsonConvert.DeserializeObject<List<ProductModel>>(result);
+
+                    StartRowPosition = Products.Count;                    
 
                     for (int i = 0; i < (Products.Count + 2) / 3; i++)
                     {
@@ -173,21 +235,115 @@ namespace ShopAroundMobile.TabbedPages
                             {
                                 tapGestureRecognizer.NumberOfTapsRequired = 1;
 
-                                Navigation.PushAsync(new PhotoDetailPage(product, true, "Explore"));
+                                Navigation.PushAsync(new PhotoDetailPage(product, false, "Explore"));
                             };
                             image.GestureRecognizers.Add(tapGestureRecognizer);
                             ProductsGrid.Children.Add(image, k, j);
                             counter++;
+
                         }
 
 
                     }
+                    LoadBtn.IsVisible = true;
+                    activity.IsVisible = false;                    
+                }
+                else
+                {
+                    //tryButton.IsVisible = true;
                 }
             }
             catch (Exception)
             {
 
-                throw;
+                //throw;
+            }
+
+
+        }
+
+
+        private async void LocationTapped()
+        {
+            try
+            {
+                ProductsGrid.RowDefinitions.Clear();
+                List<RowDefinition> rows = new List<RowDefinition>();
+
+                foreach (var row in ProductsGrid.RowDefinitions)
+                {
+                    rows.Add(row);
+
+                }
+
+                foreach (var row in rows)
+                {
+                    ProductsGrid.RowDefinitions.Remove(row);
+                }
+
+                
+
+                string result = await WebService.SendDataAsync("GetTheExploreByCity", "userID=" + App.AppUser.UserID);
+
+
+                if (result != "Error" && result != null && result.Length > 6)
+                {
+
+                    Products = JsonConvert.DeserializeObject<List<ProductModel>>(result);
+
+                    StartRowPosition = Products.Count;
+
+                    for (int i = 0; i < (Products.Count + 2) / 3; i++)
+                    {
+                        ProductsGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(150) });
+                    }
+
+                    int counter = 0;
+
+                    for (int j = 0; j < (Products.Count + 2) / 3; j++)
+                    {
+
+                        for (int k = 0; k < 3; k++)
+                        {
+                            if (counter == Products.Count)
+                            {
+                                j = Products.Count + 1;
+                                break;
+                            }
+                            //Image image = new Image();
+                            CachedImage image = new CachedImage();
+                            image.Source = Productpath + Products[counter].CoverImage;
+                            image.Aspect = Aspect.AspectFill;
+
+
+                            ProductModel product = Products[counter];
+                            var tapGestureRecognizer = new TapGestureRecognizer();
+                            tapGestureRecognizer.Tapped += (s, e) =>
+                            {
+                                tapGestureRecognizer.NumberOfTapsRequired = 1;
+
+                                Navigation.PushAsync(new PhotoDetailPage(product, false, "Explore"));
+                            };
+                            image.GestureRecognizers.Add(tapGestureRecognizer);
+                            ProductsGrid.Children.Add(image, k, j);
+                            counter++;
+
+                        }
+
+
+                    }
+                    LoadBtn.IsVisible = true;
+                    activity.IsVisible = false;
+                }
+                else
+                {
+                    //tryButton.IsVisible = true;
+                }
+            }
+            catch (Exception)
+            {
+
+                //throw;
             }
 
 
@@ -195,7 +351,7 @@ namespace ShopAroundMobile.TabbedPages
 
         private void Location_Tapped(object sender, EventArgs e)
         {
-           // CategoryTapped();
+           LocationTapped();
         }
 
         private void Pants_Tapped(object sender, EventArgs e)
@@ -245,9 +401,26 @@ namespace ShopAroundMobile.TabbedPages
             CategoryTapped(9);
         }
 
-        private void LoadMore_Clicked(object sender, EventArgs e)
+        private async void LoadMore_Clicked(object sender, EventArgs e)
         {
-            GetProductImagesAync(ProductsGrid.RowDefinitions.Count);
+            LoadBtn.IsVisible = false;
+            activity.IsEnabled = true;
+            activity.IsRunning = true;
+            activity.IsVisible = true;
+
+            StartRowPosition = ProductsGrid.RowDefinitions.Count;
+            await GetProductImagesAync();
+
+            //LoadBtn.IsVisible = true;
+            //activity.IsEnabled = false;
+            //activity.IsRunning = false;
+            //activity.IsVisible = false;
+        }
+
+        private async void TryAgain_Clicked(object sender, EventArgs e)
+        {
+            StartRowPosition = 0;
+            await GetProductImagesAync();
         }
     }
 }

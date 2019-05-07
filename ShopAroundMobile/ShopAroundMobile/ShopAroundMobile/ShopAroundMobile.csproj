@@ -16,6 +16,7 @@
   <ItemGroup>
     <None Remove="Images\accessory.jpg" />
     <None Remove="Images\bags.jpeg" />
+    <None Remove="Images\buy.png" />
     <None Remove="Images\combnye.png" />
     <None Remove="Images\dress.jpg" />
     <None Remove="Images\explore.png" />
@@ -23,10 +24,11 @@
     <None Remove="Images\info.png" />
     <None Remove="Images\jacket.jpg" />
     <None Remove="Images\location.jpg" />
-    <None Remove="Images\notice.png" />
+    <None Remove="Images\logout.png" />
     <None Remove="Images\others.jpg" />
     <None Remove="Images\pant1.png" />
     <None Remove="Images\profile.png" />
+    <None Remove="Images\profileImage.jpg" />
     <None Remove="Images\right.png" />
     <None Remove="Images\settings.png" />
     <None Remove="Images\shoes.jpg" />
@@ -40,6 +42,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Images\accessory.jpg" />
     <EmbeddedResource Include="Images\bags.jpeg" />
+    <EmbeddedResource Include="Images\buy.png" />
     <EmbeddedResource Include="Images\combnye.png" />
     <EmbeddedResource Include="Images\dress.jpg" />
     <EmbeddedResource Include="Images\explore.png" />
@@ -47,9 +50,10 @@
     <EmbeddedResource Include="Images\info.png" />
     <EmbeddedResource Include="Images\jacket.jpg" />
     <EmbeddedResource Include="Images\location.jpg" />
-    <EmbeddedResource Include="Images\notice.png" />
+    <EmbeddedResource Include="Images\logout.png" />
     <EmbeddedResource Include="Images\others.jpg" />
     <EmbeddedResource Include="Images\pant1.png" />
+    <EmbeddedResource Include="Images\profileImage.jpg" />
     <EmbeddedResource Include="Images\right.png" />
     <EmbeddedResource Include="Images\settings.png" />
     <EmbeddedResource Include="Images\profile.png" />
@@ -66,11 +70,12 @@
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
     <PackageReference Include="Rg.Plugins.Popup" Version="1.1.5.188" />
     <PackageReference Include="sqlite-net-pcl" Version="1.5.231" />
+    <PackageReference Include="Xam.Plugin.Connectivity" Version="3.2.0" />
     <PackageReference Include="Xam.Plugin.Media" Version="4.0.1.5" />
     <PackageReference Include="Xam.Plugin.TabView" Version="1.0.4" />
     <PackageReference Include="Xam.Plugins.Forms.ImageCircle" Version="3.0.0.5" />
     <PackageReference Include="Xamarin.Essentials" Version="1.1.0" />
-    <PackageReference Include="Xamarin.FFImageLoading.Forms" Version="2.4.6.929" />
+    <PackageReference Include="Xamarin.FFImageLoading.Forms" Version="2.4.7.944" />
     <PackageReference Include="Xamarin.Forms" Version="3.6.0.344457" />
     <PackageReference Include="Xamarin.Forms.InputKit" Version="3.0.11" />
     <PackageReference Include="Xamarin.LiveReload" Version="0.3.27" />
@@ -84,6 +89,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\FriendSearchPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\LoadingPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Login.xaml">

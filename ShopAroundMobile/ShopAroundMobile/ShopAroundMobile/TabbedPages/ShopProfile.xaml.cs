@@ -35,7 +35,7 @@ namespace ShopAroundMobile.TabbedPages
         {
             List<ShopModel> shops = new List<ShopModel>();
 
-            string shopresult = await WebService.SendDataAsync("GetShopsForTheFlow", "userID=" + App.AppUser.UserID); // 2 yerine App.UserID; 
+            string shopresult = await WebService.SendDataAsync("GetShopsForTheFlow", "userID=" + App.AppUser.UserID); 
 
             if (shopresult != "Error" && shopresult != null && shopresult.Length > 6)
             {
@@ -103,7 +103,7 @@ namespace ShopAroundMobile.TabbedPages
 
                 for (int i = 0; i < products.Count + 1 / 2; i++)
                 {
-                    ProductsGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) });
+                    ProductsGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(200) });
 
                 }
                 
@@ -123,7 +123,9 @@ namespace ShopAroundMobile.TabbedPages
                         Image image = new Image();
                         image.Source = Productpath + products[counter].CoverImage;
                         ProductModel product = products[counter];
-                       
+                        image.WidthRequest = 400;
+                        image.Aspect = Aspect.AspectFill;
+
 
 
                         var tapGestureRecognizer = new TapGestureRecognizer();
@@ -166,7 +168,7 @@ namespace ShopAroundMobile.TabbedPages
             if (FollowBtn.Text == "Follow")
             {
                 FollowModel followModel = new FollowModel(shopID, App.AppUser.UserID);
-               // 2 yerine App.UserID; 
+                
 
                 string followObject = JsonConvert.SerializeObject(followModel);
 
@@ -177,11 +179,13 @@ namespace ShopAroundMobile.TabbedPages
                     FollowBtn.Text = "Unfollow";
                     FollowBtn.BackgroundColor = Color.LightGray;
                     FollowBtn.TextColor = Color.Black;
+
+                    TabPageControl.showcaseTabbed.Reload();
                 }                
             }
             else if (FollowBtn.Text == "Unfollow")
             {
-                FollowModel followmodel2 = new FollowModel(shopID, App.AppUser.UserID);// 2 yerine App.UserID; 
+                FollowModel followmodel2 = new FollowModel(shopID, App.AppUser.UserID); 
                 string followObject2 = JsonConvert.SerializeObject(followmodel2);
 
 
@@ -193,6 +197,9 @@ namespace ShopAroundMobile.TabbedPages
                     FollowBtn.Text = "Follow";
                     FollowBtn.BackgroundColor = Color.Orange;
                     FollowBtn.TextColor = Color.White;
+
+                    TabPageControl.showcaseTabbed.Reload();
+
                 }
             }
         }

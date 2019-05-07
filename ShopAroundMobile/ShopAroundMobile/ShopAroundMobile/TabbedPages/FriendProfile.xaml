@@ -16,7 +16,7 @@
                 <RowDefinition Height="1000" />
             </Grid.RowDefinitions>
 
-            <Image Aspect="AspectFill" Source="https://cdn.pixabay.com/photo/2018/05/24/04/56/tag-3425870_1280.jpg" />
+            <Image Aspect="AspectFill" Source="https://cdn.pixabay.com/photo/2018/05/24/04/56/tag-3425869_1280.jpg" />
             <Image Aspect="Fill" Margin="0,-1,0,-1" Source="https://github.com/kphillpotts/XamarinFormsLayoutChallenges/blob/master/SocialNetwork/SocialNetwork/SocialNetwork.Android/Resources/drawable-hdpi/CurvedMask.png?raw=true" VerticalOptions="End" />
 
             <image:CircleImage BorderThickness="5" Aspect="Fill" HeightRequest="100" HorizontalOptions="Center" Source="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" TranslationY="50" VerticalOptions="End" WidthRequest="100" ></image:CircleImage>
@@ -28,30 +28,13 @@
                 <Label x:Name="User" Margin="0,-5" HorizontalOptions="Center" TextColor="lightgray" FontSize="14" />
             </StackLayout>
 
-            <!--  Social Stats Section  -->
-            <Grid Grid.Row="2" Margin="40,-40,0,0" ColumnSpacing="0" RowSpacing="0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
+           
 
-                <StackLayout Grid.Column="0">
-                    <Label  Margin="20,0,0,0" Text="94" />
-                    <Label FontAttributes="Bold" Text="Following" />
-                </StackLayout>
-
-                <StackLayout  Grid.Column="2">
-                    <Label Margin="20,0,0,0" Text="957" />
-                    <Label FontAttributes="Bold" Text="Followers" />
-                </StackLayout>
-            </Grid>
-
-            <StackLayout Grid.Row="3">
+            <StackLayout Grid.Row="2">
                 <Button x:Name="FollowBtn" Text="Follow" HorizontalOptions="Center" Margin="0,15,0,0" CornerRadius="10" WidthRequest="150" TextColor="White" BackgroundColor="Orange" FontAttributes="Bold" Clicked="FollowButton_Clicked"></Button>
             </StackLayout>
            
-            <tvs:TabViewControl HeaderTabTextFontAttributes="Bold" HeaderSelectionUnderlineColor="Gray" HeaderBackgroundColor="White" HeaderTabTextColor="Black" BackgroundColor="White" Margin="0,20,0,0" Grid.Row="4">
+            <tvs:TabViewControl HeaderTabTextFontAttributes="Bold" HeaderSelectionUnderlineColor="Gray" HeaderBackgroundColor="White" HeaderTabTextColor="Black" BackgroundColor="White" Margin="0,20,0,0" Grid.Row="3">
                 <tvs:TabViewControl.ItemSource>
                     <tvs:TabItem HeaderText="Wishlist">
                         <ScrollView>

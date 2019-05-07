@@ -29,16 +29,17 @@ namespace ShopAroundMobile.Views
         private async void Save_Clicked(object sender, EventArgs e)
         {
             UserModel user = new UserModel();
+
             user.UserID = App.AppUser.UserID;
             user.Name = EntryName.Text;
             user.Surname = EntrySurname.Text;
-            user.Phone = EntryPhone.Text;
-            user.About = EntryAbout.Text;
+            user.City = picker.SelectedItem.ToString();
+
             //user.Image = Image.Source.ToString();
 
             string userObject = JsonConvert.SerializeObject(user);
 
-            string result = await WebService.SendDataAsync("AddProfileInfo", "user=" + userObject);
+            string result = await WebService.SendDataAsync("UpdateProfile", "user=" + userObject);
 
             if (result == "true")
             {
@@ -51,25 +52,25 @@ namespace ShopAroundMobile.Views
             }
         }
 
-        private async void TapGestureRecognizer_Tapped(object sender, EventArgs e)
-        {
-            await CrossMedia.Current.Initialize();
+        //private async void TapGestureRecognizer_Tapped(object sender, EventArgs e)
+        //{
+        //    await CrossMedia.Current.Initialize();
 
-            var imgData = await CrossMedia.Current.PickPhotoAsync(new Plugin.Media.Abstractions.PickMediaOptions());
+        //    var imgData = await CrossMedia.Current.PickPhotoAsync(new Plugin.Media.Abstractions.PickMediaOptions());
 
-            if (imgData != null)
-            {
-                Image.Source = ImageSource.FromStream(() => imgStr);
-                imgStr = imgData.GetStream();
-            }
-
-            
-            Image.Source = ImageSource.FromStream(imgData.GetStream);
+        //    if (imgData != null)
+        //    {
+        //        Image.Source = ImageSource.FromStream(() => imgStr);
+        //        imgStr = imgData.GetStream();
+        //    }
 
             
+        //    Image.Source = ImageSource.FromStream(imgData.GetStream);
+
             
-            Add_Image.IsVisible = false;
-            Add_Img_Text.IsVisible = false;
-        }
+            
+        //    Add_Image.IsVisible = false;
+        //    Add_Img_Text.IsVisible = false;
+        //}
     }
 }

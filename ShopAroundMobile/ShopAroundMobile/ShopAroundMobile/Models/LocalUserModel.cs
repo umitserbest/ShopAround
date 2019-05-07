@@ -18,6 +18,7 @@ namespace ShopAroundMobile.Models
 
         public string Password { get; set; }
 
+
         public LocalUserModel()
         {
 

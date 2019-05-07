@@ -49,7 +49,7 @@
 
 
 
-            <Frame BorderColor="LightGray" Margin="0,-5,7,20">
+            <Frame BorderColor="LightGray" Margin="0,25,7,20">
                 <Frame.GestureRecognizers>
                     <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="TapGestureRecognizer_Tapped"/>
                 </Frame.GestureRecognizers>
@@ -61,10 +61,10 @@
                     </Grid.ColumnDefinitions>
 
 
-                    <ImageButton VerticalOptions="Center" Margin="0,10,0,0" BackgroundColor="White" HeightRequest="50" WidthRequest="70" Source="http://essexbedsandfurniture.co.uk/wp-content/uploads/2017/10/Buy-Now.png" Grid.Column="0"></ImageButton>
+                    <Image VerticalOptions="Center" Margin="0,10,0,0" BackgroundColor="White" HeightRequest="50" WidthRequest="70" Source="buy" Grid.Column="0" Aspect="AspectFill"></Image>
                     <StackLayout VerticalOptions="Center" HorizontalOptions="End" Grid.Column="1" Orientation="Horizontal">
-                        <Label x:Name="Price" Text="{Binding Price}" TextColor="Green" FontAttributes="Bold" FontSize="22"/>
                         <Label Text="$" TextColor="Green" FontAttributes="Bold" FontSize="18" Margin="0,4,0,0"/>
+                        <Label x:Name="Price" Text="{Binding Price}" TextColor="Green" FontAttributes="Bold" FontSize="22"/>
                     </StackLayout>
                     <Image HorizontalOptions="End" VerticalOptions="Center" Source="right" Grid.Column="2" HeightRequest="20" WidthRequest="20"/>
 

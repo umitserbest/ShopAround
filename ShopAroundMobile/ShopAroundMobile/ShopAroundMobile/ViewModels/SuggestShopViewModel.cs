@@ -25,9 +25,9 @@ namespace ShopAroundMobile.ViewModels
 
         private async void GetShops(ListView listView)
         {
-            string result = await WebService.SendDataAsync("GetShopsForFollow", null);
+            string result = await WebService.SendDataAsync("GetShopsForFollow","userID=" + App.AppUser.UserID);
 
-            if (result != null)
+            if (result != "Error" && result != null && result.Length > 5)
             {
                 List<ShopModel> shops = JsonConvert.DeserializeObject<List<ShopModel>>(result);
                 foreach (ShopModel shop in shops)

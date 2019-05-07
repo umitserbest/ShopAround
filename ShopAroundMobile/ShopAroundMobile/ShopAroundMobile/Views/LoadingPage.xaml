@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ShopAroundMobile.Views.LoadingPage">
+    <ContentPage.Content>
+        <StackLayout VerticalOptions="Center" HorizontalOptions="Center">
+            <ActivityIndicator IsVisible="True" IsRunning="True" Color="Orange" />
+            <!--<Label Text="Shop Around" VerticalOptions="Center" HorizontalOptions="Center" />-->
+            <Image Source=""/>
+        </StackLayout>
+
+
+        <!--<Grid x:Name="SplashGrid" BackgroundColor="Orange">
+            <Image x:Name="Logo" Source="buy" HorizontalOptions="Center" VerticalOptions="Center">
+                <Image.TranslationY>
+                    <OnPlatform x:TypeArguments="x:Double">
+                        <On Platform="Android">-12</On>
+                    </OnPlatform>
+                </Image.TranslationY>
+            </Image>
+        </Grid>-->
+        
+    </ContentPage.Content>
+</ContentPage>

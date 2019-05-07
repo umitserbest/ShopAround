@@ -18,6 +18,8 @@ namespace ShopAroundMobile.Helpers
 
             connection = new SQLiteConnection(databasePath);
 
+            connection.CreateTable<LocalLogModel>();
+
             connection.CreateTable<LocalUserModel>();
         }
 
@@ -36,6 +38,16 @@ namespace ShopAroundMobile.Helpers
         public static void AddUser(LocalUserModel user)
         {
             connection.Insert(user);
+        }
+
+        public static void AddLog(LocalLogModel firstLog)
+        {
+            connection.Insert(firstLog);
+        }
+
+        public static LocalLogModel GetLog()
+        {
+            return connection.Table<LocalLogModel>().FirstOrDefault();
         }
 
         public static void DeleteUser()

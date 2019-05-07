@@ -31,12 +31,18 @@ namespace ShopAroundMobile.Views
             if (result != "Error" && result != null && result.Length > 6)
             {
 
-                List<UserModel> shops = JsonConvert.DeserializeObject<List<UserModel>>(result);
-                //foreach (var item in shops)
-                //{
-                //    item.Logo = Logopath + item.Logo;
-                //}
-                listView.ItemsSource = shops;
+                List<UserModel> users = JsonConvert.DeserializeObject<List<UserModel>>(result);
+
+                foreach (var user in users)
+                {
+                    if (user.UserID == App.AppUser.UserID)
+                    {
+                        users.Remove(user);
+                        break;
+                    }
+                }
+
+                listView.ItemsSource = users;
             }
         }
 

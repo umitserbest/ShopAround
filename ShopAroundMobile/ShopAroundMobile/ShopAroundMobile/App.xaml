@@ -4,8 +4,11 @@
              x:Class="ShopAroundMobile.App">
     <Application.Resources>
         <ResourceDictionary>
-            <OnPlatform x:TypeArguments="x:String" x:Key="PacificoFont">
+            <!--<OnPlatform x:TypeArguments="x:String" x:Key="PacificoFont">
                 <On Platform="Android" Value="Pacifico-Regular.ttf#Pacifico" />
+            </OnPlatform>-->
+            <OnPlatform x:TypeArguments="x:String" x:Key="ShopAroundFont">
+                <On Platform="Android" Value="Cathylan.otf#ShopAround" />
             </OnPlatform>
          </ResourceDictionary>
     </Application.Resources>

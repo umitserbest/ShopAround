@@ -144,8 +144,8 @@ namespace ShopAroundMobile.TabbedPages
                     FollowBtn.TextColor = Color.Black;
 
                     AddNotification();
-                    TabPageControl.noticeTabbed.GetNotification();
-                    TabPageControl.profileTabbed.Reload();
+                    //TabPageControl.noticeTabbed.GetNotification();
+                    TabPageControl.profileTabbed.Trigger();
                 }
             }
             else if (FollowBtn.Text == "Unfollow")
@@ -162,6 +162,9 @@ namespace ShopAroundMobile.TabbedPages
                     FollowBtn.Text = "Follow";
                     FollowBtn.BackgroundColor = Color.Orange;
                     FollowBtn.TextColor = Color.White;
+
+                    TabPageControl.profileTabbed.Trigger();
+
                 }
             }
 

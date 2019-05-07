@@ -32,18 +32,25 @@ namespace ShopAroundMobile.TabbedPages
             Children.Add(profileTabbed);
             //Children.Add(new ShopProfile(4));
 
+            
+            BarTextColor = Color.Coral;
+            Xamarin.Forms.PlatformConfiguration.AndroidSpecific.TabbedPage.SetBarSelectedItemColor(this, Color.Coral);
+
             CurrentPageChanged += (object sender, EventArgs e) =>
             {
-                int i = this.Children.IndexOf(this.CurrentPage);
+                int i = Children.IndexOf(this.CurrentPage);
                 switch (i)
                 {
-                    
+                    case 0:
+                        Showcase showcase = (Showcase)CurrentPage;
+                        showcase.Reload();
+                        break;
                     case 1:
                         Explore explore = (Explore)CurrentPage;
                         explore.Reload();
                         break;
                     case 2:
-                        //NotificationTabControl notification = (NotificationTabControl)CurrentPage;
+                      
                         NotificationTabControl.tabbedNotifications.Reload();
                         NotificationTabControl.tabbedDiscounts.Reload();
                         break;
@@ -55,10 +62,19 @@ namespace ShopAroundMobile.TabbedPages
                         break;
                 }
             };
-
+           
             NavigationPage.SetHasNavigationBar(this, false);
         }
 
-        
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+
+            var rootPage = Navigation.NavigationStack[0];
+            if (typeof(TabPageControl) == rootPage.GetType()) return;
+            Navigation.RemovePage(rootPage);
+        }
+
     }
 }

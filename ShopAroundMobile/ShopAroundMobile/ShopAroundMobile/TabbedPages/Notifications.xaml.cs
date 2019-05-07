@@ -20,25 +20,20 @@ namespace ShopAroundMobile.TabbedPages
 	public partial class Notifications : ContentPage , INotifyPropertyChanged
 	{
         bool reloaded;
+
         public Notifications()
         {
             InitializeComponent();
-
-            //GetNotification();
-
         }
+
         public void Reload()
         {
-
             if (!reloaded)
             {
-                GetNotification();
-
-
-                reloaded = true;
+                GetNotification();               
             }
-
         }
+
         private bool _isRefreshing = false;
         public bool IsRefreshing
         {
@@ -49,8 +44,7 @@ namespace ShopAroundMobile.TabbedPages
                 OnPropertyChanged(nameof(IsRefreshing));
             }
         }
-
-
+        
         public ICommand RefreshCommand
         {
             get
@@ -74,22 +68,19 @@ namespace ShopAroundMobile.TabbedPages
 
                 string friendresult = await WebService.SendDataAsync("GetNotifications", "userID=" + App.AppUser.UserID);
 
-
                 if (friendresult != "Error" && friendresult != null && friendresult.Length > 0 && friendresult != "null")
                 {
-                    user = JsonConvert.DeserializeObject<List<NotificationModel>>(friendresult);                                        
+                    user = JsonConvert.DeserializeObject<List<NotificationModel>>(friendresult);
+                    reloaded = true;
                 }
                                 
-                 listView.ItemsSource = user;
-                
+                 listView.ItemsSource = user;                
             }
             catch (Exception ex)
             {
                 throw;
-            }
-            
+            }            
         }
-
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -97,6 +88,5 @@ namespace ShopAroundMobile.TabbedPages
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
         }
-
     }
 }

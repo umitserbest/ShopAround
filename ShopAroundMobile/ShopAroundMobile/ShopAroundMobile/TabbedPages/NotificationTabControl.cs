@@ -14,7 +14,7 @@ namespace ShopAroundMobile.TabbedPages
         {
            
             Title = "Notification";
-            Icon = "combnye";
+            Icon = "notice";
             BarBackgroundColor = Color.White;
             BarTextColor = Color.Gray;
 

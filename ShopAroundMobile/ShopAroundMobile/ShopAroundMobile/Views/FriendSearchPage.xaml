@@ -28,7 +28,7 @@
                                 <ColumnDefinition Width="*"></ColumnDefinition>
                             </Grid.ColumnDefinitions>
 
-                            <image:CircleImage x:Name="img" Grid.Column="0" Aspect="Fill" Source="{Binding Image}" HeightRequest="30"></image:CircleImage>
+                            <image:CircleImage x:Name="img" Grid.Column="0" Aspect="Fill" Source="profile" HeightRequest="30"></image:CircleImage>
                             <Label Text="{Binding Username}" TextColor="Black" FontAttributes="Bold" Grid.Column="1" VerticalOptions="Center" FontSize="16"></Label>
                             <Button Grid.Column="2" Text="View Profile" HorizontalOptions="End" CommandParameter="{Binding UserID}" Clicked="Button_Clicked"></Button>
                         </Grid>

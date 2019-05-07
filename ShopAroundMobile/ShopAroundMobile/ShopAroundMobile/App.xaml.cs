@@ -30,13 +30,11 @@ namespace ShopAroundMobile
             }
             else
             {
-                MainPage = new NavigationPage(new TabPageControl());
-            }
+                //MainPage = new NavigationPage(new TabPageControl());
+                MainPage = new NavigationPage(new LoadingPage());
 
-            //MainPage = new NavigationPage(new Login());
-            //MainPage = new CustomNavigationPage(new ShopProfile());
-            //MainPage = new NavigationPage(new ShopProfile(4));
-            //MainPage = new FriendProfile();
+            }
+            
 
 #if DEBUG
             LiveReload.Init();

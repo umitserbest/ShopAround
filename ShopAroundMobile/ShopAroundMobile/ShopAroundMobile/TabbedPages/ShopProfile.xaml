@@ -26,26 +26,8 @@
                 <Label x:Name="shopname" TextColor="Black" HorizontalOptions="Center" FontSize="20" FontAttributes="Bold"/>
             </StackLayout>
 
-            <!--  Social Stats Section  -->
-            <Grid Grid.Row="2" Margin="40,-40,0,0" ColumnSpacing="0" RowSpacing="0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-
-              <StackLayout Grid.Column="0">
-                    <Label  Margin="20,0,0,0" Text="94" />
-                    <Label FontAttributes="Bold" Text="Following" />
-                </StackLayout>
-
-                <StackLayout Margin="20,0,0,0" Grid.Column="2">
-                    <Label Margin="20,0,0,0" Text="957" />
-                    <Label FontAttributes="Bold" Text="Followers" />
-                </StackLayout>
-            </Grid>
             
-            <StackLayout Grid.Row="3" Orientation="Horizontal" Margin="0,15,0,0">
+            <StackLayout Grid.Row="2" Orientation="Horizontal" Margin="0,15,0,0">
                 <Button x:Name="FollowBtn" Text="Follow" HorizontalOptions="Start" Margin="20,15,0,0" CornerRadius="10" WidthRequest="150" TextColor="White" BackgroundColor="Orange" FontAttributes="Bold" Clicked="Button_Clicked_1"></Button>
                 <Button Text="Information" HorizontalOptions="EndAndExpand" Margin="0,15,20,0" CornerRadius="10" WidthRequest="150" TextColor="White" BackgroundColor="Orange" FontAttributes="Bold" Clicked="Button_Clicked"></Button>
             </StackLayout>

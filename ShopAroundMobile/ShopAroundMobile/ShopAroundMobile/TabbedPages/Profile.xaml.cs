@@ -16,7 +16,10 @@ namespace ShopAroundMobile.TabbedPages
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class Profile : ContentPage
 	{
-        bool reloaded;
+        bool WishlistReloaded;
+        bool FriendReloaded;
+        bool UserReloaded;
+
         string Productpath = "https://shoparound.umitserbest.com/shopassets/products/";
         public Profile ()
 		{
@@ -31,18 +34,23 @@ namespace ShopAroundMobile.TabbedPages
         public void Reload()
         {
            
-            if (!reloaded)
+            if (!WishlistReloaded && !FriendReloaded && !UserReloaded)
             {
                 GetUserInfo();
                 GetWishList();
                 GetFriendList();
-                reloaded = true;
             }
+        }
+
+        public void Trigger()
+        {
+            GetUserInfo();
+            GetWishList();
+            GetFriendList();
         }
 
         async void GetFriendList()
         {
-
             try
             {
                 List<int> friend = new List<int>();
@@ -61,9 +69,12 @@ namespace ShopAroundMobile.TabbedPages
                         {
                             UserModel listUser = JsonConvert.DeserializeObject<UserModel>(userresult);
                             user.Add(listUser);
+                            
                         }
                     }
                     listView.ItemsSource = user;
+                    FriendReloaded = true;
+
                 }
 
 
@@ -89,11 +100,11 @@ namespace ShopAroundMobile.TabbedPages
                 if (wishlistresult != "Error" && wishlistresult != null && wishlistresult.Length > 6)
                 {
                     products = JsonConvert.DeserializeObject<List<ProductModel>>(wishlistresult);
-
+                    WishlistReloaded = true;
                 }
                 for (int i = 0; i < products.Count + 1 / 2; i++)
                 {
-                    UserImages.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) });
+                    UserImages.RowDefinitions.Add(new RowDefinition { Height = new GridLength(200) });
 
                 }
 
@@ -112,7 +123,8 @@ namespace ShopAroundMobile.TabbedPages
 
                         Image image = new Image();
                         image.Source = Productpath + products[counter].CoverImage;
-                        
+                        image.Aspect = Aspect.AspectFill;
+                        image.WidthRequest = 400;
 
                         ProductModel product = products[counter];
 
@@ -152,11 +164,11 @@ namespace ShopAroundMobile.TabbedPages
                  if (userresult != "Error" && userresult != null && userresult.Length > 6)
                 {
                     user = JsonConvert.DeserializeObject<UserModel>(userresult);
+                    UserReloaded = true;
                 }
-
+                                 
                 UserName.Text ="@" + user.Username;
                 Name.Text = user.Name + " " + user.Surname;
-                UserImage.Source = user.Image;
             }
             catch (Exception ex)
             {

@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using ShopAroundMobile.Helpers;
 using ShopAroundMobile.Models;
+using ShopAroundMobile.TabbedPages;
 using ShopAroundMobile.Views;
 using System;
 using System.Collections.Generic;
@@ -29,13 +30,29 @@ namespace ShopAroundMobile.Views
 
             string result = await WebService.SendDataAsync("SignIn", "userSignIn=" + signInObject);
 
-            if (result != "false")
+            if (result != "false")// User is existed
             {
                 Database.AddUser(new LocalUserModel(int.Parse(result)));
 
-                App.AppUser = Database.GetUser();
+                var log = Database.GetLog();
 
-                await Navigation.PushAsync(new ProfileSettings());
+                if(log != null)
+                {
+                    App.AppUser = Database.GetUser();
+                    await Navigation.PushAsync(new TabPageControl());
+                }
+                else
+                {
+                    App.AppUser = Database.GetUser();
+
+                    Database.AddLog(new LocalLogModel());
+                    await Navigation.PushAsync(new ProfileSettings());
+                }
+
+            }
+            else
+            {
+                await DisplayAlert("Error", "UserName or Password is not correct.", "OK");
             }
         }
 

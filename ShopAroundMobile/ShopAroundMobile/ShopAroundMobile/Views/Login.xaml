@@ -8,7 +8,7 @@
         <StackLayout Orientation="Vertical">
 
             <StackLayout x:Name="Title" VerticalOptions="Start" HorizontalOptions="Center" Margin="0,20,0,0" Orientation="Vertical">
-                <Label Text="ShopAround" FontFamily="{StaticResource PacificoFont}" FontSize="20" TextColor="White" FontAttributes="Bold"></Label>
+                <Label Text="ShopAround" FontFamily="{StaticResource ShopAroundFont}" FontSize="20" TextColor="White" FontAttributes="Bold"></Label>
 
             </StackLayout>
 

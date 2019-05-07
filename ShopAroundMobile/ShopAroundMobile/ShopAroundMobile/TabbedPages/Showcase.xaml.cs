@@ -23,14 +23,36 @@ namespace ShopAroundMobile.TabbedPages
         public Showcase()
         {
             InitializeComponent();
-            BindingContext = new ShowcaseViewModel(listView);
+            //BindingContext = new ShowcaseViewModel(listView);
+            //tryButton.IsVisible = false;
+            Reload();
+
             //ShowcaseViewModel showcase = new ShowcaseViewModel(listView);
             
         }
 
         public void Reload()
         {
+            BindingContext = new ShowcaseViewModel(listView);
+            
+            if(ShowcaseViewModel.isLoading == false)
+            {                
+               // TryStacklayout.IsVisible = true;
+                //MainGrid.Children.Add(TryStacklayout);
+                //tryButton.IsVisible = true;
+                //activity.IsVisible = true;
+                //activity.IsRunning = true;
 
+            }
+            else
+            {                
+               // TryStacklayout.IsVisible = false;
+                //MainGrid.Children.Remove(TryStacklayout);
+               // MainGrid.RowDefinitions.RemoveAt(2);
+                
+
+            }
+            
         }
 
         async void TapGestureRecognizer_Tapped(object sender, EventArgs e)
@@ -61,18 +83,7 @@ namespace ShopAroundMobile.TabbedPages
 
             TabPageControl.profileTabbed.Reload();
         }
-
-        private async void ImageButton_Clicked(object sender, EventArgs e)
-        {
-            var ImageButton = sender as ImageButton;
-
-            var showcase = ImageButton?.BindingContext as ShowcaseModel;
-
-            var vm = BindingContext as ShowcaseViewModel;
-
-            await Browser.OpenAsync(showcase.PurchaseLink,BrowserLaunchMode.SystemPreferred);
-        }
-              
+                              
         private async void Label_Tapped(object sender, EventArgs e)
         {
             var LabelTapped = (Label)sender;
@@ -84,6 +95,25 @@ namespace ShopAroundMobile.TabbedPages
             await Navigation.PushAsync(new ShopProfile(showcase.ShopID));
         }
 
-    
+        private async void Frame_Tapped(object sender, EventArgs e)
+        {
+            var frame = sender as Frame;
+
+            var showcase = frame?.BindingContext as ShowcaseModel;
+
+            var vm = BindingContext as ShowcaseViewModel;
+
+            await Browser.OpenAsync(showcase.PurchaseLink, BrowserLaunchMode.SystemPreferred);
+        }
+
+        private void TryAgain_Clicked(object sender, EventArgs e)
+        {
+            Reload(); 
+        }
+
+        private void ShopAround_Tapped(object sender, EventArgs e)
+        {
+            Reload();
+        }
     }
 }

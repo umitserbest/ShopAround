@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Plugin.Connectivity;
 using ShopAroundMobile.Helpers;
 using ShopAroundMobile.Model;
 using ShopAroundMobile.Models;
@@ -17,13 +18,17 @@ namespace ShopAroundMobile.ViewModels
 {
     public class ShowcaseViewModel : INotifyPropertyChanged
     {
+        bool IsConnected = CrossConnectivity.Current.IsConnected;
         List<ProductModel> wishlistProducts = new List<ProductModel>();
+
         string Logopath = "https://shoparound.umitserbest.com/shopassets/logo/";
         string Productpath = "https://shoparound.umitserbest.com/shopassets/products/";
-        bool isLoading;
+
+        public static bool isLoading = false;
         public ListView list;
         public List<ShowcaseModel> Item = new List<ShowcaseModel>();
-                
+
+#region ListviewRefresh
         private bool _isRefreshing = false;
         public bool IsRefreshing
         {
@@ -50,9 +55,60 @@ namespace ShopAroundMobile.ViewModels
                 });
             }
         }
+#endregion
 
 
-        private async void GetFlowInfo(ListView listView)
+        private bool _isBusy = false;
+        public bool IsBusy
+        {
+            get { return _isBusy; }
+            set
+            {
+                if (_isBusy == value)
+                    return;
+
+                _isBusy = value;
+                OnPropertyChanged("IsBusy");
+                
+            }
+        }
+
+        public async void LoadData(ListView LoadListview)
+        {
+            if (IsConnected == true)
+            {
+
+                if (IsBusy)
+                    return;
+
+                try
+                {
+                    IsBusy = true;
+
+                    await GetWishlistInfo();
+                    await GetFlowInfo(LoadListview);
+                    
+                    IsBusy = false;
+                }
+                catch (Exception e)
+                {
+                    DependencyService.Get<IMessage>().Message("No connection, please try again.");
+                }
+                finally
+                {
+                    IsBusy = false;
+                }
+
+            }
+
+            else
+            {
+                DependencyService.Get<IMessage>().Message("No connection, please try again.");
+
+            }
+        }
+
+        private async Task GetFlowInfo(ListView listView)
         {
             List<ShowcaseModel> showcases = new List<ShowcaseModel>();
             List<ProductModel> products = new List<ProductModel>();
@@ -72,12 +128,14 @@ namespace ShopAroundMobile.ViewModels
                     {
                         product.CoverImage = Productpath + product.CoverImage;
                     }
+                    isLoading = true;
+
                 }
                 catch (Exception)
                 {
-                    throw;
+                    //throw;
                 }
-                
+
             }
 
             if (shopResult != "Error" && shopResult != null && shopResult.Length > 6)
@@ -89,11 +147,15 @@ namespace ShopAroundMobile.ViewModels
                     {
                         shop.Logo = Logopath + shop.Logo;
                     }
+                    isLoading = true;
+
                 }
                 catch (Exception)
                 {
-                    throw;
+                    //throw;
                 }
+
+
             }
 
             if (products.Count > 0 && shops.Count > 0)
@@ -161,7 +223,18 @@ namespace ShopAroundMobile.ViewModels
             }
         }
 
-     
+        //public Command<ShowcaseModel> TryLoad
+        //{
+        //    get
+        //    {
+        //        return new Command<ShowcaseModel>((showcase) =>
+        //        {
+        //            LoadData(list);
+
+        //        });
+        //    }
+        //}
+
         private async void AddWishListAsync(int productID)
         {
             bool isExistWishlist = false;
@@ -183,7 +256,7 @@ namespace ShopAroundMobile.ViewModels
                 {
                     wishlistProducts.Add(new ProductModel() { ProductID = productID });
                     DependencyService.Get<IMessage>().Message("This product added to your Wishlist.");
-                    TabPageControl.profileTabbed.Reload();
+                    TabPageControl.profileTabbed.Trigger();
                 }
             }
             else
@@ -192,7 +265,7 @@ namespace ShopAroundMobile.ViewModels
             }
         }
 
-        private async void GetWishlistInfo()
+        private async Task GetWishlistInfo()
         {
             string wishresult = await WebService.SendDataAsync("GetWishlist", "userID=" + App.AppUser.UserID);  
 
@@ -207,15 +280,13 @@ namespace ShopAroundMobile.ViewModels
 
         public ShowcaseViewModel(ListView listview)
         {
-            
-            GetWishlistInfo();
-            GetFlowInfo(listview);
+            LoadData(listview);
+            //GetWishlistInfo();
+            //GetFlowInfo(listview);
             
         }
 
-       
-
-
+        
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected virtual void OnPropertyChanged([CallerMemberName]string propName = null)

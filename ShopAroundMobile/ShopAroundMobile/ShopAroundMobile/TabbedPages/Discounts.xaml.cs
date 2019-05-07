@@ -20,9 +20,7 @@ namespace ShopAroundMobile.TabbedPages
         string Logopath = "https://shoparound.umitserbest.com/shopassets/logo/";
         public Discounts ()
 		{
-			InitializeComponent ();
-            //GetDiscount();
-
+			InitializeComponent (); 
         }
 
         public void Reload()
@@ -31,14 +29,11 @@ namespace ShopAroundMobile.TabbedPages
             if (!reloaded)
             {
                 GetDiscount();
-
-                reloaded = true;
             }
         }
 
         public async void GetDiscount()
         {
-
             try
             {
                 List<DiscountModel> discounts = new List<DiscountModel>();
@@ -53,7 +48,8 @@ namespace ShopAroundMobile.TabbedPages
                     {
                         item.ShopLogo = Logopath + item.ShopLogo;
                     }
-                   
+
+                    reloaded = true;
                 }
                 listView.ItemsSource = discounts;
             }
@@ -63,7 +59,6 @@ namespace ShopAroundMobile.TabbedPages
                 throw;
             }
         }
-
 
         private void ListView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {

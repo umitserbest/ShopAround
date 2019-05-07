@@ -82,7 +82,8 @@ namespace ShopAroundMobile.Views
                 {
                     await DisplayAlert("Delete Wislist", "Product deleted in your wishlist.", "OK");
                     Wishlist.IsVisible = false;
-                    TabPageControl.profileTabbed.Reload();
+                    TabPageControl.profileTabbed.Trigger();
+                    await Navigation.PushAsync(new Profile());
                 }
                 
             }
@@ -124,7 +125,7 @@ namespace ShopAroundMobile.Views
                 {
                     wishlistProducts.Add(new ProductModel() { ProductID = productId });
                     DependencyService.Get<IMessage>().Message("This product added to your Wishlist.");
-                    TabPageControl.profileTabbed.Reload();
+                    TabPageControl.profileTabbed.Trigger();
                 }
             }
             else

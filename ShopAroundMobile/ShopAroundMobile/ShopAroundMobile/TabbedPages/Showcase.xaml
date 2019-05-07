@@ -5,26 +5,40 @@
              xmlns:ci="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              xmlns:viewModels="clr-namespace:ShopAroundMobile.ViewModels"
              x:Class="ShopAroundMobile.TabbedPages.Showcase" Title="Showcase" Icon="home" BackgroundColor="White">
-    <!--<ContentPage.BindingContext>
-        <viewModels:ShowcaseViewModel/>
-    </ContentPage.BindingContext>-->
     
-    <Grid>
-        <StackLayout HeightRequest="40" HorizontalOptions="Center" VerticalOptions="Start">
-        <Label Text="ShopAround" FontFamily="{StaticResource PacificoFont}" TextColor="Black" HorizontalOptions="Center" FontSize="16"></Label>
+    <Grid x:Name="MainGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <!--<RowDefinition x:Name="tryRow" Height="70"></RowDefinition>-->
+        </Grid.RowDefinitions>
+
+        
+
+        <StackLayout Grid.Row="0" HorizontalOptions="Center" VerticalOptions="Start">
+            
+            <Label Text="ShopAround" FontFamily="{StaticResource ShopAroundFont}" VerticalOptions="Center" Margin="0,10,0,0" TextColor="Coral" HorizontalOptions="Center" FontSize="26" FontAttributes="Bold">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="ShopAround_Tapped"/>
+                </Label.GestureRecognizers>
+            </Label>        
+
         </StackLayout>
-        <ListView Margin="5,30,5,0" x:Name="listView" RefreshControlColor="Coral" IsPullToRefreshEnabled="True" HorizontalScrollBarVisibility="Default" HasUnevenRows="True" SelectionMode="None" RefreshCommand="{Binding RefreshCommand}" IsRefreshing="{Binding IsRefreshing}" CachingStrategy="RetainElement">
+
+
+        <ListView Grid.Row="1" Margin="5,30,5,0" x:Name="listView" RefreshControlColor="Coral" IsPullToRefreshEnabled="True" HorizontalScrollBarVisibility="Default" HasUnevenRows="True" SelectionMode="None" RefreshCommand="{Binding RefreshCommand}" IsRefreshing="{Binding IsRefreshing}" CachingStrategy="RetainElement">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell x:Name="viewCell">
+                        
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="60"></RowDefinition>
                                 <RowDefinition Height="250"></RowDefinition>
                                 <RowDefinition Height="*"></RowDefinition>
                             </Grid.RowDefinitions>
-                            <StackLayout Orientation="Horizontal" Grid.Row="0">
-                                     
+
+                            <StackLayout Orientation="Horizontal" Grid.Row="0">                                     
                                
                                 <image:CircleImage Margin="-50,10,0,10" Aspect="AspectFit" HeightRequest="150" HorizontalOptions="Start" VerticalOptions="Center" Source="{Binding ShopLogo}" WidthRequest="150" ></image:CircleImage>
                                 <Label Margin="-50,0,0,0" VerticalOptions="Center" Text="{Binding ShopName}" TextColor="Black" FontSize="18">
@@ -48,10 +62,13 @@
                             
                             <Frame Margin="0,-15,0,0" Grid.Row="1" BorderColor="LightGray">
                             <!--<Image Source="{Binding CoverImage}" HorizontalOptions="Fill"></Image>-->
-                                <ci:CachedImage Source="{Binding CoverImage}" HorizontalOptions="Center"/>
+                                <ci:CachedImage Source="{Binding CoverImage}" WidthRequest="350" Aspect="AspectFill" HorizontalOptions="Center"/>
                             </Frame>
                             
                             <Frame  Grid.Row="2" BorderColor="LightGray" Margin="0,-5,0,20" >
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="Frame_Tapped"/>
+                                </Frame.GestureRecognizers>
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition/>
@@ -59,22 +76,28 @@
                                         <ColumnDefinition Width="30"/>
                                     </Grid.ColumnDefinitions>
 
-                                   
-                                    <ImageButton VerticalOptions="Center" Margin="0,10,0,0" BackgroundColor="White" HeightRequest="50" WidthRequest="70" Source="http://essexbedsandfurniture.co.uk/wp-content/uploads/2017/10/Buy-Now.png" Grid.Column="0" Clicked="ImageButton_Clicked"></ImageButton>
+
+
+                                    <Image VerticalOptions="Center" Margin="0,10,0,0" BackgroundColor="White" HeightRequest="50" WidthRequest="70" Source="buy" Grid.Column="0" Aspect="AspectFill"/>
                                     <StackLayout VerticalOptions="Center" HorizontalOptions="End" Grid.Column="1" Orientation="Horizontal">
-                                    <Label x:Name="Price" Text="{Binding Price}" TextColor="Green" FontAttributes="Bold" FontSize="22"></Label>
-                                        <Label Text="$" TextColor="Green" FontAttributes="Bold" FontSize="18" Margin="0,4,0,0"></Label>
+                                        <Label x:Name="Price" Text="{Binding Price}" TextColor="Green" FontAttributes="Bold" FontSize="22"/>
+                                        <Label Text="$" TextColor="Green" FontAttributes="Bold" FontSize="18" Margin="0,4,0,0"/>
                                     </StackLayout>
-                                    <ci:CachedImage HorizontalOptions="End" VerticalOptions="Center" Source="right" Grid.Column="2" HeightRequest="20" WidthRequest="20"></ci:CachedImage>
+                                    <ci:CachedImage HorizontalOptions="End" VerticalOptions="Center" Source="right" Grid.Column="2" HeightRequest="20" WidthRequest="20"/>
 
                                 </Grid>
-                            </Frame>
-
-                        
+                            </Frame>                        
                         </Grid>
                     </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+
+        <!--<StackLayout BackgroundColor="Red" x:Name="TryStacklayout" VerticalOptions="Center" HorizontalOptions="Center" Grid.Row="2">
+            <ActivityIndicator x:Name="activity"  
+                       IsRunning="{Binding IsBusy}"
+                       Color="Orange" BackgroundColor="Transparent"/>
+            <Button x:Name="tryButton" Text="Try Again" HorizontalOptions="CenterAndExpand" IsVisible="True" VerticalOptions="Start" Clicked="TryAgain_Clicked"/>
+        </StackLayout>-->
     </Grid>
 </ContentPage>

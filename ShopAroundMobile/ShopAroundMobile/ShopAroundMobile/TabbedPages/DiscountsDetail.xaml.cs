@@ -1,4 +1,6 @@
-﻿using ShopAroundMobile.Models;
+﻿using Newtonsoft.Json;
+using ShopAroundMobile.Helpers;
+using ShopAroundMobile.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,19 +15,21 @@ namespace ShopAroundMobile.TabbedPages
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class DiscountsDetail : ContentPage
     {
-        
+        bool IsFinished = false;
         public int hour;
         public int counter;
         public int mins;
         public int isTimerCancel;
-        public string code;
+        public int DiscountID;
         public DiscountsDetail(DiscountModel discount)
         {
             InitializeComponent();
             Countdown(discount);
             image.Source = discount.ShopLogo;
             ShopName.Text = discount.ShopName;
-            code = discount.Code;
+            DiscountID = discount.DiscountID;
+            Detail.Text = discount.Details;
+            GetCodeButton.IsVisible = false;
         }
 
         private void Countdown(DiscountModel discount)
@@ -77,12 +81,12 @@ namespace ShopAroundMobile.TabbedPages
                     });
                     if (hour == 0 && mins == 0 && counter == 0)
                     {
-                        
-                       //DisplayAlert("Exam", "Exam Time Over", "Close");
+                        IsFinished = true;
                         return false;
                     }
                     else
                     {
+                        GetCodeButton.IsVisible = true;
                         return true;
                     }
                 }
@@ -92,7 +96,23 @@ namespace ShopAroundMobile.TabbedPages
 
         private async void Button_Clicked(object sender, EventArgs e)
         {
-             await DisplayAlert("Discount Code",code, "OK");
+            if(IsFinished == true)
+            {
+                DependencyService.Get<IMessage>().Message("You are late, the discount finished.");
+                GetCodeButton.IsVisible = false;
+            }
+            else
+            {
+                Tuple<int, int> discount = new Tuple<int, int>(App.AppUser.UserID, DiscountID);
+
+                string code = await WebService.SendDataAsync("GetDiscountCode", "discountCode=" + JsonConvert.SerializeObject(discount));
+                                
+                if(code != null && code != "Error" && code.Length == 8)
+                {
+                    await DisplayAlert("Discount Code", code, "OK");
+
+                }
+            }
         }
     }
 }
