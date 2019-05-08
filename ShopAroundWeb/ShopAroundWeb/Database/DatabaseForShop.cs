@@ -127,7 +127,7 @@ namespace ShopAroundWeb.Database
                         shop.Name = reader[3].ToString();
                         shop.Phone = reader[4].ToString();
                         shop.Address = reader[5].ToString();
-                        shop.City = byte.Parse(reader[6].ToString());
+                        shop.City = reader[6].ToString();
                         shop.About = reader[7].ToString();
                     }
 
@@ -294,7 +294,7 @@ namespace ShopAroundWeb.Database
             }
             catch(Exception)
             {
-                throw;
+                //throw;
                 return false;
             }
             finally
@@ -412,8 +412,8 @@ namespace ShopAroundWeb.Database
             {
                 DatabaseConnection.OpenConnection();
 
-                string query = "INSERT INTO [Discount] (ShopID, ProductID, Date, Details, Code) " +
-                    "VALUES (@ShopID, @ProductID, @Date, @Details, @Code)";
+                string query = "INSERT INTO [Discount] (ShopID, ProductID, Date, Details) " +
+                    "VALUES (@ShopID, @ProductID, @Date, @Details)";
 
                 SqlCommand cmd = new SqlCommand(query, DatabaseConnection.connection);
 
@@ -421,7 +421,6 @@ namespace ShopAroundWeb.Database
                 cmd.Parameters.Add("@ProductID", SqlDbType.Int).Value = discount.ProductID;
                 cmd.Parameters.Add("@Date", SqlDbType.SmallDateTime).Value = discount.Date;
                 cmd.Parameters.Add("@Details", SqlDbType.NVarChar).Value = discount.Details;
-                cmd.Parameters.Add("@Code", SqlDbType.NVarChar).Value = discount.Code;
 
                 cmd.ExecuteNonQuery();
 

@@ -43,8 +43,7 @@ namespace ShopAroundWeb
                 DiscountModel discount = new DiscountModel();
 
                 discount.ShopID = shopID;
-                discount.ProductID = int.Parse(ddlProduct.SelectedValue);
-                discount.Code = txtDiscountCode.Text;
+                discount.ProductID = int.Parse(ddlProduct.SelectedValue);               
                 discount.Details = txtDetails.Text;
 
                 DateTime dateTime = clndrExpiry.SelectedDate;

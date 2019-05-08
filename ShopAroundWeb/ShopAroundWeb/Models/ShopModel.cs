@@ -13,7 +13,7 @@ namespace ShopAroundWeb.Models
         public string Password { get; set; }
         public string Phone { get; set; }
         public string Address { get; set; }        
-        public byte City { get; set; }
+        public string City { get; set; }
         public string About { get; set; }
         public string Logo { get; set; }
 

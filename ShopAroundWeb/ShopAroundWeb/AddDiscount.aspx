@@ -30,10 +30,10 @@
 			  </div>			 
 			</div>
 
-			<div class="mb-3">
+			<%--<div class="mb-3">
 				<label for="productCode">Discount Code</label>
 				<asp:TextBox ID="txtDiscountCode" CssClass="form-control" runat="server"></asp:TextBox>				
-			  </div>
+			  </div>--%>
 
 			  <div class="mb-3">
 				<label for="productName">Details</label>

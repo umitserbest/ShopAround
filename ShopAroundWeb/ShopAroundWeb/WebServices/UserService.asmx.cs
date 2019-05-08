@@ -3,6 +3,7 @@ using ShopAroundWeb.Database;
 using ShopAroundWeb.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Script.Services;
 using System.Web.Services;
 
@@ -18,6 +19,144 @@ namespace ShopAroundWeb.WebServices
     // [System.Web.Script.Services.ScriptService]
     public class UserService : WebService
     {
+        #region Utilities
+
+        const int cacheTimeout = 300; //seconds
+
+        static DateTime flowCacheUpdateTime;
+        static List<ProductModel> theFlow;
+
+        static DateTime exploreCacheUpdateTime;
+        static List<ProductModel> theExplore;
+
+        List<ProductModel> GenerateTheFlow(int userID)
+        {
+            TimeSpan timeSpan = DateTime.Now.Subtract(flowCacheUpdateTime);
+
+            if (timeSpan.Seconds > cacheTimeout || theFlow is null)
+            {
+                flowCacheUpdateTime = DateTime.Now;
+                theFlow = DatabaseForUser.GetProductsForTheFlow(50, userID); //update the flow
+            }
+
+            return theFlow;
+        }
+
+        void UpdateExploreCache(int userID)
+        {
+            exploreCacheUpdateTime = DateTime.Now;
+
+            List<int> productTypes = GetProductTypesByWishlist(userID);
+            List<ProductModel> products = GetProductsOfUnfollowedShops(userID);
+
+            List<ProductModel> filteredProducts = new List<ProductModel>();
+
+            foreach (ProductModel product in products)
+            {
+                foreach (int typeID in productTypes)
+                {
+                    if (product.ProductTypeID == typeID)
+                    {
+                        filteredProducts.Add(product);
+                    }
+                }
+            }
+
+            filteredProducts.Shuffle();
+            products.Shuffle();
+
+            theExplore = filteredProducts.Concat(products).ToList();
+        }
+
+        List<int> GetProductTypesByWishlist(int userID)
+        {
+            List<ProductModel> wishlist = DatabaseForUser.GetWishlist(userID);
+            List<int> productTypes = new List<int>();
+
+            foreach (ProductModel product in wishlist)
+            {
+                if (!productTypes.Contains(product.ProductTypeID))
+                {
+                    productTypes.Add(product.ProductTypeID);
+                }
+            }
+
+            return productTypes;
+        }
+
+        List<ProductModel> GetProductsOfUnfollowedShops(int userID)
+        {
+            return DatabaseForUser.GetProductsOfUnfollowedShops(userID);
+        }
+
+        List<ProductModel> GenerateTheExplore(int userID)
+        {
+            TimeSpan timeSpan = DateTime.Now.Subtract(exploreCacheUpdateTime);
+
+            if (timeSpan.Seconds > cacheTimeout || theExplore is null)
+            {
+                UpdateExploreCache(userID);
+            }
+
+            return theExplore;
+        }
+
+        List<ProductModel> GenerateTheExplore(Tuple<int, int, int> tuple) //userID, count, startPoint
+        {
+            TimeSpan timeSpan = DateTime.Now.Subtract(exploreCacheUpdateTime);
+
+            if (timeSpan.Seconds > cacheTimeout || theExplore is null)
+            {
+                UpdateExploreCache(tuple.Item1);
+            }
+
+            List<ProductModel> explore = new List<ProductModel>();
+
+            for (int i = 0; i < theExplore.Count; i++)
+            {
+                if (explore.Count == tuple.Item2)
+                {
+                    break;
+                }
+
+                if (i >= tuple.Item3)
+                {
+                    explore.Add(theExplore[i]);
+                }
+            }
+
+            return explore;
+        }
+
+        List<ProductModel> GenerateTheExplore(Tuple<int, int> tuple) //userID, productTypeID
+        {
+            TimeSpan timeSpan = DateTime.Now.Subtract(exploreCacheUpdateTime);
+
+            if (timeSpan.Seconds > cacheTimeout || theExplore is null)
+            {
+                UpdateExploreCache(tuple.Item1);
+            }
+
+            List<ProductModel> explore = new List<ProductModel>();
+
+            foreach (ProductModel product in theExplore)
+            {
+                if (product.ProductTypeID == tuple.Item2)
+                {
+                    explore.Add(product);
+                }
+            }
+
+            return explore;
+        }
+
+        string GenerateDiscountCode()
+        {           
+            return Guid.NewGuid().ToString().Substring(0,8).ToUpper();
+        }
+
+        #endregion
+
         #region User
 
         [WebMethod]
@@ -91,30 +230,7 @@ namespace ShopAroundWeb.WebServices
                 return false;
             }
         }
-
-        [WebMethod]
-        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public void AddProfileInfo(string user)
-        {
-            try
-            {
-                UserModel userModel = JsonConvert.DeserializeObject<UserModel>(user);
-
-                if (DatabaseForUser.AddUserInfo(userModel))
-                {
-                    Context.Response.Write("true");
-                }
-                else
-                {
-                    Context.Response.Write("false");
-                }
-            }
-            catch
-            {
-                Context.Response.Write("false");
-            }
-        }
-
+         
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
         public void UpdateProfile(string user)
@@ -355,7 +471,9 @@ namespace ShopAroundWeb.WebServices
             {
                 int intUserID = JsonConvert.DeserializeObject<int>(userID);
 
-                List<ProductModel> products = DatabaseForUser.GetProductsForTheFlow(50, intUserID);
+                //List<ProductModel> products = DatabaseForUser.GetProductsForTheFlow(50, intUserID);
+                List<ProductModel> products = GenerateTheFlow(intUserID);
+                products.Shuffle();
 
                 Context.Response.Write(JsonConvert.SerializeObject(products));
             }
@@ -373,6 +491,26 @@ namespace ShopAroundWeb.WebServices
             {
                 Tuple<int, int, int> tuple = JsonConvert.DeserializeObject<Tuple<int, int, int>>(explore); //userID, count, startPoint
 
+                //List<ProductModel> products = DatabaseForUser.GetAllProducts(tuple);
+                List<ProductModel> products = GenerateTheExplore(tuple);
+                Context.Response.Write(JsonConvert.SerializeObject(products));
+            }
+            catch
+            {
+                Context.Response.Write("false");
+            }
+        }
+
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public void GetTheExploreByCity(string userID)
+        {
+            try
+            {
+                UserModel user = DatabaseForUser.GetUser(int.Parse(userID));
+
+                Tuple<int, string> tuple = new Tuple<int, string>(user.UserID, user.City);
+
                 List<ProductModel> products = DatabaseForUser.GetAllProducts(tuple);
                 Context.Response.Write(JsonConvert.SerializeObject(products));
             }
@@ -384,15 +522,51 @@ namespace ShopAroundWeb.WebServices
 
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public void GetTheExploreTEST()
+        public void GetTheExploreTEST(string startPoint)
         {
             try
             {
-                Tuple<int, int, int> tuple = new Tuple<int, int, int>(2, 9, 9);
-                //Tuple<int, int, int> tuple = JsonConvert.DeserializeObject<Tuple<int, int, int>>(explore); //userID, count, startPoint
+                Tuple<int, int, int> tuple = new Tuple<int, int, int>(1003, 9, int.Parse(startPoint)); //userID, count, startPoint
 
-                List<ProductModel> products = DatabaseForUser.GetAllProducts(tuple);
+                List<ProductModel> products = GenerateTheExplore(tuple);
                 Context.Response.Write(JsonConvert.SerializeObject(products));
+            }
+            catch
+            {
+                Context.Response.Write("false");
+            }
+        }
+
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public void GetDiscountCode(string discountCode)
+        {
+            try
+            {
+                Tuple<int, int> tuple = JsonConvert.DeserializeObject<Tuple<int, int>>(discountCode); //userID, discountID
+                //Tuple<int, int> tuple = new Tuple<int, int>(1003, 1); //userID, discountID
+
+                string code = DatabaseForUser.GetDiscountCode(tuple);
+
+                if (code != null)
+                {
+                    Context.Response.Write(code);
+                }
+                else
+                {
+                    code = GenerateDiscountCode();
+
+                    bool result = DatabaseForUser.AddDiscountCode(new Tuple<int, int, string>(tuple.Item1, tuple.Item2, code));
+
+                    if (result)
+                    {
+                        Context.Response.Write(code);
+                    }
+                    else
+                    {
+                        Context.Response.Write("false");
+                    }
+                }
             }
             catch
             {
@@ -406,11 +580,11 @@ namespace ShopAroundWeb.WebServices
 
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public void GetShopsForFollow()
+        public void GetShopsForFollow(string userID)
         {
             try
             {
-                List<ShopModel> shops = DatabaseForUser.GetShops(5);
+                List<ShopModel> shops = DatabaseForUser.GetShopsForFollow(int.Parse(userID));
                 Context.Response.Write(JsonConvert.SerializeObject(shops));
             }
             catch
@@ -514,10 +688,6 @@ namespace ShopAroundWeb.WebServices
             }
         }
         
-        
-
-        
-
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
         public void GetTheExploreByProductType(string items)
@@ -525,7 +695,9 @@ namespace ShopAroundWeb.WebServices
             try
             {
                 Tuple<int, int> tuple = JsonConvert.DeserializeObject<Tuple<int, int>>(items);
-                List<ProductModel> products = DatabaseForUser.GetAllProducts(tuple.Item2);
+
+                //List<ProductModel> products = DatabaseForUser.GetAllProducts(tuple.Item2);
+                List<ProductModel> products = GenerateTheExplore(tuple);
                 Context.Response.Write(JsonConvert.SerializeObject(products));
             }
             catch
@@ -533,6 +705,21 @@ namespace ShopAroundWeb.WebServices
                 Context.Response.Write("false");
             }
         }
+
+        //[WebMethod]
+        //[ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        //public void GetTheExploreByProductTypeTEST(string typeID)
+        //{
+        //    try
+        //    {               
+        //        List<ProductModel> products = DatabaseForUser.GetAllProducts(int.Parse(typeID));
+        //        Context.Response.Write(JsonConvert.SerializeObject(products));
+        //    }
+        //    catch
+        //    {
+        //        Context.Response.Write("false");
+        //    }
+        //}
 
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
@@ -613,5 +800,26 @@ namespace ShopAroundWeb.WebServices
 
         #endregion
         
+    }
+
+    public static class IListExtensions
+    {
+        private static Random rng = new Random();
+
+        /// <summary>
+        /// Shuffles the element order of the specified list.
+        /// </summary>
+        public static void Shuffle<T>(this IList<T> list)
+        {
+            int n = list.Count;
+            while (n > 1)
+            {
+                n--;
+                int k = rng.Next(n + 1);
+                T value = list[k];
+                list[k] = list[n];
+                list[n] = value;
+            }
+        }
     }
 }

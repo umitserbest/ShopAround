@@ -62,7 +62,7 @@ namespace ShopAroundWeb
                     shopModel.Phone = txtPhone.Text;
                     shopModel.Address = txtAddress.Text;
                     shopModel.About = txtAbout.Text;
-                    shopModel.City = byte.Parse(ddlCity.SelectedValue);
+                    shopModel.City = ddlCity.SelectedItem.ToString();
                     shopModel.Logo = shopLogo;
 
                     if (DatabaseForShop.UpdateShopInfo(shopModel))
