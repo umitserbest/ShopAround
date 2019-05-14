@@ -28,12 +28,7 @@
 				<label for="category">Product</label>
 				<asp:DropDownList ID="ddlProduct" CssClass="custom-select d-block w-100" runat="server"></asp:DropDownList>
 			  </div>			 
-			</div>
-
-			<%--<div class="mb-3">
-				<label for="productCode">Discount Code</label>
-				<asp:TextBox ID="txtDiscountCode" CssClass="form-control" runat="server"></asp:TextBox>				
-			  </div>--%>
+			</div>            		
 
 			  <div class="mb-3">
 				<label for="productName">Details</label>

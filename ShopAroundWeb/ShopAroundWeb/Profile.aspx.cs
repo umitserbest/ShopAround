@@ -23,10 +23,10 @@ namespace ShopAroundWeb
 
             if (!IsPostBack)
             {
-                ddlCity.Items.Add(new ListItem("City", ""));
-                ddlCity.Items.Add(new ListItem("Ankara", "1"));
-                ddlCity.Items.Add(new ListItem("Eskişehir", "26"));
-                ddlCity.Items.Add(new ListItem("İstanbul", "34"));
+                ddlCity.Items.Add(new ListItem("City"));
+                ddlCity.Items.Add(new ListItem("Ankara"));
+                ddlCity.Items.Add(new ListItem("Eskişehir"));
+                ddlCity.Items.Add(new ListItem("İstanbul"));
 
                 string shopID = HttpContext.Current.Request.Cookies["Shop"]["ShopID"];
                 shop = DatabaseForShop.GetShopInfo(shopID);
@@ -36,7 +36,7 @@ namespace ShopAroundWeb
                 txtPhone.Text = shop.Phone;
                 txtAddress.Text = shop.Address;
                 txtAbout.Text = shop.About;
-                ddlCity.SelectedValue = shop.City.ToString();
+                ddlCity.SelectedValue = shop.City;
 
                 pnlSuccessful.Visible = false;
                 pnlError.Visible = false;
@@ -45,8 +45,8 @@ namespace ShopAroundWeb
 
         protected void btnSave_Click(object sender, EventArgs e)
         {
-            //try
-            //{
+            try
+            {
                 ShopModel shopModel = shop;
 
                 if (txtPassword.Text.Length > 0)
@@ -77,18 +77,18 @@ namespace ShopAroundWeb
                 else
                 {
                     pnlError.Visible = true;
-                }                
-            //}
-            //catch (Exception)
-            //{
-            //    pnlError.Visible = true;
-            //}
+                }
+            }
+            catch (Exception)
+            {
+                pnlError.Visible = true;
+            }
         }
 
         private string UploadLogo(FileUpload fileUpload)
         {
-            //try
-            //{
+            try
+            {
                 if (fileUpload.ID.Contains("fu") && fileUpload.HasFile && fileUpload.PostedFile.ContentLength <= 3145728) //3 MB
                 {
                     string fileName = Path.GetFileNameWithoutExtension(fileUpload.FileName).ToLower();
@@ -105,11 +105,11 @@ namespace ShopAroundWeb
                 }
 
                 return null;
-            //}
-            //catch
-            //{
-            //    return null;
-            //}
+            }
+            catch
+            {
+                return null;
+            }
         }
     }
 }

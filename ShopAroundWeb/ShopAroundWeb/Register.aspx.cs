@@ -20,20 +20,18 @@ namespace ShopAroundWeb
 
             if (!IsPostBack)
             {
-                ddlCity.Items.Add(new ListItem("City", ""));
-                ddlCity.Items.Add(new ListItem("Ankara", "1"));
-                ddlCity.Items.Add(new ListItem("Eskişehir", "26"));
-                ddlCity.Items.Add(new ListItem("İstanbul", "34"));
+                ddlCity.Items.Add(new ListItem("City"));
+                ddlCity.Items.Add(new ListItem("Ankara"));
+                ddlCity.Items.Add(new ListItem("Eskişehir"));
+                ddlCity.Items.Add(new ListItem("İstanbul"));
             }
         }
 
         protected void btnRegister_Click(object sender, EventArgs e)
         {
-            if (ddlCity.SelectedValue != "")
+            if (ddlCity.SelectedItem.ToString() != "City")
             {
-                byte cityID = byte.Parse(ddlCity.SelectedValue);
-
-                if (DatabaseForShop.SignUp(new ShopSignUpModel(txtShopName.Text, txtEmail.Text, txtPassword.Text, txtPhone.Text, cityID)))
+                if (DatabaseForShop.SignUp(new ShopSignUpModel(txtShopName.Text, txtEmail.Text, txtPassword.Text, txtPhone.Text, ddlCity.SelectedItem.ToString())))
                 {
                     Response.Redirect("/Login");
                 }

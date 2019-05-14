@@ -5,14 +5,14 @@
 
 	<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Add Discount</h1>
+        <h1 class="h2">Edit Discount</h1>
         <div class="btn-toolbar mb-2 mb-md-0">     
         </div>
       </div>
 		
       <div class="row">    
 		<div class="col-md-8 order-md-1">
-		  <h4 class="mb-3">Create New Discount</h4>
+		  <h4 class="mb-3">Edit Your Discount</h4>
 
 			<asp:Panel ID="pnlError" runat="server">
 				<div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -28,12 +28,7 @@
 				<label for="category">Product</label>
 				<asp:DropDownList ID="ddlProduct" CssClass="custom-select d-block w-100" runat="server"></asp:DropDownList>
 			  </div>			 
-			</div>
-
-			<div class="mb-3">
-				<label for="productCode">Discount Code</label>
-				<asp:TextBox ID="txtDiscountCode" CssClass="form-control" runat="server"></asp:TextBox>				
-			  </div>
+			</div>			
 
 			  <div class="mb-3">
 				<label for="productName">Details</label>

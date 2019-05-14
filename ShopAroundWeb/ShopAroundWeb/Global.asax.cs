@@ -65,7 +65,6 @@ namespace ShopAroundWeb
             routes.MapPageRoute("Discounts", "Discounts", "~/Discounts.aspx");
             routes.MapPageRoute("AddDiscount", "AddDiscount", "~/AddDiscount.aspx");
             routes.MapPageRoute("EditDiscount", "EditDiscount", "~/EditDiscount.aspx");
-
         }
     }
 }

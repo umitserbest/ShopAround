@@ -29,6 +29,15 @@ namespace ShopAroundWeb.WebServices
         static DateTime exploreCacheUpdateTime;
         static List<ProductModel> theExplore;
 
+        static DateTime notificationCacheUpdateTime;
+        static List<NotificationModel> notifications;
+
+        static DateTime wishlistCacheUpdateTime;
+        static List<ProductModel> wishlist;
+
+        static DateTime friendsCacheUpdateTime;
+        static List<int> friends;
+
         List<ProductModel> GenerateTheFlow(int userID)
         {
             TimeSpan timeSpan = DateTime.Now.Subtract(flowCacheUpdateTime);
@@ -150,9 +159,35 @@ namespace ShopAroundWeb.WebServices
             return explore;
         }
 
+        List<ProductModel> GenerateWishlist(int userID)
+        {
+            TimeSpan timeSpan = DateTime.Now.Subtract(wishlistCacheUpdateTime);
+
+            if (timeSpan.Seconds > cacheTimeout || wishlist is null)
+            {
+                wishlistCacheUpdateTime = DateTime.Now;
+                wishlist = DatabaseForUser.GetWishlist(userID); //update wishlist
+            }
+
+            return wishlist;
+        }
+
+        List<int> GenerateFriends(int userID)
+        {
+            TimeSpan timeSpan = DateTime.Now.Subtract(friendsCacheUpdateTime);
+
+            if (timeSpan.Seconds > cacheTimeout || friends is null)
+            {
+                friendsCacheUpdateTime = DateTime.Now;
+                friends = DatabaseForUser.GetFriends(userID); //update friends
+            }
+
+            return friends;
+        }
+
         string GenerateDiscountCode()
-        {           
-            return Guid.NewGuid().ToString().Substring(0,8).ToUpper();
+        {
+            return Guid.NewGuid().ToString().Substring(0, 8).ToUpper();
         }
 
         #endregion
@@ -230,7 +265,7 @@ namespace ShopAroundWeb.WebServices
                 return false;
             }
         }
-         
+
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
         public void UpdateProfile(string user)
@@ -253,7 +288,7 @@ namespace ShopAroundWeb.WebServices
                 Context.Response.Write("false");
             }
         }
-        
+
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
         public void GetUserProfile(string userID)
@@ -308,7 +343,7 @@ namespace ShopAroundWeb.WebServices
             {
                 int intUserID = JsonConvert.DeserializeObject<int>(userID);
 
-                List<ProductModel> wishlist = DatabaseForUser.GetWishlist(intUserID);
+                List<ProductModel> wishlist = GenerateWishlist(intUserID);
 
                 Context.Response.Write(JsonConvert.SerializeObject(wishlist));
             }
@@ -326,7 +361,7 @@ namespace ShopAroundWeb.WebServices
             {
                 int intUserID = JsonConvert.DeserializeObject<int>(userID);
 
-                List<int> friends = DatabaseForUser.GetFriends(intUserID);
+                List<int> friends = GenerateFriends(intUserID);
                 Context.Response.Write(JsonConvert.SerializeObject(friends));
             }
             catch
@@ -522,29 +557,11 @@ namespace ShopAroundWeb.WebServices
 
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public void GetTheExploreTEST(string startPoint)
-        {
-            try
-            {
-                Tuple<int, int, int> tuple = new Tuple<int, int, int>(1003, 9, int.Parse(startPoint)); //userID, count, startPoint
-
-                List<ProductModel> products = GenerateTheExplore(tuple);
-                Context.Response.Write(JsonConvert.SerializeObject(products));
-            }
-            catch
-            {
-                Context.Response.Write("false");
-            }
-        }
-
-        [WebMethod]
-        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
         public void GetDiscountCode(string discountCode)
         {
             try
             {
                 Tuple<int, int> tuple = JsonConvert.DeserializeObject<Tuple<int, int>>(discountCode); //userID, discountID
-                //Tuple<int, int> tuple = new Tuple<int, int>(1003, 1); //userID, discountID
 
                 string code = DatabaseForUser.GetDiscountCode(tuple);
 
@@ -687,7 +704,7 @@ namespace ShopAroundWeb.WebServices
                 Context.Response.Write("false");
             }
         }
-        
+
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
         public void GetTheExploreByProductType(string items)
@@ -705,21 +722,6 @@ namespace ShopAroundWeb.WebServices
                 Context.Response.Write("false");
             }
         }
-
-        //[WebMethod]
-        //[ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        //public void GetTheExploreByProductTypeTEST(string typeID)
-        //{
-        //    try
-        //    {               
-        //        List<ProductModel> products = DatabaseForUser.GetAllProducts(int.Parse(typeID));
-        //        Context.Response.Write(JsonConvert.SerializeObject(products));
-        //    }
-        //    catch
-        //    {
-        //        Context.Response.Write("false");
-        //    }
-        //}
 
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
@@ -799,7 +801,7 @@ namespace ShopAroundWeb.WebServices
         }
 
         #endregion
-        
+
     }
 
     public static class IListExtensions

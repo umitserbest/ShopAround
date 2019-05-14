@@ -56,8 +56,7 @@ namespace ShopAroundWeb
                     }
                 }
 
-                ddlProduct.SelectedValue = discount.ProductID.ToString();
-                txtDiscountCode.Text = discount.Code;
+                ddlProduct.SelectedValue = discount.ProductID.ToString();                
                 txtDetails.Text = discount.Details;
                 clndrExpiry.SelectedDate = discount.Date;
                 txtTime.Text = discount.Date.Hour.ToString();
@@ -72,7 +71,6 @@ namespace ShopAroundWeb
 
                 editedDiscount.ShopID = shopID;
                 editedDiscount.ProductID = int.Parse(ddlProduct.SelectedValue);
-                editedDiscount.Code = txtDiscountCode.Text;
                 editedDiscount.Details = txtDetails.Text;
 
                 DateTime dateTime = clndrExpiry.SelectedDate;
