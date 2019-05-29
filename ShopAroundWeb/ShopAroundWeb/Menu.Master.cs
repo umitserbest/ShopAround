@@ -12,7 +12,7 @@ namespace ShopAroundWeb
 {
     public partial class Menu : System.Web.UI.MasterPage
     {
-        public string shopName;
+        public string shopName = "";
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -22,7 +22,8 @@ namespace ShopAroundWeb
                 shopName = DatabaseForShop.GetShopInfo(shopID).Name;
             }
             catch
-            {                
+            {       
+                
             }
         }
 

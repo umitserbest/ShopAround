@@ -73,53 +73,60 @@ namespace ShopAroundWeb
 
         protected void btnSave_Click(object sender, EventArgs e)
         {
-            string combineImageName = UploadImage(fuCombineImage);
-            string coverImageName = UploadImage(fuCoverImage);
-            string image1Name = UploadImage(fuImage1);
-            string image2Name = UploadImage(fuImage2);
-            string image3Name = UploadImage(fuImage3);
-
-            ProductModel editedProduct = product;
-
-            if (combineImageName != null)
+            try
             {
-                editedProduct.CombineImage = combineImageName;
-            }
+                string combineImageName = UploadImage(fuCombineImage);
+                string coverImageName = UploadImage(fuCoverImage);
+                string image1Name = UploadImage(fuImage1);
+                string image2Name = UploadImage(fuImage2);
+                string image3Name = UploadImage(fuImage3);
 
-            if (coverImageName != null)
+                ProductModel editedProduct = product;
+
+                if (combineImageName != null)
+                {
+                    editedProduct.CombineImage = combineImageName;
+                }
+
+                if (coverImageName != null)
+                {
+                    editedProduct.CoverImage = coverImageName;
+                }
+
+                if (image1Name != null)
+                {
+                    editedProduct.Image1 = image1Name;
+                }
+
+                if (image2Name != null)
+                {
+                    editedProduct.Image2 = image2Name;
+                }
+
+                if (image3Name != null)
+                {
+                    editedProduct.Image3 = image3Name;
+                }
+
+                editedProduct.ProductTypeID = int.Parse(ddlCategory.SelectedValue);
+                editedProduct.Code = txtProductCode.Text;
+                editedProduct.Name = txtProductName.Text;
+                editedProduct.Brand = txtBrand.Text;
+                editedProduct.Color = txtColor.Text;
+                editedProduct.Size = txtSize.Text;
+                editedProduct.Material = txtMaterial.Text;
+                editedProduct.Details = txtDetails.Text;
+                editedProduct.Price = float.Parse(txtPrice.Text);
+                editedProduct.PurchaseLink = txtPurchaseLink.Text;
+
+                DatabaseForShop.EditProduct(editedProduct);
+
+                Response.Redirect("/Products");
+            }
+            catch (Exception)
             {
-                editedProduct.CoverImage = coverImageName;
+                pnlError.Visible = true;
             }
-
-            if (image1Name != null)
-            {
-                editedProduct.Image1 = image1Name;
-            }
-
-            if (image2Name != null)
-            {
-                editedProduct.Image2 = image2Name;
-            }
-
-            if (image3Name != null)
-            {
-                editedProduct.Image3 = image3Name;
-            }
-
-            editedProduct.ProductTypeID = int.Parse(ddlCategory.SelectedValue);
-            editedProduct.Code = txtProductCode.Text;
-            editedProduct.Name = txtProductName.Text;
-            editedProduct.Brand = txtBrand.Text;
-            editedProduct.Color = txtColor.Text;
-            editedProduct.Size = txtSize.Text;
-            editedProduct.Material = txtMaterial.Text;
-            editedProduct.Details = txtDetails.Text;
-            editedProduct.Price = int.Parse(txtPrice.Text);
-            editedProduct.PurchaseLink = txtPurchaseLink.Text;
-
-            DatabaseForShop.EditProduct(editedProduct);
-
-            Response.Redirect("/Products");
 
             //pnlSuccessful.Visible = true;
 

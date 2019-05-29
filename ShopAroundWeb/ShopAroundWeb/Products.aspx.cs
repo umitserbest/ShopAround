@@ -11,7 +11,7 @@ namespace ShopAroundWeb
 {
     public partial class Products : Page
     {
-        public List<ProductModel> products;
+        public List<ProductModel> products = new List<ProductModel>();
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -22,8 +22,15 @@ namespace ShopAroundWeb
 
             if (!IsPostBack)
             {
-                string shopID = HttpContext.Current.Request.Cookies["Shop"]["ShopID"];
-                products = DatabaseForShop.GetProducts(int.Parse(shopID));
+                try
+                {
+                    string shopID = HttpContext.Current.Request.Cookies["Shop"]["ShopID"];
+                    products = DatabaseForShop.GetProducts(int.Parse(shopID));
+                }
+                catch (Exception)
+                {
+
+                }
             }           
         }
     }

@@ -21,7 +21,7 @@ namespace ShopAroundWeb.WebServices
     {
         #region Utilities
 
-        const int cacheTimeout = 300; //seconds
+        const int cacheTimeout = 0; //seconds
 
         static DateTime flowCacheUpdateTime;
         static List<ProductModel> theFlow;
@@ -29,14 +29,14 @@ namespace ShopAroundWeb.WebServices
         static DateTime exploreCacheUpdateTime;
         static List<ProductModel> theExplore;
 
-        static DateTime notificationCacheUpdateTime;
-        static List<NotificationModel> notifications;
+        //static DateTime notificationCacheUpdateTime;
+        //static List<NotificationModel> notifications;
 
-        static DateTime wishlistCacheUpdateTime;
-        static List<ProductModel> wishlist;
+        //static DateTime wishlistCacheUpdateTime;
+        //static List<ProductModel> wishlist;
 
-        static DateTime friendsCacheUpdateTime;
-        static List<int> friends;
+        //static DateTime friendsCacheUpdateTime;
+        //static List<int> friends;
 
         List<ProductModel> GenerateTheFlow(int userID)
         {
@@ -161,28 +161,28 @@ namespace ShopAroundWeb.WebServices
 
         List<ProductModel> GenerateWishlist(int userID)
         {
-            TimeSpan timeSpan = DateTime.Now.Subtract(wishlistCacheUpdateTime);
+            //TimeSpan timeSpan = DateTime.Now.Subtract(wishlistCacheUpdateTime);
 
-            if (timeSpan.Seconds > cacheTimeout || wishlist is null)
-            {
-                wishlistCacheUpdateTime = DateTime.Now;
-                wishlist = DatabaseForUser.GetWishlist(userID); //update wishlist
-            }
-
-            return wishlist;
+            //if (timeSpan.Seconds > cacheTimeout || wishlist is null)
+            //{
+            //    wishlistCacheUpdateTime = DateTime.Now;
+            //    wishlist = DatabaseForUser.GetWishlist(userID); //update wishlist
+            //}
+                       
+            return DatabaseForUser.GetWishlist(userID);
         }
 
         List<int> GenerateFriends(int userID)
         {
-            TimeSpan timeSpan = DateTime.Now.Subtract(friendsCacheUpdateTime);
+            //TimeSpan timeSpan = DateTime.Now.Subtract(friendsCacheUpdateTime);
 
-            if (timeSpan.Seconds > cacheTimeout || friends is null)
-            {
-                friendsCacheUpdateTime = DateTime.Now;
-                friends = DatabaseForUser.GetFriends(userID); //update friends
-            }
+            //if (timeSpan.Seconds > cacheTimeout || friends is null)
+            //{
+            //    friendsCacheUpdateTime = DateTime.Now;
+            //    friends = DatabaseForUser.GetFriends(userID); //update friends
+            //}
 
-            return friends;
+            return DatabaseForUser.GetFriends(userID);
         }
 
         string GenerateDiscountCode()

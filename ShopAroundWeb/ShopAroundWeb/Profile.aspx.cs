@@ -28,15 +28,22 @@ namespace ShopAroundWeb
                 ddlCity.Items.Add(new ListItem("Eskişehir"));
                 ddlCity.Items.Add(new ListItem("İstanbul"));
 
-                string shopID = HttpContext.Current.Request.Cookies["Shop"]["ShopID"];
-                shop = DatabaseForShop.GetShopInfo(shopID);
+                try
+                {
+                    string shopID = HttpContext.Current.Request.Cookies["Shop"]["ShopID"];
+                    shop = DatabaseForShop.GetShopInfo(shopID);
 
-                txtShopName.Text = shop.Name;
-                txtEmail.Text = shop.Email;
-                txtPhone.Text = shop.Phone;
-                txtAddress.Text = shop.Address;
-                txtAbout.Text = shop.About;
-                ddlCity.SelectedValue = shop.City;
+                    txtShopName.Text = shop.Name;
+                    txtEmail.Text = shop.Email;
+                    txtPhone.Text = shop.Phone;
+                    txtAddress.Text = shop.Address;
+                    txtAbout.Text = shop.About;
+                    ddlCity.SelectedValue = shop.City;
+                }
+                catch (Exception)
+                {
+
+                }
 
                 pnlSuccessful.Visible = false;
                 pnlError.Visible = false;

@@ -16,7 +16,12 @@
 		
       <div class="row">
           
-          <% foreach (var product in products) { %>             
+          <% try
+              {
+                  if (products.Count > 0)
+                  {
+                      foreach (var product in products)
+                      { %>             
 
 		    <div class="col-md-3 col-sm-6">
                   <div class="product-grid2">
@@ -36,7 +41,13 @@
                   </div>
               </div>
           
-            <% } %>
+            <%        }
+                  }
+                }
+                catch (Exception)
+                {
+
+                }  %>
             
 
 	</div>

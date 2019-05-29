@@ -51,7 +51,7 @@ namespace ShopAroundWeb.Database
                 cmd.Parameters.Add("@Password", SqlDbType.NVarChar).Value = signUpModel.Password;
                 cmd.Parameters.Add("@Name", SqlDbType.NVarChar).Value = signUpModel.Name;
                 cmd.Parameters.Add("@Phone", SqlDbType.NVarChar).Value = signUpModel.Phone;
-                cmd.Parameters.Add("@City", SqlDbType.TinyInt).Value = signUpModel.City;
+                cmd.Parameters.Add("@City", SqlDbType.NVarChar).Value = signUpModel.City;
                 cmd.ExecuteNonQuery();
 
                 return true;
@@ -160,7 +160,7 @@ namespace ShopAroundWeb.Database
                 cmd.Parameters.Add("@Name", SqlDbType.NVarChar).Value = shopModel.Name;
                 cmd.Parameters.Add("@Phone", SqlDbType.NVarChar).Value = shopModel.Phone;
                 cmd.Parameters.Add("@Address", SqlDbType.NVarChar).Value = shopModel.Address;
-                cmd.Parameters.Add("@City", SqlDbType.TinyInt).Value = shopModel.City;
+                cmd.Parameters.Add("@City", SqlDbType.NVarChar).Value = shopModel.City;
                 cmd.Parameters.Add("@About", SqlDbType.NVarChar).Value = shopModel.About;
                 cmd.Parameters.Add("@Logo", SqlDbType.NVarChar).Value = shopModel.Logo;
                 cmd.Parameters.Add("@ShopID", SqlDbType.Int).Value = shopModel.ShopID;

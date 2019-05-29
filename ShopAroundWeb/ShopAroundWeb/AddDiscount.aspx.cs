@@ -23,15 +23,24 @@ namespace ShopAroundWeb
 
             if (!IsPostBack)
             {
-                shopID = int.Parse(HttpContext.Current.Request.Cookies["Shop"]["ShopID"]);
-
-                List<ProductModel> products = DatabaseForShop.GetProducts(shopID);
-
-                foreach (ProductModel product in products)
+                try
                 {
-                    ddlProduct.Items.Add(new ListItem(product.Name, product.ProductID.ToString()));
+                    shopID = int.Parse(HttpContext.Current.Request.Cookies["Shop"]["ShopID"]);
+
+                    List<ProductModel> products = DatabaseForShop.GetProducts(shopID);
+
+                    foreach (ProductModel product in products)
+                    {
+                        ddlProduct.Items.Add(new ListItem(product.Name, product.ProductID.ToString()));
+                    }
+
+                 
                 }
-                
+                catch (Exception)
+                {
+                    
+                }
+
                 pnlError.Visible = false;
             }
         }
