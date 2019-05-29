@@ -34,84 +34,103 @@ namespace ShopAroundMobile.TabbedPages
 
         private void Countdown(DiscountModel discount)
         {
-            TimeSpan value = discount.Date.Subtract(DateTime.Now);
-            
-            hour = value.Hours;
-            counter = 0;
-            mins = value.Minutes;
-            isTimerCancel = 0;
-            StartTimer(hour, mins, counter);
-        }
-        
+            try
+            {
+                TimeSpan value = discount.Date.Subtract(DateTime.Now);
+
+                hour = value.Hours + (value.Days * 24);
+                counter = 0;
+                mins = value.Minutes;
+                isTimerCancel = 0;
+                StartTimer(hour, mins, counter);
+            }
+            catch (Exception)
+            {
+                //throw;
+            }
+        }        
 
         public void StartTimer(int h, int m, int sec)
         {
-            hour = h;
-            mins = m;
-            counter = sec;
-            Device.StartTimer(new TimeSpan(0, 0, 1), () =>
+            try
             {
-                if (isTimerCancel == 1)
+                hour = h;
+                mins = m;
+                counter = sec;
+                Device.StartTimer(new TimeSpan(0, 0, 1), () =>
                 {
-                    return false;
-                }
-                else
-                {
-                    Device.BeginInvokeOnMainThread(() =>
+                    if (isTimerCancel == 1)
                     {
-                        counter = counter - 1;
-                        if (counter < 0)
-                        {
-                            counter = 59;
-                            mins = mins - 1;
-                            if (mins < 0)
-                            {
-                                mins = 59;
-                                hour = hour - 1;
-                                if (hour < 0)
-                                {
-                                    hour = 0;
-                                    mins = 0;
-                                    counter = 0;
-                                }
-                            }
-                        }
-
-                        lblTime.Text = string.Format("{0:00}:{1:00}:{2:00}", hour, mins, counter);
-                    });
-                    if (hour == 0 && mins == 0 && counter == 0)
-                    {
-                        IsFinished = true;
                         return false;
                     }
                     else
                     {
-                        GetCodeButton.IsVisible = true;
-                        return true;
+                        Device.BeginInvokeOnMainThread(() =>
+                        {
+                            counter = counter - 1;
+                            if (counter < 0)
+                            {
+                                counter = 59;
+                                mins = mins - 1;
+                                if (mins < 0)
+                                {
+                                    mins = 59;
+                                    hour = hour - 1;
+                                    if (hour < 0)
+                                    {
+                                        hour = 0;
+                                        mins = 0;
+                                        counter = 0;
+                                    }
+                                }
+                            }
+
+                            lblTime.Text = string.Format("{0:00}:{1:00}:{2:00}", hour, mins, counter);
+                        });
+                        if (hour <= 0 && mins <= 0 && counter <= 0)
+                        {
+                            IsFinished = true;
+                            return false;
+                        }
+                        else
+                        {
+                            GetCodeButton.IsVisible = true;
+                            return true;
+                        }
                     }
-                }
-            });
-            
+                });
+            }
+            catch (Exception)
+            {
+               // throw;
+            }            
         }
 
         private async void Button_Clicked(object sender, EventArgs e)
         {
-            if(IsFinished == true)
+            try
             {
-                DependencyService.Get<IMessage>().Message("You are late, the discount finished.");
-                GetCodeButton.IsVisible = false;
-            }
-            else
-            {
-                Tuple<int, int> discount = new Tuple<int, int>(App.AppUser.UserID, DiscountID);
-
-                string code = await WebService.SendDataAsync("GetDiscountCode", "discountCode=" + JsonConvert.SerializeObject(discount));
-                                
-                if(code != null && code != "Error" && code.Length == 8)
+                if (IsFinished == true)
                 {
-                    await DisplayAlert("Discount Code", code, "OK");
-
+                    DependencyService.Get<IMessage>().Message("You are late, the discount finished.");
+                    GetCodeButton.IsVisible = false;
                 }
+                else
+                {
+                    Tuple<int, int> discount = new Tuple<int, int>(App.AppUser.UserID, DiscountID);
+
+                    string code = await WebService.SendDataAsync("GetDiscountCode", "discountCode=" + JsonConvert.SerializeObject(discount));
+
+                    if (code != null && code != "Error" && code.Length == 8)
+                    {
+                        await DisplayAlert("Discount Code", code, "OK");
+
+                    }
+                }
+            }
+            catch (Exception)
+            {
+               // throw;
             }
         }
     }

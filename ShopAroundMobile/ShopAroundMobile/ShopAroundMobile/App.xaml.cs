@@ -29,12 +29,9 @@ namespace ShopAroundMobile
                 MainPage = new NavigationPage(new Login());
             }
             else
-            {
-                //MainPage = new NavigationPage(new TabPageControl());
+            {               
                 MainPage = new NavigationPage(new LoadingPage());
-
-            }
-            
+            }            
 
 #if DEBUG
             LiveReload.Init();

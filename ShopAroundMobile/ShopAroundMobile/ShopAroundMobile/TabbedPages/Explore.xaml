@@ -67,7 +67,7 @@
                             </FlexLayout.GestureRecognizers>
                             <Image Aspect="AspectFill" BackgroundColor="Transparent" Source="shoes"/>
 
-                            <Label Text="Shoes" TextColor="White" FontSize="18" FontAttributes="Bold" Margin="50,-60,0,0" HorizontalOptions="Center"></Label>
+                            <Label Text="Shoes" TextColor="White" FontSize="18" FontAttributes="Bold" Margin="50,-35,0,0" HorizontalOptions="Center"></Label>
                             </FlexLayout>
                         </Frame>
                         <Frame IsVisible="True" Margin="10,0,0,0" CornerRadius="10"  WidthRequest="150" Padding="0" HeightRequest="100" BackgroundColor="Transparent" BorderColor="LightGray">

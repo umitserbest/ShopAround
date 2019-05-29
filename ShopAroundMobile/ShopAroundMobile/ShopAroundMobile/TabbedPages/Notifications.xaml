@@ -4,7 +4,7 @@
              xmlns:image="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin"
              x:Class="ShopAroundMobile.TabbedPages.Notifications" Title="Notifications" BackgroundColor="White">
     <Grid>
-        <ListView x:Name="listView" SelectionMode="None" HasUnevenRows="True" RefreshCommand="{Binding RefreshCommand}" IsRefreshing="{Binding IsRefreshing}" IsPullToRefreshEnabled="True">
+        <ListView x:Name="listView" ItemSelected="ListView_ItemSelected" HasUnevenRows="True" IsPullToRefreshEnabled="True">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell x:Name="viewCell">
@@ -17,7 +17,7 @@
                             
                             <image:CircleImage x:Name="img" Grid.Column="0" Aspect="Fill" Source="profile" HeightRequest="40"/>
                             <Label Text="{Binding SenderUsername}" Grid.Column="1" VerticalOptions="Center" FontSize="16"></Label>
-                            <Label Text="followed you." FontSize="16" Grid.Column="2"/>
+                            <Label Text="followed you." FontSize="16" Margin="-30,7,0,0" Grid.Column="2"/>
                             
                             
                         </Grid>
@@ -25,5 +25,7 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+
+       
     </Grid>
 </ContentPage>

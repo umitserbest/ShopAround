@@ -25,6 +25,7 @@
     <None Remove="Images\jacket.jpg" />
     <None Remove="Images\location.jpg" />
     <None Remove="Images\logout.png" />
+    <None Remove="Images\notice.png" />
     <None Remove="Images\others.jpg" />
     <None Remove="Images\pant1.png" />
     <None Remove="Images\profile.png" />
@@ -32,6 +33,13 @@
     <None Remove="Images\right.png" />
     <None Remove="Images\settings.png" />
     <None Remove="Images\shoes.jpg" />
+    <None Remove="Images\shop1.jpg" />
+    <None Remove="Images\shop2.jpg" />
+    <None Remove="Images\shop3.jpg" />
+    <None Remove="Images\shop4.jpg" />
+    <None Remove="Images\shop5.jpg" />
+    <None Remove="Images\ShopAround.png" />
+    <None Remove="Images\ShopAroundIcon512.png" />
     <None Remove="Images\skirts.jpg" />
     <None Remove="Images\texture.jpg" />
     <None Remove="Images\tshirts.jpg" />
@@ -51,6 +59,7 @@
     <EmbeddedResource Include="Images\jacket.jpg" />
     <EmbeddedResource Include="Images\location.jpg" />
     <EmbeddedResource Include="Images\logout.png" />
+    <EmbeddedResource Include="Images\notice.png" />
     <EmbeddedResource Include="Images\others.jpg" />
     <EmbeddedResource Include="Images\pant1.png" />
     <EmbeddedResource Include="Images\profileImage.jpg" />
@@ -58,6 +67,13 @@
     <EmbeddedResource Include="Images\settings.png" />
     <EmbeddedResource Include="Images\profile.png" />
     <EmbeddedResource Include="Images\shoes.jpg" />
+    <EmbeddedResource Include="Images\shop1.jpg" />
+    <EmbeddedResource Include="Images\shop2.jpg" />
+    <EmbeddedResource Include="Images\shop3.jpg" />
+    <EmbeddedResource Include="Images\shop4.jpg" />
+    <EmbeddedResource Include="Images\shop5.jpg" />
+    <EmbeddedResource Include="Images\ShopAround.png" />
+    <EmbeddedResource Include="Images\ShopAroundIcon512.png" />
     <EmbeddedResource Include="Images\skirts.jpg" />
     <EmbeddedResource Include="Images\texture.jpg" />
     <EmbeddedResource Include="Images\tshirts.jpg" />
@@ -131,9 +147,6 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\ProfileSettings.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Views\SettingsMenu.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\SuggestShop.xaml">

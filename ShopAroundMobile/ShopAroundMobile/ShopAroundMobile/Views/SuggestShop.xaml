@@ -21,8 +21,8 @@
         <StackLayout HeightRequest="300" IsVisible="True" Spacing="20" Padding="0,10" Grid.Row="0" Orientation="Horizontal" HorizontalOptions="Center">
             <Label x:Name="counterlbl" Margin="20,0,0,0" Text="{Binding CheckedShops}" HorizontalOptions="Center" VerticalOptions="Center"  TextColor="Coral" FontSize="20" FontAttributes="Bold"></Label>
             <Label Text="" FontSize="20" TextColor="Black"></Label>
-            <Label Text=" mağaza seçildi." HorizontalOptions="End" VerticalOptions="Center" FontSize="18"></Label>
-            <Button x:Name="NextBtn" CornerRadius="30" BackgroundColor="Coral" TextColor="White" VerticalOptions="Start" MinimumHeightRequest="50" WidthRequest="100" HorizontalOptions="EndAndExpand" Text="Next" Clicked="Button_Clicked" Margin="40,0,0,0"></Button>
+            <Label Text=" shops selected." HorizontalOptions="End" VerticalOptions="Center" FontSize="18"></Label>
+            <Button x:Name="NextBtn" CornerRadius="30" BackgroundColor="Coral" TextColor="White" IsVisible="False" VerticalOptions="Start" MinimumHeightRequest="50" WidthRequest="100" HorizontalOptions="EndAndExpand" Text="Next" Clicked="Button_Clicked" Margin="40,0,0,0"></Button>
         </StackLayout>
         <ListView x:Name="listView"
                   Grid.Row="1"

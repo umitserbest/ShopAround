@@ -10,7 +10,6 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="20"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
-            <!--<RowDefinition x:Name="tryRow" Height="70"></RowDefinition>-->
         </Grid.RowDefinitions>
 
         
@@ -21,12 +20,17 @@
                 <Label.GestureRecognizers>
                     <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="ShopAround_Tapped"/>
                 </Label.GestureRecognizers>
-            </Label>        
-
+            </Label>
+            
+            <!--<ActivityIndicator x:Name="activity"  
+                       IsRunning="{Binding IsBusy}"
+                       Color="Orange" BackgroundColor="Transparent"/>
+            <Button x:Name="tryButton" Margin="0,-10,0,0" Text="Try Again" HorizontalOptions="CenterAndExpand" IsVisible="False" VerticalOptions="Start" Clicked="TryAgain_Clicked"/>-->
         </StackLayout>
 
+        
 
-        <ListView Grid.Row="1" Margin="5,30,5,0" x:Name="listView" RefreshControlColor="Coral" IsPullToRefreshEnabled="True" HorizontalScrollBarVisibility="Default" HasUnevenRows="True" SelectionMode="None" RefreshCommand="{Binding RefreshCommand}" IsRefreshing="{Binding IsRefreshing}" CachingStrategy="RetainElement">
+        <ListView Grid.Row="1" Margin="5,30,5,0" x:Name="listView" RefreshControlColor="Coral" IsPullToRefreshEnabled="True" HorizontalScrollBarVisibility="Default" HasUnevenRows="True" SelectionMode="None" RefreshCommand="{Binding RefreshCommand}" IsRefreshing="{Binding IsRefreshing}" CachingStrategy="RecycleElement">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell x:Name="viewCell">
@@ -80,8 +84,8 @@
 
                                     <Image VerticalOptions="Center" Margin="0,10,0,0" BackgroundColor="White" HeightRequest="50" WidthRequest="70" Source="buy" Grid.Column="0" Aspect="AspectFill"/>
                                     <StackLayout VerticalOptions="Center" HorizontalOptions="End" Grid.Column="1" Orientation="Horizontal">
-                                        <Label x:Name="Price" Text="{Binding Price}" TextColor="Green" FontAttributes="Bold" FontSize="22"/>
-                                        <Label Text="$" TextColor="Green" FontAttributes="Bold" FontSize="18" Margin="0,4,0,0"/>
+                                        <Label x:Name="Price" Text="{Binding Price}" TextColor="Gray" FontAttributes="Bold" FontSize="22"/>
+                                        <Label Text="$" TextColor="Gray" FontAttributes="Bold" FontSize="18" Margin="0,4,0,0"/>
                                     </StackLayout>
                                     <ci:CachedImage HorizontalOptions="End" VerticalOptions="Center" Source="right" Grid.Column="2" HeightRequest="20" WidthRequest="20"/>
 
@@ -92,12 +96,6 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-
-        <!--<StackLayout BackgroundColor="Red" x:Name="TryStacklayout" VerticalOptions="Center" HorizontalOptions="Center" Grid.Row="2">
-            <ActivityIndicator x:Name="activity"  
-                       IsRunning="{Binding IsBusy}"
-                       Color="Orange" BackgroundColor="Transparent"/>
-            <Button x:Name="tryButton" Text="Try Again" HorizontalOptions="CenterAndExpand" IsVisible="True" VerticalOptions="Start" Clicked="TryAgain_Clicked"/>
-        </StackLayout>-->
+        
     </Grid>
 </ContentPage>

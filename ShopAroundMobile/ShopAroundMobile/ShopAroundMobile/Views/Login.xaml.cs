@@ -26,44 +26,65 @@ namespace ShopAroundMobile.Views
         private async void SignInAsync(object sender, EventArgs e)
         {
             SignInModel signInModel = new SignInModel(username.Text, password.Text);
-            string signInObject = JsonConvert.SerializeObject(signInModel);
-
-            string result = await WebService.SendDataAsync("SignIn", "userSignIn=" + signInObject);
-
-            if (result != "false")// User is existed
+            try
             {
-                Database.AddUser(new LocalUserModel(int.Parse(result)));
+                string signInObject = JsonConvert.SerializeObject(signInModel);
 
-                var log = Database.GetLog();
+                string result = await WebService.SendDataAsync("SignIn", "userSignIn=" + signInObject);
 
-                if(log != null)
+                if (result != "false")// User is existed
                 {
-                    App.AppUser = Database.GetUser();
-                    await Navigation.PushAsync(new TabPageControl());
+                    Database.AddUser(new LocalUserModel(int.Parse(result)));
+
+                    var log = Database.GetLog();
+
+                    if (log != null)
+                    {
+                        App.AppUser = Database.GetUser();
+                        await Navigation.PushAsync(new TabPageControl());
+                    }
+                    else
+                    {
+                        App.AppUser = Database.GetUser();
+
+                        Database.AddLog(new LocalLogModel());
+                        await Navigation.PushAsync(new ProfileSettings());
+                    }
+
                 }
                 else
                 {
-                    App.AppUser = Database.GetUser();
-
-                    Database.AddLog(new LocalLogModel());
-                    await Navigation.PushAsync(new ProfileSettings());
+                    await DisplayAlert("Error", "UserName or Password is not correct.", "OK");
                 }
-
             }
-            else
+            catch (Exception)
             {
-                await DisplayAlert("Error", "UserName or Password is not correct.", "OK");
+               // throw;
             }
         }
 
         private async void SignUp_Clicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new SignUp());
+            try
+            {
+                await Navigation.PushAsync(new SignUp());
+            }
+            catch (Exception)
+            {
+                //throw;
+            }
         }
 
         private async void TapGestureRecognizer_Tapped(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new SignUp());
+            try
+            {
+                await Navigation.PushAsync(new SignUp());
+            }
+            catch (Exception)
+            {
+                //throw;
+            }
         }
     }
 }

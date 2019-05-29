@@ -40,7 +40,6 @@ namespace ShopAroundMobile.ViewModels
             }
         }
 
-
         public ICommand RefreshCommand
         {
             get
@@ -56,7 +55,6 @@ namespace ShopAroundMobile.ViewModels
             }
         }
 #endregion
-
 
         private bool _isBusy = false;
         public bool IsBusy
@@ -77,7 +75,6 @@ namespace ShopAroundMobile.ViewModels
         {
             if (IsConnected == true)
             {
-
                 if (IsBusy)
                     return;
 
@@ -98,13 +95,10 @@ namespace ShopAroundMobile.ViewModels
                 {
                     IsBusy = false;
                 }
-
             }
-
             else
             {
                 DependencyService.Get<IMessage>().Message("No connection, please try again.");
-
             }
         }
 
@@ -154,8 +148,6 @@ namespace ShopAroundMobile.ViewModels
                 {
                     //throw;
                 }
-
-
             }
 
             if (products.Count > 0 && shops.Count > 0)
@@ -173,44 +165,10 @@ namespace ShopAroundMobile.ViewModels
                 }
 
                 listView.ItemsSource = showcases;
-                list = listView;
-                //Item = showcases;
-
-                //listView.ItemAppearing += async (sender, e) =>
-                //{
-                //    if (isLoading || showcases.Count == 0)
-                //        return;
-
-                //    //hit bottom!
-                //    if (e.Item.ToString() == Item[Item.Count - 1].ToString())
-                //    {
-                //        await LoadItems();
-                //    }
-                //};
-
-                //await LoadItems();    
+                list = listView;    
             }
-
         }
-
-        //private async Task LoadItems()
-        //{
-        //    isLoading = true;
-
-        //    //simulator delayed load
-        //    Device.StartTimer(TimeSpan.FromSeconds(2), () =>
-        //    {
-        //        for (int i = 0; i < 5; i++)
-        //        {
-        //            Item.Add(Item);                   
-        //        }
-
-        //        isLoading = false;
-        //        //stop timer
-        //        return false;
-        //    });
-        //}
-
+        
         public Command<ShowcaseModel> AddWishList
         {
             get
@@ -223,69 +181,66 @@ namespace ShopAroundMobile.ViewModels
             }
         }
 
-        //public Command<ShowcaseModel> TryLoad
-        //{
-        //    get
-        //    {
-        //        return new Command<ShowcaseModel>((showcase) =>
-        //        {
-        //            LoadData(list);
-
-        //        });
-        //    }
-        //}
-
         private async void AddWishListAsync(int productID)
         {
-            bool isExistWishlist = false;
-
-            foreach (var item in wishlistProducts)
+            try
             {
-                if (item.ProductID == productID)
+                bool isExistWishlist = false;
+
+                foreach (var item in wishlistProducts)
                 {
-                    isExistWishlist = true;
+                    if (item.ProductID == productID)
+                    {
+                        isExistWishlist = true;
+                    }
+                }
+
+                if (!isExistWishlist)
+                {
+                    string userObject = JsonConvert.SerializeObject(new Tuple<int, int>(productID, App.AppUser.UserID));
+                    string result = await WebService.SendDataAsync("AddProductWishlist", "wishlist=" + userObject);
+
+                    if (result == "true")
+                    {
+                        wishlistProducts.Add(new ProductModel() { ProductID = productID });
+                        DependencyService.Get<IMessage>().Message("This product added to your Wishlist.");
+                        TabPageControl.profileTabbed.Trigger();
+                    }
+                }
+                else
+                {
+                    DependencyService.Get<IMessage>().Message("This product already in your wishlist.");
                 }
             }
-
-            if (!isExistWishlist)
+            catch (Exception)
             {
-                string userObject = JsonConvert.SerializeObject(new Tuple<int, int>(productID, App.AppUser.UserID));
-                string result = await WebService.SendDataAsync("AddProductWishlist", "wishlist=" + userObject);
-
-                if (result == "true")
-                {
-                    wishlistProducts.Add(new ProductModel() { ProductID = productID });
-                    DependencyService.Get<IMessage>().Message("This product added to your Wishlist.");
-                    TabPageControl.profileTabbed.Trigger();
-                }
-            }
-            else
-            {
-                DependencyService.Get<IMessage>().Message("This product already in your wishlist.");
+               // throw;
             }
         }
 
         private async Task GetWishlistInfo()
         {
-            string wishresult = await WebService.SendDataAsync("GetWishlist", "userID=" + App.AppUser.UserID);  
-
-            if (wishresult != "Error" && wishresult != null && wishresult.Length > 6)
+            try
             {
-                wishlistProducts = JsonConvert.DeserializeObject<List<ProductModel>>(wishresult);
+                string wishresult = await WebService.SendDataAsync("GetWishlist", "userID=" + App.AppUser.UserID);
+
+                if (wishresult != "Error" && wishresult != null && wishresult.Length > 6)
+                {
+                    wishlistProducts = JsonConvert.DeserializeObject<List<ProductModel>>(wishresult);
+
+                }
 
             }
-
-        }
-        
+            catch (Exception)
+            {
+               // throw;
+            }
+        }        
 
         public ShowcaseViewModel(ListView listview)
         {
-            LoadData(listview);
-            //GetWishlistInfo();
-            //GetFlowInfo(listview);
-            
+            LoadData(listview);            
         }
-
         
         public event PropertyChangedEventHandler PropertyChanged;
 

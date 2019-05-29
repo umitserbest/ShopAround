@@ -4,7 +4,7 @@
              xmlns:image="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin"
              x:Class="ShopAroundMobile.TabbedPages.Discounts" Title="Discounts" BackgroundColor="White">
     <Grid>
-        <ListView x:Name="listView" HasUnevenRows="True" SeparatorColor="Coral" ItemSelected="ListView_ItemSelected">
+        <ListView  x:Name="listView" HasUnevenRows="True" SeparatorColor="Coral" ItemSelected="ListView_ItemSelected" IsPullToRefreshEnabled="True">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell x:Name="viewCell">

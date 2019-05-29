@@ -16,22 +16,18 @@ namespace ShopAroundMobile.TabbedPages
         public static Notifications noticeTabbed;
 
         public TabPageControl()
-        {
-          
+        {          
             On<Xamarin.Forms.PlatformConfiguration.Android>().SetToolbarPlacement(ToolbarPlacement.Bottom);
 
             showcaseTabbed = new Showcase();
             exploreTabbed = new Explore();
             notificationTabbed = new NotificationTabControl();
             profileTabbed = new Profile();
-            //noticeTabbed = new Notifications();
 
             Children.Add(showcaseTabbed);
             Children.Add(exploreTabbed);
             Children.Add(notificationTabbed);
             Children.Add(profileTabbed);
-            //Children.Add(new ShopProfile(4));
-
             
             BarTextColor = Color.Coral;
             Xamarin.Forms.PlatformConfiguration.AndroidSpecific.TabbedPage.SetBarSelectedItemColor(this, Color.Coral);
@@ -56,16 +52,13 @@ namespace ShopAroundMobile.TabbedPages
                         break;
                     case 3:
                         Profile profile = (Profile)CurrentPage;
-                        profile.Reload();
-                   
-
+                        profile.Reload();               
                         break;
                 }
             };
            
             NavigationPage.SetHasNavigationBar(this, false);
         }
-
 
         protected override void OnAppearing()
         {

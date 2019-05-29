@@ -68,8 +68,13 @@
                    
                 </tvs:TabViewControl.ItemSource>
             </tvs:TabViewControl>
-
-
+            <StackLayout Margin="0,200,0,0">
+                <Button x:Name="tryButton" Text="Try Again" IsVisible="False" HorizontalOptions="Center" VerticalOptions="Center" Margin="0,0,10,0" Clicked="TryAgain_Clicked"/>
+                <ActivityIndicator HeightRequest="30" x:Name="activity"  
+                           IsRunning="True"  
+                           IsVisible="True" IsEnabled="True"
+                           Color="Orange" BackgroundColor="Transparent"/>
+            </StackLayout>
         </Grid>
     </ScrollView>
 

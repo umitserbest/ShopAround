@@ -2,13 +2,12 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:ShopAroundMobile"
-             x:Class="ShopAroundMobile.Views.SignUp" BackgroundColor="Gray">
+             x:Class="ShopAroundMobile.Views.SignUp" BackgroundImage="shop5">
     <ContentPage.Content>
         <StackLayout Orientation="Vertical">
             <StackLayout Orientation="Vertical">
                 <StackLayout Orientation="Horizontal">
                     <Image Source="explore" WidthRequest="80" HeightRequest="80" HorizontalOptions="Start" Margin="20,30,0,0"></Image>
-                    <Label Text="X" FontSize="16" TextColor="White" Margin="220,50,0,0"></Label>
                 </StackLayout>
                 <Label Text="Sign Up" FontAttributes="Bold" FontSize="30" TextColor="White" Margin="20,20,0,0"></Label>
                 <Label Text="Register now and enjoy the ShopAround." TextColor="White" FontSize="15" Margin="20,10,0,0"></Label>
@@ -29,7 +28,7 @@
             </StackLayout>
             <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Margin="0,5,0,0">
                 <Label Text="Already have an account ?" TextColor="White" FontSize="14"></Label>
-                <Label Text="Login" TextColor="Orange" FontSize="14"></Label>
+                <Label Text="Login" FontAttributes="Bold" TextColor="Orange" FontSize="14"></Label>
             </StackLayout>
         </StackLayout>
     </ContentPage.Content>

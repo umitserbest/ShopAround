@@ -26,9 +26,7 @@ namespace ShopAroundMobile.TabbedPages
         public Explore()
         {
             InitializeComponent();
-            //GetProductImagesAync(0);
         }
-
 
         private async void SearchBar_Focused(object sender, FocusEventArgs e)
         {
@@ -38,15 +36,13 @@ namespace ShopAroundMobile.TabbedPages
         bool IsConnected = CrossConnectivity.Current.IsConnected;
 
         List<ProductModel> Products = new List<ProductModel>();
-        //string Logopath = "https://shoparound.umitserbest.com/shopassets/logo/";
         string Productpath = "https://shoparound.umitserbest.com/shopassets/products/";
 
         public async void Reload()
         {  
             if (!reloaded)
             {
-                await GetProductImagesAync();
-                
+                await GetProductImagesAync();                
             }   
         }
 
@@ -63,46 +59,10 @@ namespace ShopAroundMobile.TabbedPages
                 OnPropertyChanged("IsBusy");
 
             }
-        }
-
-        //public async Task LoadData()
-        //{
-        //    if (IsConnected == true)
-        //    {
-
-        //        if (IsBusy)
-        //            return;
-
-        //        try
-        //        {
-        //            IsBusy = true;
-
-        //            await GetProductImagesAync();
-                   
-
-        //            IsBusy = false;
-        //        }
-        //        catch (Exception e)
-        //        {
-        //            DependencyService.Get<IMessage>().Message("No connection, please try again.");
-        //        }
-        //        finally
-        //        {
-        //            IsBusy = false;
-        //        }
-
-        //    }
-
-        //    else
-        //    {
-        //        DependencyService.Get<IMessage>().Message("No connection, please try again.");
-
-        //    }
-        //}
+        }        
 
         private async Task GetProductImagesAync()
         {
-
             try
             {
                 Tuple<int, int, int> tuple = new Tuple<int, int, int>(App.AppUser.UserID, 9, productPosition);               
@@ -135,7 +95,6 @@ namespace ShopAroundMobile.TabbedPages
                                 j = Products.Count + 1;
                                 break;
                             }
-                            //Image image = new Image();
                             CachedImage image = new CachedImage();
                             image.Source = Productpath + Products[counter].CoverImage;
                             image.WidthRequest = 150;
@@ -154,8 +113,7 @@ namespace ShopAroundMobile.TabbedPages
                             ProductsGrid.Children.Add(image, k, j);
                             counter++;
 
-                        }
-                        
+                        }                        
                     }
                     LoadBtn.IsVisible = true;
                     activity.IsVisible = false;
@@ -169,7 +127,7 @@ namespace ShopAroundMobile.TabbedPages
             }
             catch (Exception)
             {
-                throw;
+               // throw;
             }
             
         }
@@ -184,7 +142,6 @@ namespace ShopAroundMobile.TabbedPages
                 foreach (var row in ProductsGrid.RowDefinitions)
                 {
                     rows.Add(row);
-
                 }
 
                 foreach (var row in rows)
@@ -201,7 +158,6 @@ namespace ShopAroundMobile.TabbedPages
 
                 if (result != "Error" && result != null && result.Length > 6)
                 {
-
                     Products = JsonConvert.DeserializeObject<List<ProductModel>>(result);
 
                     StartRowPosition = Products.Count;                    
@@ -215,7 +171,6 @@ namespace ShopAroundMobile.TabbedPages
 
                     for (int j = 0; j < (Products.Count + 2) / 3; j++)
                     {
-
                         for (int k = 0; k < 3; k++)
                         {
                             if (counter == Products.Count)
@@ -223,7 +178,6 @@ namespace ShopAroundMobile.TabbedPages
                                 j = Products.Count + 1;
                                 break;
                             }
-                            //Image image = new Image();
                             CachedImage image = new CachedImage();
                             image.Source = Productpath + Products[counter].CoverImage;
                             image.Aspect = Aspect.AspectFill;
@@ -240,10 +194,7 @@ namespace ShopAroundMobile.TabbedPages
                             image.GestureRecognizers.Add(tapGestureRecognizer);
                             ProductsGrid.Children.Add(image, k, j);
                             counter++;
-
                         }
-
-
                     }
                     LoadBtn.IsVisible = true;
                     activity.IsVisible = false;                    
@@ -258,10 +209,7 @@ namespace ShopAroundMobile.TabbedPages
 
                 //throw;
             }
-
-
         }
-
 
         private async void LocationTapped()
         {
@@ -273,22 +221,17 @@ namespace ShopAroundMobile.TabbedPages
                 foreach (var row in ProductsGrid.RowDefinitions)
                 {
                     rows.Add(row);
-
                 }
 
                 foreach (var row in rows)
                 {
                     ProductsGrid.RowDefinitions.Remove(row);
-                }
-
-                
+                }                
 
                 string result = await WebService.SendDataAsync("GetTheExploreByCity", "userID=" + App.AppUser.UserID);
 
-
                 if (result != "Error" && result != null && result.Length > 6)
                 {
-
                     Products = JsonConvert.DeserializeObject<List<ProductModel>>(result);
 
                     StartRowPosition = Products.Count;
@@ -310,7 +253,6 @@ namespace ShopAroundMobile.TabbedPages
                                 j = Products.Count + 1;
                                 break;
                             }
-                            //Image image = new Image();
                             CachedImage image = new CachedImage();
                             image.Source = Productpath + Products[counter].CoverImage;
                             image.Aspect = Aspect.AspectFill;
@@ -327,10 +269,7 @@ namespace ShopAroundMobile.TabbedPages
                             image.GestureRecognizers.Add(tapGestureRecognizer);
                             ProductsGrid.Children.Add(image, k, j);
                             counter++;
-
                         }
-
-
                     }
                     LoadBtn.IsVisible = true;
                     activity.IsVisible = false;
@@ -342,11 +281,8 @@ namespace ShopAroundMobile.TabbedPages
             }
             catch (Exception)
             {
-
                 //throw;
             }
-
-
         }
 
         private void Location_Tapped(object sender, EventArgs e)
@@ -403,24 +339,33 @@ namespace ShopAroundMobile.TabbedPages
 
         private async void LoadMore_Clicked(object sender, EventArgs e)
         {
-            LoadBtn.IsVisible = false;
-            activity.IsEnabled = true;
-            activity.IsRunning = true;
-            activity.IsVisible = true;
+            try
+            {
+                LoadBtn.IsVisible = false;
+                activity.IsEnabled = true;
+                activity.IsRunning = true;
+                activity.IsVisible = true;
 
-            StartRowPosition = ProductsGrid.RowDefinitions.Count;
-            await GetProductImagesAync();
-
-            //LoadBtn.IsVisible = true;
-            //activity.IsEnabled = false;
-            //activity.IsRunning = false;
-            //activity.IsVisible = false;
+                StartRowPosition = ProductsGrid.RowDefinitions.Count;
+                await GetProductImagesAync();
+            }
+            catch (Exception)
+            {
+               // throw;
+            }            
         }
 
         private async void TryAgain_Clicked(object sender, EventArgs e)
         {
-            StartRowPosition = 0;
-            await GetProductImagesAync();
+            try
+            {
+                StartRowPosition = 0;
+                await GetProductImagesAync();
+            }
+            catch (Exception)
+            {
+                //throw;
+            }
         }
     }
 }

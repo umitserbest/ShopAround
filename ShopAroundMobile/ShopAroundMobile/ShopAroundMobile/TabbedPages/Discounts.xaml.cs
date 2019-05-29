@@ -6,8 +6,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-
+using System.Windows.Input;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -23,16 +25,25 @@ namespace ShopAroundMobile.TabbedPages
 			InitializeComponent (); 
         }
 
-        public void Reload()
+        public async void Reload()
         {
-
             if (!reloaded)
             {
-                GetDiscount();
+               await GetDiscount();
+
+                listView.RefreshCommand = new Command(async() =>
+                {
+                    await GetDiscount();
+                    listView.IsRefreshing = false;
+
+                });
             }
         }
+        
+        
+      
 
-        public async void GetDiscount()
+        public async Task GetDiscount()
         {
             try
             {
@@ -48,7 +59,7 @@ namespace ShopAroundMobile.TabbedPages
                     {
                         item.ShopLogo = Logopath + item.ShopLogo;
                     }
-
+                    
                     reloaded = true;
                 }
                 listView.ItemsSource = discounts;
@@ -56,7 +67,7 @@ namespace ShopAroundMobile.TabbedPages
 
             catch (Exception ex)
             {
-                throw;
+               // throw;
             }
         }
 
@@ -67,9 +78,15 @@ namespace ShopAroundMobile.TabbedPages
             if (e.SelectedItem is DiscountModel discount)
             {
                 listView.SelectedItem = null;
-                Navigation.PushAsync(new DiscountsDetail(discount));
-                
+                Navigation.PushAsync(new DiscountsDetail(discount));                
             }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanged([CallerMemberName]string propName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
         }
     }
 }

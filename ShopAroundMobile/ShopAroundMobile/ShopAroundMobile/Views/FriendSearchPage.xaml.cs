@@ -25,33 +25,47 @@ namespace ShopAroundMobile.Views
 
         private async void SearchBar_TextChanged(object sender, TextChangedEventArgs e)
         {
-
-            string result = await WebService.SendDataAsync("GetUsersByName", "name=" + searchBar.Text);
-
-            if (result != "Error" && result != null && result.Length > 6)
+            try
             {
 
-                List<UserModel> users = JsonConvert.DeserializeObject<List<UserModel>>(result);
+                string result = await WebService.SendDataAsync("GetUsersByName", "name=" + searchBar.Text);
 
-                foreach (var user in users)
+                if (result != "Error" && result != null && result.Length > 6)
                 {
-                    if (user.UserID == App.AppUser.UserID)
-                    {
-                        users.Remove(user);
-                        break;
-                    }
-                }
 
-                listView.ItemsSource = users;
+                    List<UserModel> users = JsonConvert.DeserializeObject<List<UserModel>>(result);
+
+                    foreach (var user in users)
+                    {
+                        if (user.UserID == App.AppUser.UserID)
+                        {
+                            users.Remove(user);
+                            break;
+                        }
+                    }
+
+                    listView.ItemsSource = users;
+                }
+            }
+            catch (Exception)
+            {
+                //throw;
             }
         }
 
         private async void Button_Clicked(object sender, EventArgs e)
         {
-            Button btn = (Button)sender;
-            int id = (int)btn.CommandParameter;
+            try
+            {
+                Button btn = (Button)sender;
+                int id = (int)btn.CommandParameter;
 
-            await Navigation.PushAsync(new FriendProfile(id));
+                await Navigation.PushAsync(new FriendProfile(id));
+            }
+            catch (Exception)
+            {
+                //throw;
+            }
         }
     }
 }

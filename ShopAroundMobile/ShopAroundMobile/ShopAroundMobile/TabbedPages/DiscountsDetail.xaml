@@ -9,7 +9,7 @@
             <image:CircleImage x:Name="image" Margin="0,30,0,0" VerticalOptions="Start" BorderColor="LightGray" BorderThickness="1" HeightRequest="200"></image:CircleImage>
             <Label x:Name="ShopName" FontSize="22" TextColor="DarkGray" FontAttributes="Bold" HorizontalOptions="Center" Margin="0,20,0,0"/>
             <StackLayout Margin="20,50,20,20" HorizontalOptions="Center" VerticalOptions="End" >
-                <Label x:Name="lblTime" FontAttributes="Bold" FontSize="28" TextColor="Green" ></Label>
+                <Label x:Name="lblTime" FontAttributes="Bold" FontSize="28" TextColor="Coral" ></Label>
             </StackLayout>
             
             <Button x:Name="GetCodeButton" Margin="0,20,0,0" Text="Get Code" BackgroundColor="DarkOrange" TextColor="White" FontSize="22" HorizontalOptions="Center" WidthRequest="200" BorderRadius="10" Clicked="Button_Clicked"></Button>

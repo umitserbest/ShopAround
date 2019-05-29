@@ -21,17 +21,29 @@ namespace ShopAroundMobile.TabbedPages
         string Logopath = "https://shoparound.umitserbest.com/shopassets/logo/";
         string Productpath = "https://shoparound.umitserbest.com/shopassets/products/";
         int shopID = 0;
-      
+        bool followedReload;
+        bool shopReload;
+        bool productReload;
+        ShopModel shop;
+        List<ProductModel> products;
+
         public ShopProfile(int shopId)
         {
             shopID = shopId;
             InitializeComponent();
-            GetShopInfo(shopId);
-            FollowedShops(shopId);
-        
+
+            if(!followedReload)
+            {
+                FollowedShops(shopId);
+            }
+
+            if(!shopReload || !productReload)
+            {
+                GetShopInfo(shopId);
+            }
         }
         
-        async void FollowedShops(int shopId)
+        async Task FollowedShops(int shopId)
         {
             List<ShopModel> shops = new List<ShopModel>();
 
@@ -40,6 +52,7 @@ namespace ShopAroundMobile.TabbedPages
             if (shopresult != "Error" && shopresult != null && shopresult.Length > 6)
             {
                 shops = JsonConvert.DeserializeObject<List<ShopModel>>(shopresult);
+                followedReload = true;
             }
 
             bool followed = false;
@@ -71,35 +84,54 @@ namespace ShopAroundMobile.TabbedPages
             }
         }
 
-        async void GetShopInfo(int shopId)
+        async Task GetShopInfo(int shopId)
         {
-
             try
-            {
-                ShopModel shop = new ShopModel();
-                List<ProductModel> products = new List<ProductModel>();
-               
+            {               
                 WebService web = new WebService();
-                string shopresult = await web.SendDataNoStaticAsync("GetShopProfile", "shopID=" + shopId);
 
-                string productresult = await WebService.SendDataAsync("GetProductsOfShop", "shopID=" + shopId);
-
-
-
-                if (shopresult != "Error" && shopresult != null && shopresult.Length > 6)
+                if (!shopReload)
                 {
-                    shop = JsonConvert.DeserializeObject<ShopModel>(shopresult);
+
+                    shop = new ShopModel();
+
+                    string shopresult = await web.SendDataNoStaticAsync("GetShopProfile", "shopID=" + shopId);
+
+                    if (shopresult != "Error" && shopresult != null && shopresult.Length > 6)
+                    {
+                        shop = JsonConvert.DeserializeObject<ShopModel>(shopresult);
+                        shopReload = true;
+                    }
+
                 }
-
-                if (productresult != "Error" && productresult != null && productresult.Length > 6)
+                if (!productReload)
                 {
-                    products = JsonConvert.DeserializeObject<List<ProductModel>>(productresult);
-                  
+
+                    products = new List<ProductModel>();
+
+                    string productresult = await WebService.SendDataAsync("GetProductsOfShop", "shopID=" + shopId);
+
+
+                    if (productresult != "Error" && productresult != null && productresult.Length > 6)
+                    {
+                        products = JsonConvert.DeserializeObject<List<ProductModel>>(productresult);
+                        productReload = true;
+                        activity.IsVisible = false;
+                        activity.IsRunning = false;
+                        activity.IsEnabled = false;
+                        tryButton.IsVisible = false;
+                    }
+                    else
+                    {
+                        tryButton.IsVisible = true;
+                        activity.IsVisible = true;
+                        activity.IsRunning = true;
+                        activity.IsEnabled = true;
+                    }
                 }
 
                 shopname.Text = shop.Name;
                 ShopImg.Source = Logopath + shop.Logo;
-                //MainImg.Source = Logopath + shop.Logo;
 
                 for (int i = 0; i < products.Count + 1 / 2; i++)
                 {
@@ -145,7 +177,7 @@ namespace ShopAroundMobile.TabbedPages
             catch (Exception ex)
             {
                 
-                throw;
+                //throw;
             }
 
 
@@ -153,54 +185,89 @@ namespace ShopAroundMobile.TabbedPages
         
         private async void Button_Clicked(object sender, EventArgs e)
         {
-            string shopresult = await WebService.SendDataAsync("GetShopProfile", "shopID=" +4);
-            ShopModel shop = new ShopModel();
-            if (shopresult != null)
+            try
             {
-                shop = JsonConvert.DeserializeObject<ShopModel>(shopresult);
+                string shopresult = await WebService.SendDataAsync("GetShopProfile", "shopID=" + shopID);
+                ShopModel shop = new ShopModel();
+                if (shopresult != null)
+                {
+                    shop = JsonConvert.DeserializeObject<ShopModel>(shopresult);
+                }
+                await DisplayAlert("Shop Information", "Shop :" + shop.Name + "\n" + "Phone :" + shop.Phone + "\n" + "City :" + shop.City + "\n" + "Adress :" + shop.Address, "OK");
             }
-            await DisplayAlert("Shop Information","Shop :" + shop.Name + "\n" +"Phone :" + shop.Phone + "\n" +"City :" + shop.City + "\n" +"Adress :" + shop.Address, "OK");
+            catch (Exception)
+            {
+
+               // throw;
+            }
         }
 
         private async void Button_Clicked_1(object sender, EventArgs e)
         {
-            
-            if (FollowBtn.Text == "Follow")
+
+            try
             {
-                FollowModel followModel = new FollowModel(shopID, App.AppUser.UserID);
-                
-
-                string followObject = JsonConvert.SerializeObject(followModel);
-
-                string result = await WebService.SendDataAsync("FollowShop", "follow=" + followObject);
-
-                if (result == "true")
+                if (FollowBtn.Text == "Follow")
                 {
-                    FollowBtn.Text = "Unfollow";
-                    FollowBtn.BackgroundColor = Color.LightGray;
-                    FollowBtn.TextColor = Color.Black;
-
-                    TabPageControl.showcaseTabbed.Reload();
-                }                
-            }
-            else if (FollowBtn.Text == "Unfollow")
-            {
-                FollowModel followmodel2 = new FollowModel(shopID, App.AppUser.UserID); 
-                string followObject2 = JsonConvert.SerializeObject(followmodel2);
+                    FollowModel followModel = new FollowModel(shopID, App.AppUser.UserID);
 
 
-                string result2 = await WebService.SendDataAsync("UnfollowShop", "follow=" + followObject2);
+                    string followObject = JsonConvert.SerializeObject(followModel);
 
+                    string result = await WebService.SendDataAsync("FollowShop", "follow=" + followObject);
 
-                if (result2 == "true")
-                {
-                    FollowBtn.Text = "Follow";
-                    FollowBtn.BackgroundColor = Color.Orange;
-                    FollowBtn.TextColor = Color.White;
+                    if (result == "true")
+                    {
+                        FollowBtn.Text = "Unfollow";
+                        FollowBtn.BackgroundColor = Color.LightGray;
+                        FollowBtn.TextColor = Color.Black;
 
-                    TabPageControl.showcaseTabbed.Reload();
-
+                        TabPageControl.showcaseTabbed.Reload();
+                    }
                 }
+                else if (FollowBtn.Text == "Unfollow")
+                {
+                    FollowModel followmodel2 = new FollowModel(shopID, App.AppUser.UserID);
+                    string followObject2 = JsonConvert.SerializeObject(followmodel2);
+
+
+                    string result2 = await WebService.SendDataAsync("UnfollowShop", "follow=" + followObject2);
+
+
+                    if (result2 == "true")
+                    {
+                        FollowBtn.Text = "Follow";
+                        FollowBtn.BackgroundColor = Color.Orange;
+                        FollowBtn.TextColor = Color.White;
+
+                        TabPageControl.showcaseTabbed.Reload();
+
+                    }
+                }
+            }
+            catch (Exception)
+            {
+
+               // throw;
+            }
+        }
+
+        private async void TryAgain_Clicked(object sender, EventArgs e)
+        {
+            try
+            {
+
+                activity.IsVisible = true;
+                activity.IsRunning = true;
+                activity.IsEnabled = true;
+
+                await GetShopInfo(shopID);
+                await FollowedShops(shopID);
+            }
+            catch (Exception)
+            {
+
+                //throw;
             }
         }
     }

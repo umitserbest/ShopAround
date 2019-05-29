@@ -26,41 +26,22 @@ namespace ShopAroundMobile.TabbedPages
             InitializeComponent();
         }
 
-        public void Reload()
+        public async void Reload()
         {
             if (!reloaded)
             {
-                GetNotification();               
-            }
-        }
-
-        private bool _isRefreshing = false;
-        public bool IsRefreshing
-        {
-            get { return _isRefreshing; }
-            set
-            {
-                _isRefreshing = value;
-                OnPropertyChanged(nameof(IsRefreshing));
-            }
-        }
-        
-        public ICommand RefreshCommand
-        {
-            get
-            {
-                return new Command(() =>
+                await GetNotification();
+                listView.RefreshCommand = new Command(async () =>
                 {
-                    IsRefreshing = true;
+                    await GetNotification();
+                    listView.IsRefreshing = false;
 
-                    GetNotification();
-
-                    IsRefreshing = false;
                 });
             }
         }
+        
 
-        public async void GetNotification()
+        public async Task GetNotification()
         {
             try
             {             
@@ -71,14 +52,16 @@ namespace ShopAroundMobile.TabbedPages
                 if (friendresult != "Error" && friendresult != null && friendresult.Length > 0 && friendresult != "null")
                 {
                     user = JsonConvert.DeserializeObject<List<NotificationModel>>(friendresult);
+                   
                     reloaded = true;
                 }
-                                
-                 listView.ItemsSource = user;                
+               
+
+                listView.ItemsSource = user;                
             }
             catch (Exception ex)
             {
-                throw;
+                //throw;
             }            
         }
 
@@ -87,6 +70,26 @@ namespace ShopAroundMobile.TabbedPages
         protected virtual void OnPropertyChanged([CallerMemberName]string propName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
+        }        
+
+        private void ListView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+        {
+            try
+            {
+                var listview = sender as ListView;
+
+                if (e.SelectedItem is NotificationModel user)
+                {
+                    listView.SelectedItem = null;
+                    Navigation.PushAsync(new FriendProfile(user.SenderID));
+
+                }
+            }
+            catch (Exception)
+            {
+               // throw;
+            }
         }
+      
     }
 }

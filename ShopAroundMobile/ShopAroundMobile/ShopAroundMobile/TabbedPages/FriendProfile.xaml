@@ -9,11 +9,10 @@
 
         <Grid x:Name="MainGrid" ColumnSpacing="0" RowSpacing="0">
             <Grid.RowDefinitions>
-                <RowDefinition Height="200" />
-                <RowDefinition Height="AUTO" />
-                <RowDefinition Height="AUTO" />
-                <RowDefinition Height="AUTO" />
-                <RowDefinition Height="1000" />
+                <RowDefinition Height="250" />
+                <RowDefinition Height="100" />
+                <RowDefinition Height="50" />
+                <RowDefinition Height="800" />
             </Grid.RowDefinitions>
 
             <Image Aspect="AspectFill" Source="https://cdn.pixabay.com/photo/2018/05/24/04/56/tag-3425869_1280.jpg" />
@@ -59,7 +58,13 @@
 
                 </tvs:TabViewControl.ItemSource>
             </tvs:TabViewControl>
-
+            <StackLayout Margin="0,220,0,0">
+                <Button x:Name="tryButton" Text="Try Again" IsVisible="False" HorizontalOptions="Center" VerticalOptions="Center" Margin="0,0,10,0" Clicked="TryAgain_Clicked"/>
+                <ActivityIndicator HeightRequest="30" x:Name="activity"  
+                           IsRunning="True"  
+                           IsVisible="True" IsEnabled="True"
+                           Color="Orange" BackgroundColor="Transparent"/>
+            </StackLayout>
 
         </Grid>
     </ScrollView>

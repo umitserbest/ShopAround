@@ -22,15 +22,27 @@ namespace ShopAroundMobile.Views
 
         private async void SignUpAsync(object sender, EventArgs e)
         {
-            SignUpModel signUpModel = new SignUpModel(username.Text, password.Text , email.Text);
-            string signUpObject = JsonConvert.SerializeObject(signUpModel);
-
-            string result= await WebService.SendDataAsync("SignUp", "userSignUp=" + signUpObject);
-
-            if(result == "true")
+            try
             {
-                await DisplayAlert("ShopAround", "You have been registered!", "OK", "Cancel");
-                // sayfa geçişi
+                SignUpModel signUpModel = new SignUpModel(username.Text, password.Text, email.Text);
+                string signUpObject = JsonConvert.SerializeObject(signUpModel);
+
+                string result = await WebService.SendDataAsync("SignUp", "userSignUp=" + signUpObject);
+
+                if (result == "true")
+                {
+                    Database.DeleteLog();
+                    bool dialogResult = await DisplayAlert("ShopAround", "You have been registered!", "OK", "Cancel");
+                    if (dialogResult == true)
+                    {
+                        await Navigation.PushAsync(new Login());
+                    }
+
+                }
+            }
+            catch (Exception)
+            {
+               //throw;
             }
             
         }

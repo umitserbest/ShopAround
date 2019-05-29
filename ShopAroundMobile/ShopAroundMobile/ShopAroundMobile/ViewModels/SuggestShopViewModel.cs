@@ -18,25 +18,31 @@ namespace ShopAroundMobile.ViewModels
     public class SuggestShopViewModel : INotifyPropertyChanged
     {
         
-        public static List<FollowModel> checkedShopId = new List<FollowModel>();
-        
+        public static List<FollowModel> checkedShopId = new List<FollowModel>();        
 
         string path = "https://shoparound.umitserbest.com/shopassets/logo/";
 
         private async void GetShops(ListView listView)
         {
-            string result = await WebService.SendDataAsync("GetShopsForFollow","userID=" + App.AppUser.UserID);
-
-            if (result != "Error" && result != null && result.Length > 5)
+            try
             {
-                List<ShopModel> shops = JsonConvert.DeserializeObject<List<ShopModel>>(result);
-                foreach (ShopModel shop in shops)
+                string result = await WebService.SendDataAsync("GetShopsForFollow", "userID=" + App.AppUser.UserID);
+
+                if (result != "Error" && result != null && result.Length > 5)
                 {
-                    shop.Logo = path + shop.Logo;
-                    
+                    List<ShopModel> shops = JsonConvert.DeserializeObject<List<ShopModel>>(result);
+                    foreach (ShopModel shop in shops)
+                    {
+                        shop.Logo = path + shop.Logo;
+
+                    }
+                    listView.ItemsSource = shops;
                 }
-                listView.ItemsSource = shops;
-            }            
+            }
+            catch (Exception)
+            {
+               // throw;
+            }   
         }
         
         public SuggestShopViewModel()

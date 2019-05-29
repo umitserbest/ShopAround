@@ -25,29 +25,40 @@ namespace ShopAroundMobile.Views
 
         private async void SearchBar_TextChanged(object sender, TextChangedEventArgs e)
         {
-
-
-            string result = await WebService.SendDataAsync("GetShopsByName","name=" + searchBar.Text);
-
-            if (result != "Error" && result != null && result.Length > 6)
+            try
             {
+                string result = await WebService.SendDataAsync("GetShopsByName", "name=" + searchBar.Text);
 
-                List<ShopModel> shops = JsonConvert.DeserializeObject<List<ShopModel>>(result);
-                foreach (var item in shops)
+                if (result != "Error" && result != null && result.Length > 6)
                 {
-                    item.Logo = Logopath + item.Logo;
+
+                    List<ShopModel> shops = JsonConvert.DeserializeObject<List<ShopModel>>(result);
+                    foreach (var item in shops)
+                    {
+                        item.Logo = Logopath + item.Logo;
+                    }
+                    listView.ItemsSource = shops;
                 }
-                listView.ItemsSource = shops;
+            }
+            catch (Exception)
+            {
+               // throw;
             }
         }
-
         
         private async void Button_Clicked(object sender, EventArgs e)
         {
-            Button btn = (Button)sender;
-            int id = (int)btn.CommandParameter;
+            try
+            {
+                Button btn = (Button)sender;
+                int id = (int)btn.CommandParameter;
 
-            await Navigation.PushAsync(new ShopProfile(id));
+                await Navigation.PushAsync(new ShopProfile(id));
+            }
+            catch (Exception)
+            {
+               // throw;
+            }
         }
     }
 }

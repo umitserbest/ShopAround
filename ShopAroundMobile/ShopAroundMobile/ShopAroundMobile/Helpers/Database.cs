@@ -13,36 +13,57 @@ namespace ShopAroundMobile.Helpers
 
         public static void Connect()
         {
-            // Get an absolute path to the database file
-            var databasePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "ShopAround.db");
+            try
+            {
+                // Get an absolute path to the database file
+                var databasePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "ShopAround.db");
 
-            connection = new SQLiteConnection(databasePath);
+                connection = new SQLiteConnection(databasePath);
 
-            connection.CreateTable<LocalLogModel>();
+                connection.CreateTable<LocalLogModel>();
 
-            connection.CreateTable<LocalUserModel>();
+                connection.CreateTable<LocalUserModel>();
+            }
+            catch (Exception)
+            {
+               // throw;
+            }
         }
 
         public static bool IsExistUser(LocalUserModel user)
         {
             LocalUserModel foundUser = connection.Table<LocalUserModel>().Where(v => v.Username == user.Username && v.Password == user.Password).FirstOrDefault();
 
-            return foundUser != null ? true : false;
+            return foundUser != null ? true : false;           
         }
-
+        
         public static LocalUserModel GetUser()
         {
-            return connection.Table<LocalUserModel>().FirstOrDefault();
+           return connection.Table<LocalUserModel>().FirstOrDefault();           
         }
 
         public static void AddUser(LocalUserModel user)
         {
-            connection.Insert(user);
+            try
+            {
+                connection.Insert(user);
+            }
+            catch (Exception)
+            {
+               // throw;
+            }
         }
 
         public static void AddLog(LocalLogModel firstLog)
         {
-            connection.Insert(firstLog);
+            try
+            {
+                connection.Insert(firstLog);
+            }
+            catch (Exception)
+            {
+                //throw;
+            }
         }
 
         public static LocalLogModel GetLog()
@@ -52,7 +73,25 @@ namespace ShopAroundMobile.Helpers
 
         public static void DeleteUser()
         {
-            connection.DeleteAll<LocalUserModel>();
+            try
+            {
+                connection.DeleteAll<LocalUserModel>();
+            }
+            catch (Exception)
+            {
+                //throw;
+            }
+        }
+        public static void DeleteLog()
+        {
+            try
+            {
+                connection.DeleteAll<LocalLogModel>();
+            }
+            catch (Exception)
+            {
+              //  throw;
+            }
         }
     }
 }

@@ -25,39 +25,37 @@ namespace ShopAroundMobile.Views
         {           
             InitializeComponent();
             NavigationPage.SetHasNavigationBar(this, false);
-            //DependencyService.Get<IMessage>().Message("You need to choose at least 5 shops.");
+            DependencyService.Get<IMessage>().Message("You need to choose at least 3 shops.");
             SuggestShopViewModel suggest = new SuggestShopViewModel(listView);
         }
 
         private void Checkbox_CheckChanged(object sender, EventArgs e)
         {
-
-            CheckBox shopId = (CheckBox)sender;
-
-            if (shopId.IsChecked)
+            try
             {
-                SuggestShopViewModel.checkedShopId.Add(new FollowModel(int.Parse(shopId.Text),App.AppUser.UserID));
-                counterlbl.Text = SuggestShopViewModel.checkedShopId.Count.ToString();
-                OnPropertyChanged("CheckedShops");
-                //if(SuggestShopViewModel.checkedShopId.Count > 5)
-                //{
-                //    //menuItem.IsEnabled = true;
-                //    NextBtn.IsEnabled = true;
-                //}
+                CheckBox shopId = (CheckBox)sender;
 
-                //else
-                //{
-                //    //menuItem.IsEnabled = false;
-                //    NextBtn.IsEnabled = false;
-                //}
-
+                if (shopId.IsChecked)
+                {
+                    SuggestShopViewModel.checkedShopId.Add(new FollowModel(int.Parse(shopId.Text), App.AppUser.UserID));
+                    counterlbl.Text = SuggestShopViewModel.checkedShopId.Count.ToString();
+                    OnPropertyChanged("CheckedShops");
+                }
+                else
+                {
+                    SuggestShopViewModel.checkedShopId.RemoveAll(r => r.ShopID == int.Parse(shopId.Text));
+                    counterlbl.Text = SuggestShopViewModel.checkedShopId.Count.ToString();
+                    OnPropertyChanged("CheckedShops");
+                }
+                if (SuggestShopViewModel.checkedShopId.Count > 2)
+                {
+                    NextBtn.IsVisible = true;
+                }
 
             }
-            else
+            catch (Exception)
             {
-                SuggestShopViewModel.checkedShopId.RemoveAll(r => r.ShopID == int.Parse(shopId.Text));
-                counterlbl.Text = SuggestShopViewModel.checkedShopId.Count.ToString();
-                OnPropertyChanged("CheckedShops");
+               // throw;
             }
         }
 
@@ -72,27 +70,33 @@ namespace ShopAroundMobile.Views
         {
             try
             {
-                // List<Tuple<int, int>> checkedShops = SuggestShopViewModel.checkedShopId;
-
-                List<FollowModel> checkedShops = SuggestShopViewModel.checkedShopId;
-                string userObject = JsonConvert.SerializeObject(checkedShops);
-
-                string result = await WebService.SendDataAsync("FollowShops", "follows=" + userObject);
-
-                if (result == "true")
+                if (SuggestShopViewModel.checkedShopId.Count > 2)
                 {
-                    await Navigation.PushAsync(new TabPageControl());
-                    //await Navigation.PushAsync(new Showcase());
-                    //await Navigation.PushAsync(new ShopProfile(4));
+                    NextBtn.IsVisible = true;
+
+
+                    List<FollowModel> checkedShops = SuggestShopViewModel.checkedShopId;
+                    string userObject = JsonConvert.SerializeObject(checkedShops);
+
+                    string result = await WebService.SendDataAsync("FollowShops", "follows=" + userObject);
+
+                    if (result == "true")
+                    {
+                        await Navigation.PushAsync(new TabPageControl());
+                    }
+                    else
+                    {
+                        await DisplayAlert("ShopAround", "Error", "OK");
+                    }
                 }
                 else
                 {
-                    await DisplayAlert("ShopAround", "Error", "OK");
+                    DependencyService.Get<IMessage>().Message("You need to choose at least 3 shops.");
                 }
             }
             catch(Exception ex)
             {
-                await DisplayAlert("error",ex.Message,"ok");
+                //await DisplayAlert("error",ex.Message,"ok");
             }
         }
     }

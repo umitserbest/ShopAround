@@ -26,14 +26,12 @@ namespace ShopAroundMobile.Views
 
         public PhotoDetailPage (ProductModel products, bool wishlistVisible, string pageName)
 		{
-
             InitializeComponent();
             GetWishlistInfo();
             if (wishlistVisible == false && pageName == "Explore")
             {
                 Wishlist.IsVisible = true;
                 Delete_Wishlist.IsVisible = false;
-
             }
 
             else if(wishlistVisible == true && pageName == "Profile")
@@ -56,99 +54,117 @@ namespace ShopAroundMobile.Views
         
         async void GetShop(ProductModel product)
         {
-            string shopresult = await WebService.SendDataAsync("GetShopProfile", "shopID=" + product.ShopID);
-
-            if (shopresult != "Error" && shopresult != null && shopresult.Length > 6 && shopresult !="null")
+            try
             {
-                shop = JsonConvert.DeserializeObject<ShopModel>(shopresult);
-                Brand.Text = shop.Name;
-                Logo.Source = Logopath + shop.Logo;
+                string shopresult = await WebService.SendDataAsync("GetShopProfile", "shopID=" + product.ShopID);
+
+                if (shopresult != "Error" && shopresult != null && shopresult.Length > 6 && shopresult != "null")
+                {
+                    shop = JsonConvert.DeserializeObject<ShopModel>(shopresult);
+                    Brand.Text = shop.Name;
+                    Logo.Source = Logopath + shop.Logo;
+                }
+            }
+            catch (Exception)
+            {
+               // throw;
             }
         }
 
-
         private async void Delete_Wishlist_Clicked(object sender, EventArgs e)
         {
-            Tuple<int, int> tuple = new Tuple<int, int>(App.AppUser.UserID, productId);
-
-
-            string wishlist = await WebService.SendDataAsync("RemoveProductFromWishlist", "wishlist=" + JsonConvert.SerializeObject(tuple));
-
-
-
-            if (wishlist != "Error" && wishlist != null && wishlist.Length > 3)
+            try
             {
-                if (wishlist == "true")
-                {
-                    await DisplayAlert("Delete Wislist", "Product deleted in your wishlist.", "OK");
-                    Wishlist.IsVisible = false;
-                    TabPageControl.profileTabbed.Trigger();
-                    await Navigation.PushAsync(new Profile());
-                }
+                Tuple<int, int> tuple = new Tuple<int, int>(App.AppUser.UserID, productId);
                 
+                string wishlist = await WebService.SendDataAsync("RemoveProductFromWishlist", "wishlist=" + JsonConvert.SerializeObject(tuple));
+
+                if (wishlist != "Error" && wishlist != null && wishlist.Length > 3)
+                {
+                    if (wishlist == "true")
+                    {
+                        await DisplayAlert("Delete Wislist", "Product deleted in your wishlist.", "OK");
+                        Wishlist.IsVisible = false;
+                        TabPageControl.profileTabbed.Trigger();
+                    }
+
+                }
             }
-            
-
-
+            catch (Exception)
+            {
+               // throw;
+            }  
         }
 
         private async void GetWishlistInfo()
         {
-            string wishresult = await WebService.SendDataAsync("GetWishlist", "userID=" + App.AppUser.UserID); 
-
-            if (wishresult != "Error" && wishresult != null && wishresult.Length > 6)
+            try
             {
-                wishlistProducts = JsonConvert.DeserializeObject<List<ProductModel>>(wishresult);
+                string wishresult = await WebService.SendDataAsync("GetWishlist", "userID=" + App.AppUser.UserID);
 
+                if (wishresult != "Error" && wishresult != null && wishresult.Length > 6)
+                {
+                    wishlistProducts = JsonConvert.DeserializeObject<List<ProductModel>>(wishresult);
+                }
             }
-
+            catch (Exception)
+            {
+                //throw;
+            }
         }
 
         private async void Addd_Wishlist_Clicked(object sender, EventArgs e)
         {
-            bool isExistWishlist = false;
-
-            foreach (var item in wishlistProducts)
+            try
             {
-                if (item.ProductID == productId)
+                bool isExistWishlist = false;
+
+                foreach (var item in wishlistProducts)
                 {
-                    isExistWishlist = true;
+                    if (item.ProductID == productId)
+                    {
+                        isExistWishlist = true;
+                    }
+                }
+
+                if (!isExistWishlist)
+                {
+                    string userObject = JsonConvert.SerializeObject(new Tuple<int, int>(productId, App.AppUser.UserID));
+                    string result = await WebService.SendDataAsync("AddProductWishlist", "wishlist=" + userObject);
+
+                    if (result == "true")
+                    {
+                        wishlistProducts.Add(new ProductModel() { ProductID = productId });
+                        DependencyService.Get<IMessage>().Message("This product added to your Wishlist.");
+                        TabPageControl.profileTabbed.Trigger();
+                    }
+                }
+                else
+                {
+                    DependencyService.Get<IMessage>().Message("This product already in your wishlist.");
                 }
             }
-
-            if (!isExistWishlist)
+            catch (Exception)
             {
-                string userObject = JsonConvert.SerializeObject(new Tuple<int, int>(productId, App.AppUser.UserID));
-                string result = await WebService.SendDataAsync("AddProductWishlist", "wishlist=" + userObject);
-
-                if (result == "true")
-                {
-                    wishlistProducts.Add(new ProductModel() { ProductID = productId });
-                    DependencyService.Get<IMessage>().Message("This product added to your Wishlist.");
-                    TabPageControl.profileTabbed.Trigger();
-                }
-            }
-            else
-            {
-                DependencyService.Get<IMessage>().Message("This product already in your wishlist.");
+               // throw;
             }
         }
-
       
         private async void Brand_Clicked(object sender, EventArgs e)
-        {
-          
+        {          
             await Navigation.PushAsync(new ShopProfile(shop.ShopID));
         }
 
-        //private async void ImageButton_Clicked(object sender, EventArgs e)
-        //{
-        //    await Browser.OpenAsync(Link, BrowserLaunchMode.SystemPreferred);
-        //}
-
         private async void TapGestureRecognizer_Tapped(object sender, EventArgs e)
         {
-          await Browser.OpenAsync(Link, BrowserLaunchMode.SystemPreferred);
+            try
+            {
+                await Browser.OpenAsync(Link, BrowserLaunchMode.SystemPreferred);
+            }
+            catch (Exception)
+            {
+                //throw;
+            }
         }
     }
 }
